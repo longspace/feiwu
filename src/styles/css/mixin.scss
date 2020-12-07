@@ -1,0 +1,11 @@
+@mixin fja($justify){
+  display: flex;
+  justify-content: $justify;
+  align-items: center;
+}
+
+@mixin width {
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto;
+}

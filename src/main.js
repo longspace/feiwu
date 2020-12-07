@@ -1,77 +1,88 @@
+/*
+ * @Author: summer
+ * @LastEditTime: 2020-12-04 20:24:58
+ */
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
-import Vue from 'vue'
-import App from './App'
-import router from './router'
-import store from './store'
+import Vue from "vue";
+import App from "./App";
+import router from "./router";
+import store from "./store";
 
-import 'ant-design-vue/dist/antd.css';
-import antdesignvue from 'ant-design-vue';
-Vue.use(antdesignvue)
+import "ant-design-vue/dist/antd.css";
+import antdesignvue from "ant-design-vue";
+Vue.use(antdesignvue);
 
-import VueQuillEditor from 'vue-quill-editor'
+import VueQuillEditor from "vue-quill-editor";
 Vue.use(VueQuillEditor);
-import 'quill/dist/quill.core.css'
-import 'quill/dist/quill.snow.css'
+import "quill/dist/quill.core.css";
+import "quill/dist/quill.snow.css";
 
-import functions from "@/utils/functions/index.js"
-Vue.use(functions)
+import functions from "@/utils/functions/index.js";
+Vue.use(functions);
 
-import zhCN from 'ant-design-vue/es/locale/zh_CN';
-import moment from 'moment';
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
+import zhCN from "ant-design-vue/es/locale/zh_CN";
+import moment from "moment";
+import "moment/locale/zh-cn";
+moment.locale("zh-cn");
 
-import NProgress from 'nprogress' // Progress 进度条
-import 'nprogress/nprogress.css'// Progress 进度条样式
+import NProgress from "nprogress"; // Progress 进度条
+import "nprogress/nprogress.css"; // Progress 进度条样式
 
-Vue.config.productionTip = false
+// import "../static/home/css/index.scss";
+
+Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
   // document.title = to.meta.title+'_工业废物数字化交易平台V1.0'
-  NProgress.start() // 进度条开始
-  if(to.meta.requireAuth){
-      let token = localStorage.getItem('AuthToken');
-      if(token !== "" && token != null){
-          next()
-      }else{
-          next({
-              path:'/login',
-              query:{redirect:to.fullPath}
-          })
-          setTimeout(()=>{NProgress.done()},50)
-      }
-  }else{
+  NProgress.start(); // 进度条开始
+  if (to.meta.requireAuth) {
+    let token = localStorage.getItem("AuthToken");
+    if (token !== "" && token != null) {
       next();
+    } else {
+      next({
+        path: "/login",
+        query: { redirect: to.fullPath }
+      });
+      setTimeout(() => {
+        NProgress.done();
+      }, 50);
+    }
+  } else {
+    next();
   }
   next();
-})
-router.afterEach(() => { // 后置守卫，导航被确认
-  setTimeout(()=>{NProgress.done()},50)
+});
+router.afterEach(() => {
+  // 后置守卫，导航被确认
+  setTimeout(() => {
+    NProgress.done();
+  }, 50);
   // NProgress.done() // 结束Progress
-})
-Vue.directive("check",{
-  inserted:function(el,permission){
-    let doPermission = JSON.parse(localStorage.getItem("nodePermission")) || []
-    if(permission.value){
+});
+Vue.directive("check", {
+  inserted: function(el, permission) {
+    let doPermission = JSON.parse(localStorage.getItem("nodePermission")) || [];
+    if (permission.value) {
       let flag = false; // 默认要删除该元素
-      doPermission.forEach(item=>{
-        if(item.path == permission.value){
+      doPermission.forEach(item => {
+        if (item.path == permission.value) {
           flag = true;
         }
-      })
-      if(!flag){
-        el.parentNode.removeChild(el)
+      });
+      if (!flag) {
+        el.parentNode.removeChild(el);
       }
     }
   }
-})
+});
 
 /* eslint-disable no-new */
 new Vue({
-  el: '#app',
+  el: "#app",
   router,
   store,
   components: { App },
-  template: '<App/>'
-})
+  template: "<App/>"
+});

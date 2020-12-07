@@ -1,0 +1,459 @@
+<!--
+ * @Author: summer
+ * @LastEditTime: 2020-12-07 15:30:07
+-->
+<template>
+  <div class="index">
+    <div class="web-header">
+      <web-header></web-header>
+    </div>
+    <div class="banner">
+      <div class="banner-b">
+        <banner-text></banner-text>
+      </div>
+    </div>
+    <div class="link-tag">
+      <div class="link-tag-list">
+        <div class="link-tag-item">
+          <div class="link-tag-img">
+            <img src="../../../../static/home/images/index3.png" alt="" />
+          </div>
+          <div class="link-tag-name">危险废物交易中心</div>
+          <div class="link-tag-desc">
+            <span
+              class="tag-desc-item"
+              v-for="(dangerTag, index) in dangerTrashTag"
+              :key="index"
+            >
+              {{ dangerTag }}
+            </span>
+          </div>
+        </div>
+        <div class="link-tag-item">
+          <div class="link-tag-img">
+            <img src="../../../../static/home/images/index4.png" alt="" />
+          </div>
+          <div class="link-tag-name">一般废物交易中心</div>
+          <div class="link-tag-desc">
+            <span
+              class="tag-desc-item"
+              v-for="(generalTag, index) in generalTrashTag"
+              :key="index"
+            >
+              {{ generalTag }}
+            </span>
+          </div>
+        </div>
+        <div class="link-tag-item">
+          <div class="link-tag-img">
+            <img src="../../../../static/home/images/index5.png" alt="" />
+          </div>
+          <div class="link-tag-name">咨询中心</div>
+          <div class="link-tag-desc">
+            <span class="tag-desc-item">
+              行业热点新闻追踪报道
+            </span>
+          </div>
+        </div>
+        <div class="link-tag-item">
+          <div class="link-tag-img">
+            <img src="../../../../static/home/images/index6.png" alt="" />
+          </div>
+          <div class="link-tag-name">关于固废驿站</div>
+          <div class="link-tag-desc">
+            <span class="tag-desc-item">
+              连接产废和处废两大环节 增效节能环保
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="recommend">
+      <div class="recommend-title">
+        <span>为你</span><span class="recommend-color">推荐</span>
+      </div>
+      <recommend-list></recommend-list>
+    </div>
+    <div class="news">
+      <div class="news-title">
+        <span>热点</span><span class="news-color">资讯</span>
+      </div>
+      <div class="news-carousel">
+        <a-carousel arrows autoplay dots-class="slick-dots">
+          <div
+            slot="prevArrow"
+            slot-scope="props"
+            class="custom-slick-arrow"
+            style="left: 10px;zIndex: 1"
+          >
+            <a-icon type="left-circle" />
+          </div>
+          <div
+            slot="nextArrow"
+            slot-scope="props"
+            class="custom-slick-arrow"
+            style="right: 10px"
+          >
+            <a-icon type="right-circle" />
+          </div>
+          <div class="news-item" v-for="item in news" :key="item.id">
+            <div class="news-info-text">
+              <div class="news-caption">
+                {{ item.caption }}
+              </div>
+              <div class="news-date">{{ item.date }}</div>
+              <div class="news-synopsis">
+                {{ item.synopsis }}
+              </div>
+              <div class="news-more">
+                <span>查看更多</span>
+                <img src="/static/home/images/index9.png" alt="" />
+              </div>
+            </div>
+            <div class="news-info-img">
+              <div class="news-img">
+                <div class="news-img-b">
+                  <img src="/static/home/images/news1.jpg" alt="" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </a-carousel>
+      </div>
+    </div>
+    <web-footer></web-footer>
+  </div>
+</template>
+
+<script>
+import WebHeader from "../components/web-header";
+import RecommendList from "./components/recommend-list";
+import WebFooter from "../components/web-footer";
+import BannerText from "../components/web-banner-text";
+
+export default {
+  data() {
+    return {
+      keywords: ["硫酸", "片碱", "小苏打", "二氧化钾"],
+      searchValue: "",
+      dangerTrashTag: ["氢氧化钠", "盐酸", "硫酸"], // 危险废物标签
+      generalTrashTag: ["片碱", "纯碱", "氢氧化钠", "小苏打", "亚硫"], // 一般固废标签
+      news: [
+        {
+          id: "1111",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        },
+        {
+          id: "1111",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        },
+        {
+          id: "1111",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        }
+      ]
+    };
+  },
+  components: {
+    WebHeader,
+    RecommendList,
+    WebFooter,
+    BannerText
+  },
+  created() {},
+  mounted() {},
+  methods: {
+    // //搜索功能
+    // searchKeywords(value) {
+    //   console.log("点击搜索");
+    // },
+    // // 点击关键词标签
+    // getKeywords(index) {
+    //   let keywords = this.$refs.keywords[index].innerText;
+    //   this.searchValue = keywords;
+    // }
+  }
+};
+</script>
+<style scoped lang="scss">
+@import "../../../../static/home/css/index.scss";
+.web-header {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 99;
+  width: 100%;
+}
+.banner {
+  position: relative;
+  width: 100%;
+  background: url("../../../../static/home/images/index1.jpg") no-repeat 50% /
+    cover;
+  &::before {
+    content: "";
+    display: block;
+    padding-bottom: calc(100% * (680 / 1920));
+  }
+  .banner-b {
+    position: absolute;
+    top: 80px;
+    left: 0;
+    width: 100%;
+    height: calc(100% - 80px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .banner-text {
+      .banner-title {
+        font-size: 36px;
+        line-height: 2em;
+        text-align: center;
+        color: #fff;
+        margin-bottom: 42px;
+      }
+      .banner-search {
+        display: flex;
+        justify-content: space-between;
+        width: 836px;
+        height: 60px;
+        .search-input {
+          flex: 1;
+          margin-right: 13px;
+
+          .ant-input {
+            height: 60px;
+            padding-left: 45px;
+          }
+        }
+        .search-button {
+          width: 160px;
+          height: 60px;
+          .ant-btn {
+            font-size: 20px;
+            width: 100%;
+            height: 100%;
+          }
+        }
+      }
+      .banner-keywords {
+        display: flex;
+        margin-top: 24px;
+        color: #fff;
+        font-size: 14px;
+        .keywords-list {
+          display: flex;
+          .keywords-tag {
+            margin-left: 17px;
+          }
+        }
+      }
+    }
+  }
+}
+.link-tag {
+  padding-top: 70px;
+  padding-bottom: 100px;
+  .link-tag-list {
+    display: flex;
+    justify-content: space-between;
+    widows: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    .link-tag-item {
+      flex: 1;
+      text-align: center;
+      padding: 28px 50px 22px;
+      border: 1px solid #e5e5e5;
+      &:not(:last-child) {
+        margin-right: 32px;
+      }
+      .link-tag-name {
+        margin-top: 14px;
+
+        font-size: 20px;
+        line-height: 2em;
+        font-weight: bold;
+        color: #666;
+        &::after {
+          content: "";
+          display: block;
+          margin: 6px auto 32px;
+          width: 42px;
+          height: 3px;
+          background: linear-gradient(90deg, #de9146, #ffd4a2);
+        }
+      }
+      &:nth-child(2) {
+        .link-tag-name {
+          &::after {
+            background: linear-gradient(90deg, #2c86d2, #8fd4fb);
+          }
+        }
+      }
+      &:nth-child(3) {
+        .link-tag-name {
+          &::after {
+            background: linear-gradient(90deg, #36c19f, #9fffec);
+          }
+        }
+      }
+      &:nth-child(3) {
+        .link-tag-name {
+          &::after {
+            background: linear-gradient(90deg, #623be1, #9fa6ff);
+          }
+        }
+      }
+      .link-tag-desc {
+        width: 100%;
+        .tag-desc-item {
+          font-size: 16px;
+          line-height: 30px;
+          color: #666;
+          &:not(:last-child) {
+            margin-right: 16px;
+          }
+          // white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+.recommend {
+  .recommend-title {
+    font-size: 34px;
+    line-height: 62px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    letter-spacing: 4px;
+    background: url(../../../../static/home/images/index7.png) no-repeat 50%;
+    .recommend-color {
+      color: #4293f4;
+    }
+  }
+}
+.news {
+  margin-bottom: 98px;
+  .news-title {
+    margin-top: 88px;
+    margin-bottom: 42px;
+    font-size: 34px;
+    line-height: 62px;
+    font-weight: bold;
+    text-align: center;
+    color: #333;
+    letter-spacing: 4px;
+    background: url(../../../../static/home/images/index7.png) no-repeat 50%;
+    .news-color {
+      color: #4293f4;
+    }
+  }
+  .news-carousel {
+    // display: flex;
+    // justify-content: space-between;
+    width: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 76px 56px 70px;
+    background: #ecf2f8;
+    .news-item {
+      // display: flex;
+      // justify-content: space-between;
+      .news-info-text {
+        float: left;
+        width: 50%;
+        padding-right: 42px;
+        .news-caption {
+          font-size: 22px;
+          line-height: 36px;
+          color: #333;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+        }
+        .news-date {
+          margin-top: 10px;
+          margin-bottom: 24px;
+          font-size: 12px;
+          line-height: 26px;
+          color: #999;
+        }
+        .news-synopsis {
+          width: 100%;
+          font-size: 14px;
+          color: #666;
+          line-height: 26px;
+          text-align: justify;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+        }
+        .news-more {
+          margin-top: 64px;
+          width: 160px;
+          border-radius: 20px;
+          line-height: 38px;
+          text-align: center;
+          font-size: 14px;
+          color: #5da7ff;
+          border: 1px solid #4293f4;
+          img {
+            display: inline-block;
+            margin-left: 10px;
+          }
+        }
+      }
+      .news-info-img {
+        float: right;
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        .news-img {
+          position: relative;
+          width: 96%;
+          max-width: 508px;
+          &::before {
+            content: "";
+            display: block;
+            padding-top: calc(100% * (280 / 508));
+          }
+          .news-img-b {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            img {
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
+    .slick-dots li button {
+      background: #333;
+    }
+  }
+}
+</style>
