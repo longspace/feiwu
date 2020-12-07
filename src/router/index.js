@@ -62,7 +62,7 @@ export default new Router({
           meta:{title:'文章标签',requireAuth:true},
         },
         {
-          path: 'goods/form',
+          path: 'goods/goodsForm',
           name:'goodsform',
           component: () => import('@/pages/admin/goods/form'),
           meta:{title:'商品编辑',requireAuth:true},

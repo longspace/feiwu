@@ -17,7 +17,7 @@
           </a-textarea>
 
           <!-- 下拉框 -->
-          <a-select v-if="item.type==='Select'" default-value="" :style="item.style" v-model="formdata[item.field]"
+          <a-select v-if="item.type==='Select'" default-value="" :show-search="item.showsearch?item.showsearch:false" :filter-option="item.filteroption" :style="item.style" v-model="formdata[item.field]"
             allowClear :placeholder="item.placeholder" :mode="item.mode?item.mode:'default'" @change="handleSelectChange">
             <a-icon v-if="item.icon" slot="prefix" :type="item.icon" />
             <a-select-option v-for="op in item.options" :label="op.label" :value="op.id" :key="op.id">{{op.label}}</a-select-option>

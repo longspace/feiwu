@@ -22,7 +22,8 @@
           </a-input>
         </a-form-item>
         <a-form-item label="经营范围">
-          <a-tree-select :options="init.provinceCity" placeholder="可搜索" v-model="dialogformdata.province_city_id" @change="handleProvinceChange" :showSearch="true"/>
+          <a-tree-select :tree-data="init.cateList" placeholder="" v-model="dialogformdata.business_scope_id" @change="handleBusinessScopeChange" :showSearch="true" :filterTreeNode="true" treeDefaultExpandAll treeCheckable allow-clear
+    multiple/>
         </a-form-item>
         <div style="padding: 10px 0;">
           <a-form-item label="营业执照">
@@ -51,14 +52,14 @@
           </a-form-item>
         </div>
 
-        <a-form-item label="许可证到期">
-          <a-date-picker allowClear v-model="dialogformdata.business_license_expire" placeholder="到期时间" style="width: 230px;" />
-        </a-form-item>
         <a-form-item label="年产量">
-          <a-input allowClear
+          <a-input allowClear placeholder="单位:吨"
            v-model="dialogformdata.year_product_weight">
             <a-icon slot="prefix" type="file-text" style="color:rgba(0,0,0,.25)" />
           </a-input>
+        </a-form-item>
+        <a-form-item label="许可证到期">
+          <a-date-picker allowClear v-model="dialogformdata.business_license_expire" placeholder="到期时间" style="width: 230px;" />
         </a-form-item>
         <a-form-item label="联系人">
           <a-input allowClear
@@ -97,11 +98,10 @@
 
 <!-- :customRequest="handleExcelChange" -->
     <mydialog :configs="uploaddialogcfg">
-      <div style="height: 170px;">
+      <div style="height: 150px;" class="uploadFile">
         <a-upload-dragger
           name="file"
-          action=""
-          @change="handleExcelChange"
+          :customRequest="handleExcelChange"
         >
           <p class="ant-upload-drag-icon">
             <a-icon type="cloud-upload" />
@@ -111,7 +111,8 @@
           </p>
         </a-upload-dragger>
       </div>
-      <div style="padding:50px 0 6px 0; text-align: right;">
+      <div class="uploadStatusText">{{init.uploadStatusText}}</div>
+      <div style="padding:20px 0 6px 0; text-align: right;">
         <a href="/static/template/产废企业导入模板.xls" style="float: left;">点此下载导入模板</a>
         <a-button type="primary" icon="file-excel" @click="uploaddialogSubmit"> 立即导入 </a-button>
       </div>
@@ -143,7 +144,8 @@
               ]
             },
             data:[
-              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'企业名称、联系人、电话'}
+              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'企业名称、联系人、电话'},
+              {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'270px'},placeholder:['许可证到期开始','许可证到期结束']},
             ]
           },
           // 表单配置绑定值
@@ -155,13 +157,13 @@
           tablecfg: {
               headerOptions:[
                   { title: 'ID', field: 'id', width:'45px'},
-                  { title: '企业名称', field: 'company_name',width:'120px'},
-                  { title: '营业执照', field: 'business_photo',width:'100px',fieldType:'image'},
-                  { title: '经营许可证', field: 'business_license_photo',width:'100px',fieldType:'image'},
-                  { title: '许可证到期', field: 'business_license_expire',width:'80px'},
-                  { title: '危废业务代码', field: 'business_code',width:'150px'},
+                  { title: '企业名称', field: 'company_name'},
+                  { title: '营业执照', field: 'business_photo',width:'75px',fieldType:'image'},
+                  { title: '经营许可证', field: 'business_license_photo',width:'90px',fieldType:'image'},
+                  { title: '许可证到期', field: 'business_license_expire',width:'90px'},
+                  { title: '危废业务代码', field: 'business_code'},
                   { title: '联系人', field: 'contacter',width:'80px'},
-                  { title: '联系电话', field: 'tel',width:'80px'},
+                  { title: '联系电话', field: 'tel',width:'100px'},
                   { title: '年产量(吨)', field: 'year_product_weight',width:'90px'},
                   { title: '审核状态', field: 'verify',width:'80px',fieldType:'status',showText:[{id:1,label:"已审核",color:'#1890ff'},{id:0,label:"未审核",color:'#f00'}]},
                   { title: '是否VIP', field: 'vip',width:'80px',fieldType:'status',showText:[{id:1,label:"VIP",color:'#e6a23c'},{id:0,label:"否",color:'#999'}]},
@@ -171,7 +173,7 @@
               loading:false,
               operateLabel:'操作管理',
               operateWidth:'75px',
-              rowSelection:true, // 复选框
+              rowSelection:false, // 复选框
               operateOptions: []
           },
           tabledata:[],
@@ -193,6 +195,7 @@
             account:'',
             passwd:'',
             company_name:'',
+            business_scope_id:[],
             business_photo:'',
             business_license_photo:'',
             business_license_expire:'',
@@ -213,7 +216,10 @@
           },
 
           init:{
-            area:[]
+            area:[],
+            cateList:[],
+            uploadStatusText:'',
+            handle_company_id:[]
           }
         };
       },
@@ -230,6 +236,7 @@
             account:'',
             passwd:'',
             company_name:'',
+            business_scope_id:[],
             business_photo:'',
             business_license_photo:'',
             business_license_expire:'',
@@ -364,6 +371,7 @@
           console.log("showImportCsv")
           this.uploaddialogcfg.title = "导入Excel文件";
           this.uploaddialogcfg.visible = true;
+          this.init.uploadStatusText = "";
         },
         handleProvinceChange(obj){
           console.log("handleProvinceChange",obj)
@@ -392,26 +400,29 @@
         onSwitchVipChange(val) {
           console.log(val)
         },
+        handleBusinessScopeChange(obj){
+          console.log("handleBusinessScopeChange",obj)
+        },
         handleExcelChange(obj){
+          this.init.uploadStatusText = "上传中...";
           const status = obj.file.status;
-                if (status !== 'uploading') {
-                  console.log(obj.file, obj.fileList);
-                }
-                if (status === 'done') {
-                  this.$message.success(`${obj.file.name} file uploaded successfully.`);
-                } else if (status === 'error') {
-                  this.$message.error(`${obj.file.name} file upload failed.`);
-                }
+          // if (status !== 'uploading') {
+          //   console.log(obj.file, obj.fileList);
+          // }
+          // if (status === 'done') {
+          //   this.$message.success(`${obj.file.name} file uploaded successfully.`);
+          // } else if (status === 'error') {
+          //   this.$message.error(`${obj.file.name} file upload failed.`);
+          // }
 
-
-
-          // console.log("handleExcelChange",obj)
-          // let fd = new FormData();
-          // fd.append('file',obj.file);//传文件
-          // uploadSingleImg(fd)
-          // .then(res=>{
-          //   console.log(obj,"handleExcelChange:res:",res)
-          // })
+          console.log("handleExcelChange",obj)
+          let fd = new FormData();
+          fd.append('file',obj.file);//传文件
+          uploadSingleImg(fd)
+          .then(res=>{
+            console.log(obj,"handleExcelChange:res:",res)
+            this.init.uploadStatusText = "恭喜您，上传完成!"+res.data.savename;
+          })
         },
         uploaddialogSubmit(){
 
@@ -427,11 +438,12 @@
         initCateList(){
           callGoodsCategoryParentAndSonList({}).then(res=>{
             this.init.cateList = res.data.data;
-            this.formcfg.data[0].options = res.data.data
+            console.log("this.init.cateList",this.init.cateList)
           }).catch(err=>{
             console.log("初始化分类数据出错:",err)
           })
         },
+
 
 
       },
@@ -463,6 +475,8 @@
   };
 </script>
 <style lang="scss">
+.uploadFile .ant-upload-list-item{ display: none;}
+.uploadStatusText{ padding: 15px 0;}
 .company_form .ant-form-item-label{ width: 90px;}
 .company_form .ant-form-item{ width: 330px;}
 .company_form .ant-form-item-control-wrapper{ width: 230px;}

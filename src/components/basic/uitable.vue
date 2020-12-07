@@ -28,7 +28,7 @@
 
       </a-table-column>
 
-      <a-table-column v-if="tablecfg.operateWidth" key="action" title="操作" :width="tablecfg.operateWidth">
+      <a-table-column v-if="tablecfg.operateWidth" key="action" title="操作" fixed="right" :width="tablecfg.operateWidth">
         <template slot-scope="text, record">
           <span style="display: flex;">
             <!-- <a v-for="(item,index) in tablecfg.operateOptions" :key="index" @click="handleOperateButton(item.methods,record)">{{item.title}}</a> -->

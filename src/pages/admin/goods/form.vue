@@ -5,7 +5,7 @@
 </template>
 <script>
   import uiform from "@/components/basic/uiform.vue"
-  import {goodsHandle,callCategoryList,uploadSingleImg,uploadImgs,callTagList,callGoodsCategoryParentAndSonList} from "@/utils/http/index.js"
+  import {goodsHandle,callCategoryList,uploadSingleImg,uploadImgs,callTagList,callGoodsCategoryParentAndSonList,goodsDetails,callfeatures,callpackageStyle,callphysicalState} from "@/utils/http/index.js"
   export default {
     name:'',
     data() {
@@ -25,13 +25,13 @@
 
           },
           data:[
-            {type:'Cascader',label:'危废类别',field:'cate_id',icon:'control',itemstyle:{},style:{width:'50%'},placeholder:'',options:[]},
+            {type:'Cascader',label:'危废类别',field:'category_id',icon:'control',itemstyle:{},style:{width:'50%'},placeholder:'',options:[]},
             {type:'Input',label:'商品名称',field:'title',icon:'read',style:{width:'50%'},placeholder:'',},
-            {type:'Select',label:'物理状态',field:'physical_state',icon:'read',style:{width:'50%'},placeholder:'',options:[{id:1,label:'气态'},{id:2,label:'液态'},{id:3,label:'固态'},{id:4,label:'半固体'}]},
-            {type:'Select',label:'包装形式',field:'package_style',icon:'read',style:{width:'50%'},placeholder:'',options:[{id:1,label:'桶'},{id:2,label:'槽罐'},{id:3,label:'箱'},{id:4,label:'编织袋'},{id:5,label:'散装'},{id:6,label:'其他'}]},
+            {type:'Select',label:'物理状态',field:'physical_state',icon:'read',style:{width:'50%'},placeholder:'',options:[]},
+            {type:'Select',label:'包装形式',field:'package_style',icon:'read',style:{width:'50%'},placeholder:'',options:[]},
             {type:'Input',label:'主要成分',field:'main_parts',icon:'read',mode:"multiple",style:{width:'50%'},placeholder:'',},
-            {type:'Select',label:'危险特性',field:'features',icon:'read',mode:"multiple",style:{width:'50%'},placeholder:'',options:[{id:1,label:'腐蚀性'},{id:2,label:'易燃性'},{id:3,label:'感染性'},{id:4,label:'反应性'},{id:5,label:'毒性'}]},
-            {type:'Input',label:'年产量(吨)',field:'year_product_weight',icon:'read',style:{width:'30%'},placeholder:''},
+            {type:'Select',label:'危险特性',field:'features',icon:'read',mode:"multiple",style:{width:'50%'},placeholder:'',options:[]},
+            // // {type:'Input',label:'年产量(吨)',field:'year_product_weight',icon:'read',style:{width:'30%'},placeholder:''},
             {type:'Input',label:'重量(吨)',field:'weight',icon:'read',style:{width:'30%'},placeholder:''},
             {type:'Input',label:'预期价格',field:'expect_price',icon:'read',style:{width:'30%'},placeholder:'每吨的单价'},
             {type:'Upload',label:'检则报告',field:'check_report',icon:'align-left',itemstyle:{},style:{'width':'103px','height':'103px','border-radius':'3px'},placeholder:'',handle:(val)=>this.getThumbImg(val)},
@@ -41,13 +41,13 @@
         // 表单配置绑定值
         formdata:{
           id:0,
-          cate_id:[],
+          category_id:[],
           title:'',
           physical_state:'',
           package_style:[],
           main_parts:'',
           features:[],
-          year_product_weight:'',
+          // year_product_weight:'',
           weight:'',
           expect_price:'',
           check_report:'',
@@ -67,13 +67,13 @@
       $route(to, from) { //路由变化方式，路由发生变化，方法就会执行
         this.formdata = {
           id:0,
-          cate_id:[],
+          category_id:[],
           title:'',
           physical_state:'',
           package_style:[],
           main_parts:'',
           features:[],
-          year_product_weight:'',
+          // year_product_weight:'',
           weight:'',
           expect_price:'',
           check_report:'',
@@ -84,22 +84,6 @@
     methods:{
       backList(){
         this.$router.push("/admin/goods/goodsList")
-      },
-      initCateList(){
-        callGoodsCategoryParentAndSonList({}).then(res=>{
-          this.init.cateList = res.data.data;
-          this.formcfg.data[0].options = res.data.data
-        }).catch(err=>{
-          console.log("初始化分类数据出错:",err)
-        })
-      },
-      initTagList(){
-        // callTagList({}).then(res=>{
-        //    this.init.tagList = res.data.data;
-        //    this.formcfg.data[2].options = res.data.data
-        // }).catch(err=>{
-        //   console.log("初始化分类数据出错:",err)
-        // })
       },
       getThumbImg(obj){
          let fd = new FormData();
@@ -153,23 +137,54 @@
             this.$message.error(res.data.msg);
           }
         }).catch(err=>{
-          console.log("新增或更新文章出错：",err);
+          console.log("新增或更新商品出错：",err);
         })
       },
       //处于编辑状态时，加载对应的数据
       forEditData(id){
           goodsDetails({id})
           .then(resp=>{
-            this.formdata = resp.data.data
+            let resdata = resp.data.data
+            let photo = [];
+            for(let i=0;i<resdata.photos.length;i++){
+              photo.push({uid:new Date().getMilliseconds()+i,status: 'done',url:resdata.photos[i],name:resdata.photos[i]})
+            }
+            resdata.photo = photo;
+            this.formdata = resdata
+
+            console.log("this.formdata:",this.formdata)
           })
           .catch(err=>{
               console.log("error:",err)
           });
       },
+
+      initData(){
+        callGoodsCategoryParentAndSonList({}).then(res=>{
+          this.init.cateList = res.data.data;
+          this.formcfg.data[0].options = res.data.data
+        }).catch(err=>{
+          console.log("初始化分类数据出错:",err)
+        })
+        callphysicalState({}).then(res=>{
+          this.formcfg.data[2].options = res.data.data
+        }).catch(err=>{
+          console.log("初始化分类数据出错:",err)
+        })
+        callpackageStyle({}).then(res=>{
+          this.formcfg.data[3].options = res.data.data
+        }).catch(err=>{
+          console.log("初始化分类数据出错:",err)
+        })
+        callfeatures({}).then(res=>{
+          this.formcfg.data[5].options = res.data.data
+        }).catch(err=>{
+          console.log("初始化分类数据出错:",err)
+        })
+      }
     },
     mounted(){
-      this.initTagList()
-      this.initCateList();
+      this.initData();
 
       //判断是否为编辑状态
       const id = this.$route.query.id;

@@ -1,8 +1,5 @@
 <template>
   <div>
-    <!-- <mydialog :configs="mydialogcfg" @dialogSubmit="dialogSubmit">
-      <uiform :formdata="dialogformdata" :formcfg="dialogformcfg"></uiform>
-    </mydialog> -->
     <uiform :formdata="formdata" :formcfg="formcfg"></uiform><br/>
     <uitable :datasource="tabledata" :tablecfg="tablecfg" @handleUiTableBtn="handleUiTableBtn" @onSelectChange="onTableSelectChange"></uitable>
     <div class="pages">
@@ -14,9 +11,9 @@
   import mydialog from "@/components/basic/uidialog.vue"
   import uiform from "@/components/basic/uiform.vue"
   import uitable from "@/components/basic/uitable.vue"
-  import {articleList,articleDelete,callCategoryList} from "@/utils/http/index.js"
+  import {ordersList,ordersDelete,callCategoryList} from "@/utils/http/index.js"
   export default {
-      name:'articlelist',
+      name:'ordersList',
       data() {
         return {
           // 表单配置要显示哪些字段
@@ -30,43 +27,44 @@
               ]
             },
             data:[
-              {type:'Select',field:'physical_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:'待发货'},{id:1,label:'待收货'},{id:2,label:'已收货'}]},
-              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号、关键信息'},
-              {type:'DateRange',label:'',field:'daterange',icon:'smile',style:{width:'230px'},placeholder:['订单开始时间','订单结束时间']},
+              {type:'Select',field:'verify',icon:'read',style:{width:'110px'},placeholder:'审核状态',options:[{id:1,label:'已审核'},{id:0,label:'未审核'}]},
+              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:'待发货'},{id:1,label:'待收货'},{id:2,label:'已收货'}]},
+              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号、商品名称'},
+              {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'230px'},placeholder:['订单开始时间','订单结束时间']},
             ]
           },
           // 表单配置绑定值
           formdata:{
-            cate_id:[],
+            verify:undefined,
+            current_state:undefined,
             keywords:'',
-            DateRange:[]
+            date_range:[]
           },
           tablecfg: {
               headerOptions:[
-                  { title: '订单号', field: 'id', width:'90px'},
-                  { title: '产废单位', field: 'cate_id',width:'120px'},
-                  { title: '处废单位', field: 'cate_id',width:'120px'},
-                  { title: '危废类别', field: 'cate_id',width:'120px'},
-                  { title: '危废照片', field: 'thumb',width:'100px',fieldType:'image'},
-                  { title: '检则报告', field: 'thumb',width:'100px',fieldType:'image'},
-                  { title: '物理状态', field: 'hits',width:'80px'},
-                  { title: '包装形式', field: 'hits',width:'80px'},
-                  { title: '主要成分', field: 'hits',width:'80px'},
-                  { title: '危废特性', field: 'hits',width:'80px'},
-                  { title: '年产量(吨)', field: 'hits',width:'90px'},
-                  { title: '重量(吨)', field: 'hits',width:'80px'},
-                  { title: '预期价格', field: 'hits',width:'80px'},
-                  { title: '审核状态', field: 'status',width:'80px',fieldType:'status',showText:["否","是"]},
-                  // { title: '关键信息', field: 'hits',width:'80px'},
-                  // { title: '标签属性', field: 'tags',width:'86px'},
-                  // { title: '访问权限', field: 'permission',width:'80px'},
-                  // { title: '发布人', field: 'user_id',width:'80px'},
+                  { title: '订单号', field: 'order_id', width:'90px'},
+                  { title: '商品名称', field: 'title',width:'120px'},
+                  { title: '每吨价格', field: 'expect_price',width:'120px'},
+                  { title: '产废单位', field: 'product_company_name',width:'120px'},
+                  { title: '处废单位', field: 'handle_company_name',width:'120px'},
+                  // { title: '危废类别', field: 'cate_id',width:'120px'},
+                  // { title: '危废照片', field: 'thumb',width:'100px',fieldType:'image'},
+                  // { title: '检则报告', field: 'thumb',width:'100px',fieldType:'image'},
+                  // { title: '物理状态', field: 'hits',width:'80px'},
+                  // { title: '包装形式', field: 'hits',width:'80px'},
+                  // { title: '主要成分', field: 'hits',width:'80px'},
+                  // { title: '危废特性', field: 'hits',width:'80px'},
+                  // { title: '年产量(吨)', field: 'hits',width:'90px'},
+                  // { title: '重量(吨)', field: 'hits',width:'80px'},
+                  // { title: '预期价格', field: 'hits',width:'80px'},
+                  { title: '审核状态', field: 'verify',width:'80px',fieldType:'status',showText:[{id:1,label:"已审核",color:'#1890ff'},{id:0,label:"未审核",color:'#f00'}]},
                   { title: '创建时间', field: 'create_at',width:'105px' },
               ],
               algin:'center',
+              loading:false,
+              rowSelection:false, // 复选框
               operateLabel:'操作管理',
               operateWidth:'75px',
-              rowSelection:true, // 复选框
               operateOptions: []
           },
           tabledata:[],
@@ -95,12 +93,12 @@
             case 'deletehandle':
                 this.$confirm({
                   title: '温馨提示',
-                  content: '您确定要删除吗',
+                  content: '您确定要删除此订单吗',
                   okText: '确认',
                   okType: 'danger',
                   cancelText: '取消',
                   onOk() {
-                    articleDelete({id:row.id}).then(res=>{
+                    ordersDelete({id:row.id}).then(res=>{
                       const {data} = res;
                       if(data.code == 200){
                         that.loadData();
@@ -133,16 +131,25 @@
           console.log("onTableSelectChange",obj)
         },
         loadData(){
-          let form = this.formdata;
+          this.tablecfg.loading = true;
+          let form = JSON.parse(JSON.stringify(this.formdata));
+          if(form.current_state == undefined){
+            form.current_state = "";
+          }
+          if(form.verify == undefined){
+            form.verify = "";
+          }
           const {pageSize,currentPage} =this.pages
           form.pageSize = pageSize;
           form.currentPage = currentPage;
-          articleList(form).then(res=>{
+          ordersList(form).then(res=>{
             const {data} = res;
             this.tabledata = data.data;
             this.pages.total = data.total;
+            this.tablecfg.loading = false;
           }).catch(err=>{
-            console.log("加载文章列表出错：",err);
+            console.log("加载订单列表出错：",err);
+            this.tablecfg.loading = false;
           })
         },
         onPageChange(e){

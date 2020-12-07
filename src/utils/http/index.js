@@ -49,6 +49,14 @@ export const goodsCategorySonDelete = (data={}) => request.post("goods/categoryS
 export const goodsList = (data={}) => request.post("goods/goodsList",data)
 export const goodsHandle = (data={}) => request.post("goods/goodsHandle",data)
 export const goodsDelete = (data={}) => request.post("goods/goodsDelete",data)
+export const goodsDetails = (data={}) => request.post("goods/goodsDetails",data)
+export const goodsSaleHandle = (data={}) => request.post("goods/saleHandle",data) // 上下架处理
+export const createOrder = (data={}) => request.post("goods/createOrder",data) // 生成订单
+
+export const ordersList = (data={}) => request.post("orders/ordersList",data)
+// export const ordersHandle = (data={}) => request.post("goods/ordersHandle",data)
+export const ordersDelete = (data={}) => request.post("orders/ordersDelete",data)
+
 
 export const companyList = (data={}) => request.post("company/companyList",data)
 export const companyHandle = (data={}) => request.post("company/companyHandle",data)
@@ -61,7 +69,14 @@ export const callCategoryList = (data={}) => request.post("call/categoryList",da
 export const callTagList = (data={}) => request.post("call/tagList",data) // 标签属性列表
 export const uploadSingleImg = (data={}) => request.post("uploadSingleImg",data) // 上传单图
 export const uploadImgs = (data={}) => request.post("uploadImgs",data) // 上传多图
+
 export const callArea = (data={}) => request.post("call/area",data) // 省市联动
+export const callphysicalState = (data={}) => request.post("call/physicalState",data) // 物理状态
+export const callpackageStyle = (data={}) => request.post("call/packageStyle",data) // 包装形式
+export const callfeatures = (data={}) => request.post("call/features",data) // 危险特性
+export const callhandleCompanys = (data={}) => request.post("call/handleCompanys",data) // 处废企业列表
+
+
 
 export const callGoodsCategoryList = (data={}) => request.post("call/goodsCategoryParentList",data) // 商品大分类调用
 export const callGoodsCategoryParentAndSonList = (data={}) => request.post("call/goodsCategoryParentAndSonList",data) // 商品大小分类调用
