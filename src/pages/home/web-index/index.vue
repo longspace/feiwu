@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 15:30:07
+ * @LastEditTime: 2020-12-07 17:58:50
 -->
 <template>
   <div class="index">
@@ -16,7 +16,7 @@
       <div class="link-tag-list">
         <div class="link-tag-item">
           <div class="link-tag-img">
-            <img src="../../../../static/home/images/index3.png" alt="" />
+            <img src="/static/home/images/index3.png" alt="" />
           </div>
           <div class="link-tag-name">危险废物交易中心</div>
           <div class="link-tag-desc">
@@ -86,7 +86,7 @@
             class="custom-slick-arrow"
             style="left: 10px;zIndex: 1"
           >
-            <a-icon type="left-circle" />
+            <img src="/static/home/images/index13.png" alt="" />
           </div>
           <div
             slot="nextArrow"
@@ -94,7 +94,7 @@
             class="custom-slick-arrow"
             style="right: 10px"
           >
-            <a-icon type="right-circle" />
+            <img src="/static/home/images/index14.png" alt="" />
           </div>
           <div class="news-item" v-for="item in news" :key="item.id">
             <div class="news-info-text">
@@ -113,7 +113,7 @@
             <div class="news-info-img">
               <div class="news-img">
                 <div class="news-img-b">
-                  <img src="/static/home/images/news1.jpg" alt="" />
+                  <img :src="item.img" alt="" />
                 </div>
               </div>
             </div>
@@ -130,7 +130,7 @@ import WebHeader from "../components/web-header";
 import RecommendList from "./components/recommend-list";
 import WebFooter from "../components/web-footer";
 import BannerText from "../components/web-banner-text";
-
+import { getHotKeywords } from "@/utils/http/index.js";
 export default {
   data() {
     return {
@@ -138,35 +138,7 @@ export default {
       searchValue: "",
       dangerTrashTag: ["氢氧化钠", "盐酸", "硫酸"], // 危险废物标签
       generalTrashTag: ["片碱", "纯碱", "氢氧化钠", "小苏打", "亚硫"], // 一般固废标签
-      news: [
-        {
-          id: "1111",
-          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-          date: "2020-12-02",
-          synopsis:
-            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-          img:
-            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-        },
-        {
-          id: "1111",
-          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-          date: "2020-12-02",
-          synopsis:
-            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-          img:
-            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-        },
-        {
-          id: "1111",
-          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-          date: "2020-12-02",
-          synopsis:
-            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-          img:
-            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-        }
-      ]
+      news: []
     };
   },
   components: {
@@ -176,7 +148,9 @@ export default {
     BannerText
   },
   created() {},
-  mounted() {},
+  mounted() {
+    this.initHotKeywords();
+  },
   methods: {
     // //搜索功能
     // searchKeywords(value) {
@@ -187,6 +161,51 @@ export default {
     //   let keywords = this.$refs.keywords[index].innerText;
     //   this.searchValue = keywords;
     // }
+    initHotKeywords() {
+      getHotKeywords()
+        .then(res => {
+          const { data } = res;
+          if (data.code == 200) {
+            this.mydialogcfg.visible = false;
+            this.loadData();
+            this.$message.success(res.data.msg);
+          } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+        .catch(err => {
+          this.news = [
+            {
+              id: "1111",
+              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+              date: "2020-12-02",
+              synopsis:
+                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+              img:
+                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+            },
+            {
+              id: "1111",
+              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+              date: "2020-12-02",
+              synopsis:
+                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+              img:
+                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+            },
+            {
+              id: "1111",
+              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+              date: "2020-12-02",
+              synopsis:
+                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+              img:
+                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+            }
+          ];
+          console.log("新增或更新标签出错：", err);
+        });
+    }
   }
 };
 </script>
@@ -455,5 +474,13 @@ export default {
       background: #333;
     }
   }
+}
+</style>
+<style lang="scss">
+.news-carousel .ant-carousel .slick-dots li button {
+  background: #333;
+}
+.news-carousel .ant-carousel .slick-prev {
+  left: -25px;
 }
 </style>

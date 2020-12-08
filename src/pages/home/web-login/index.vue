@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-05 19:09:48
+ * @LastEditTime: 2020-12-08 10:14:59
 -->
 <template>
   <div class="welcome-index">
@@ -23,24 +23,26 @@
       欢迎来到固废驿站，请选择您的账号角色，请注意，一旦选定角色无法更改！
     </div>
     <div class="role-list">
-      <div class="role-item">
+      <router-link to="webRegisterManage" tag="div" class="role-item">
         <div class="role-img">
-          <img src="../../../../static/home/images/login1.png" alt="" />
+          <img src="/static/home/images/login1.png" alt="" />
         </div>
         <div class="role-name">我是产废企业</div>
         <div class="role-item-desc">产生危险废物需要处置</div>
         <div class="role-register">注册账号</div>
-      </div>
-      <div class="role-item">
+      </router-link>
+      <router-link to="webRegisterProduct" tag="div" class="role-item">
         <div class="role-img">
-          <img src="../../../../static/home/images/login1.png" alt="" />
+          <img src="/static/home/images/login2.png" alt="" />
         </div>
         <div class="role-name">我是产废企业</div>
-        <div class="role-item-desc">产生危险废物需要处置</div>
+        <div class="role-item-desc">处置利用危险废物的持证单位</div>
         <div class="role-register">注册账号</div>
-      </div>
+      </router-link>
     </div>
-    <div class="button-login">已有账号，立即登录</div>
+    <router-link to="weblogin" tag="div" class="button-login"
+      >已有账号，立即登录</router-link
+    >
     <div class="copy">
       @Copyingright 中合润一科技有限公司 版权所有 沪ICP备xxxxxxxx号
     </div>
@@ -112,6 +114,7 @@ export default {
   max-width: 730px;
   margin: 50px auto 0;
   .role-item {
+    cursor: pointer;
     flex: 1;
     padding: 40px 36px 55px;
     text-align: center;
@@ -128,7 +131,8 @@ export default {
       margin-bottom: 42px;
     }
     .role-register {
-      widows: 230px;
+      margin: 0 auto;
+      width: 230px;
       height: 40px;
       font-size: 14px;
       line-height: 40px;
@@ -148,7 +152,7 @@ export default {
   text-align: center;
   border: 1px solid #4293f4;
   color: #4293f4;
-  border-radius: 3px;
+  cursor: pointer;
 }
 .copy {
   padding-bottom: 58px;

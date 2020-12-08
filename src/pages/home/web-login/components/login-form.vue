@@ -1,17 +1,18 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 14:58:57
+ * @LastEditTime: 2020-12-07 20:01:29
 -->
 <template>
   <div class="login">
     <div class="login-list">
       <div class="login-img">
-        <img src="/static/home/images/login2.png" alt="" />
+        <img src="/static/home/images/login4.png" alt="" />
         <p class="company-name">固废驿站，工业废物一站式交易平台</p>
       </div>
-      <div class="form">
+      <slot name="form"></slot>
+      <!-- <div class="form">
         <div class="login-title">
-          <slot name="login-title"></slot>
+          用户登录
         </div>
         <a-form-model
           ref="loginForm"
@@ -19,7 +20,7 @@
           :model="form"
           class="login-form"
         >
-          <a-form-model-item has-feedback prop="phone">
+          <a-form-model-item has-feedback prop="phone" class="form-item-input">
             <a-input
               v-model="form.phone"
               allowClear
@@ -34,13 +35,17 @@
             </a-input>
           </a-form-model-item>
 
-          <a-form-model-item has-feedback class="input-pwd" prop="pwd">
+          <a-form-model-item
+            has-feedback
+            class="input-pwd form-item-input"
+            prop="pwd"
+          >
             <a-input
               v-model="form.pwd"
               type="password"
               allowClear
               placeholder="请输入您的密码"
-              class="input"
+              class="input form-item-input"
             >
               <img
                 src="/static/home/images/register3.png"
@@ -53,9 +58,10 @@
             has-feedback
             class="input-auth-code"
             prop="picCode"
+            slot=""
           >
             <a-row type="flex" justify="space-between" align="middle">
-              <a-col :flex="2">
+              <a-col flex="auto">
                 <a-input
                   v-model="form.picCode"
                   allowClear
@@ -64,12 +70,14 @@
                 >
                 </a-input>
               </a-col>
-              <a-col :flex="1">
+              <a-col flex="100px" class="a-col-img">
                 <img src="/static/home/images/login3.jpg" alt="" />
               </a-col>
             </a-row>
           </a-form-model-item>
+
           <a-form-model-item class="buttom-submit">
+            <slot name="button-submit" class="submit"></slot>
             <a-button
               type="primary"
               @click="onSubmitLogin"
@@ -82,14 +90,16 @@
         </a-form-model>
         <div class="form-toast">
           <div class="toast">
+            <slot name="toast-l"></slot>
             <span>还没有账号</span>
             <router-link to="">去注册</router-link>
           </div>
           <div class="login-link">
+            <slot name="toast-r"></slot>
             <router-link to="">忘记密码</router-link>
           </div>
         </div>
-      </div>
+      </div> -->
     </div>
     <div class="copyright">
       <span>@Copyingright 中合润一科技有限公司 版权所有 </span>
@@ -102,7 +112,7 @@
 export default {
   data() {
     let validatePhone = (rule, value, callback) => {
-      if (!/^1[3|4|5|7|8]\d{9}$/.test(value)) {
+      if (/^1[3|4|5|7|8]\d{9}$/.test(value)) {
         callback(new Error("手机号码输入错误，请重新填写"));
       } else {
         callback();
@@ -232,7 +242,7 @@ export default {
   }
 };
 </script>
-<style scoped lang="scss">
+<style scroped lang="scss">
 .login-list {
   display: flex;
   justify-content: space-between;
@@ -243,6 +253,7 @@ export default {
   .login-img {
     padding: 47px 90px;
     width: 50%;
+    height: 530px;
     text-align: center;
     background: url(/static/home/images/register1.jpg) no-repeat left top;
     .company-name {
@@ -273,9 +284,6 @@ export default {
         margin: 26px auto 36px;
         background: linear-gradient(90deg, #3888e7, #9fc3f8);
       }
-      .buttom-submit >>> .ant-input-affix-wrapper .ant-input {
-        height: 40px;
-      }
     }
   }
 }
@@ -296,4 +304,23 @@ export default {
     color: #999;
   }
 }
+</style>
+<style lang="scss">
+.login .ant-input-affix-wrapper .ant-input {
+  height: 48px;
+  font-size: 14px;
+  border-radius: 0;
+}
+.form-item-input .ant-input-affix-wrapper .ant-input {
+  padding-left: 48px;
+  border-radius: 0;
+}
+.form-item-input .ant-input-affix-wrapper .ant-input-prefix {
+  left: 18px;
+}
+.buttom-submit .ant-btn-block {
+  height: 48px;
+  border-radius: 0;
+}
+
 </style>
