@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 10:18:31
+ * @LastEditTime: 2020-12-08 16:40:30
 -->
 <template>
   <div class="register">
@@ -21,7 +21,7 @@
     <login-form>
       <div class="form" slot="form">
         <div class="login-title">
-          处废单位注册
+          忘记密码
         </div>
         <a-form-model
           ref="form"
@@ -45,7 +45,7 @@
           </a-form-model-item>
           <a-form-model-item class="input-auth-code" prop="smsCode">
             <a-row type="flex" justify="space-between" align="middle">
-              <a-col flex="auto" class="code-input">
+              <a-col flex="0 0 210px" class="code-input">
                 <a-input
                   v-model="form.smsCode"
                   allowClear
@@ -54,7 +54,7 @@
                 >
                 </a-input>
               </a-col>
-              <a-col flex="100px">
+              <a-col flex="0 1 100px">
                 <a-button
                   type="primary"
                   class="code-button"
@@ -98,20 +98,10 @@
           </a-form-model-item>
           <a-form-model-item class="buttom-submit">
             <a-button type="primary" @click="onSubmit">
-              立即注册
+              确认修改
             </a-button>
           </a-form-model-item>
         </a-form-model>
-        <div class="form-toast">
-          <div class="toast">
-            <span>注册表示同意</span>
-            <router-link to="/treaty" class="treaty">《用户协议》</router-link>
-          </div>
-          <router-link to="webRegisterProduct" class="toast-r">
-            <img src="/static/home/images/register5.png" alt="" />
-            <span>我是产废单位</span>
-          </router-link>
-        </div>
       </div>
     </login-form>
   </div>
@@ -119,7 +109,7 @@
 
 <script>
 import LoginForm from "./components/login-form";
-import { webRegister, getSmsCode } from "@/utils/http/index.js";
+import { changePassword, getSmsCode } from "@/utils/http/index.js";
 export default {
   data() {
     let validatePhone = (rule, value, callback) => {
@@ -150,7 +140,7 @@ export default {
     };
     return {
       codeStatus: false, // 验证码按钮状态
-      codeButtonText: "获取验证码", //获取短信验证码按钮内容
+      codeButtonText: "发送验证码", //获取短信验证码按钮内容
       smsVerifyCode: "", // 获取的短信验证码
       form: {
         phone: "",
@@ -218,8 +208,8 @@ export default {
     onSubmit() {
       webRegister({
         phone: this.form.phone,
-        smsCode: this.form.smsCode,
-        smsVerifyCode: this.smsVerifyCode,
+        smsCode: this.form.smsCode, //输入的短信验证码
+        smsVerifyCode: this.smsVerifyCode, // 短信验证码
         pwd: this.form.pwd
       })
         .then(res => {
@@ -323,4 +313,3 @@ export default {
   }
 }
 </style>
-<style lang="scss"></style>

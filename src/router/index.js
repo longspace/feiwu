@@ -14,31 +14,70 @@ export default new Router({
       path: "/",
       name: "index",
       component: () => import("@/pages/home/index")
-    },
+    },    
     {
       path: "/loginIndex",
       name: "loginIndex",
       component: () => import("@/pages/home/web-login/index")
     },
     {
-      path: "/webRegisterProduct",
-      name: "webRegisterProduct",
-      component: () => import("@/pages/home/web-login/web-register-product")
+      path: "/forget",
+      name: "forget",
+      component: () => import("@/pages/home/web-login/forget")
     },
     {
-      path: "/webRegisterManage",
-      name: "webRegisterManage",
-      component: () => import("@/pages/home/web-login/web-register-manage")
+      path: "/about",
+      name: "about",
+      component: () => import("@/pages/home/about")
     },
     {
-      path: "/webLogin",
-      name: "weblLogin",
-      component: () => import("@/pages/home/web-login/web-login")
+      path: "/generalGarbageTrading",
+      name: "generalGarbageTradingt",
+      component: () => import("@/pages/home/general-garbage-trading")
+      // 一般废物交易中心
+    },
+    {
+      path: "/dangerGarbageTrading",
+      name: "dangerGarbageTradingt",
+      component: () => import("@/pages/home/danger-garbage-trading")
+      // 危险废物交易中心
+    },
+    {
+      path: "/newsCenter",
+      name: "newsCenter",
+      component: () => import("@/pages/home/news-center")
+      // 危险废物交易中心
+    },
+    
+    {
+      path: "/memberRegisterProduct",
+      name: "memberRegisterProduct",
+      component: () => import("@/pages/home/web-login/member-register-product")
+    },
+    {
+      path: "/memberRegisterHandle",
+      name: "memberRegisterHandle",
+      component: () => import("@/pages/home/web-login/member-register-handle")
+    },
+    {
+      path: "/memberLogin",
+      name: "memberLogin",
+      component: () => import("@/pages/home/web-login/memberLogin")
     },
     {
       path: "/product",
       name: "product",
-      component: () => import("@/pages/home//product")
+      component: () => import("@/pages/home/product")
+    },
+    {
+      path: "/productDetail",
+      name: "productDetail",
+      component: () => import("@/pages/home/product-detail")
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: () => import("@/pages/home/search")
     },
     {
       path: "/login",

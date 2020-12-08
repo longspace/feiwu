@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 10:17:15
+ * @LastEditTime: 2020-12-08 19:47:42
 -->
 <template>
   <div class="register">
@@ -12,7 +12,7 @@
         <div class="header-login">
           <div class="header-login-toast">
             <span>已有账号，</span>
-            <router-link to="webLogin">马上登录</router-link>
+            <router-link to="memberLogin">马上登录</router-link>
             <router-link to="/" class="back-home">返回首页</router-link>
           </div>
         </div>
@@ -21,7 +21,7 @@
     <login-form>
       <div class="form" slot="form">
         <div class="login-title">
-          产废单位注册
+          处废单位注册
         </div>
         <a-form-model
           ref="form"
@@ -45,7 +45,7 @@
           </a-form-model-item>
           <a-form-model-item class="input-auth-code" prop="smsCode">
             <a-row type="flex" justify="space-between" align="middle">
-              <a-col flex="auto" class="code-input">
+              <a-col flex="0 0 210px" class="code-input">
                 <a-input
                   v-model="form.smsCode"
                   allowClear
@@ -54,7 +54,7 @@
                 >
                 </a-input>
               </a-col>
-              <a-col flex="100px">
+              <a-col flex="0 1 100px">
                 <a-button
                   type="primary"
                   class="code-button"
@@ -81,10 +81,7 @@
               />
             </a-input>
           </a-form-model-item>
-          <a-form-model-item
-            class="input-pwd form-item-input"
-            prop="checkPwd"
-          >
+          <a-form-model-item class="input-pwd form-item-input" prop="checkPwd">
             <a-input
               v-model="form.checkPwd"
               type="password"
@@ -110,9 +107,9 @@
             <span>注册表示同意</span>
             <router-link to="/treaty" class="treaty">《用户协议》</router-link>
           </div>
-          <router-link to="webRegisterManage" class="toast-r">
-            <img src="/static/home/images/register4.png" alt="" />
-            <span>我是处废单位</span>
+          <router-link to="webRegisterProduct" class="toast-r">
+            <img src="/static/home/images/register5.png" alt="" />
+            <span>我是产废单位</span>
           </router-link>
         </div>
       </div>
@@ -152,9 +149,8 @@ export default {
       }
     };
     return {
-      isProduction: true, // 是否是产废单位
       codeStatus: false, // 验证码按钮状态
-      codeButtonText: "获取验证码", //获取短信验证码按钮内容
+      codeButtonText: "发送验证码", //获取短信验证码按钮内容
       smsVerifyCode: "", // 获取的短信验证码
       form: {
         phone: "",
@@ -201,7 +197,6 @@ export default {
             required: true,
             message: "请输入确认密码",
             trigger: "change"
-            // validator: validatePass2
           },
           {
             min: 8,
@@ -324,18 +319,7 @@ export default {
   }
   .toast-r {
     font-size: 14px;
-    color: #f3a824;
+    color: #4293f4;
   }
-}
-</style>
-<style lang="scss">
-.form .ant-form-item .ant-btn {
-  width: 100%;
-  // margin-left: 15px;
-  border-radius: 0;
-  height: 48px;
-}
-.input-auth-code .code-input {
-  margin-right: 15px;
 }
 </style>

@@ -1,0 +1,24 @@
+<!--
+ * @Author: summer
+ * @LastEditTime: 2020-12-08 16:51:11
+-->
+<template>
+  <div class="product-detail">
+    <web-header></web-header>
+  </div>
+</template>
+
+<script>
+import WebHeader from "./components/web-header";
+export default {
+  data() {
+    return {};
+  },
+  components: { WebHeader },
+  //生命周期 - 创建完成（访问当前this实例）
+  created() {},
+  //生命周期 - 挂载完成（访问DOM元素）
+  mounted() {}
+};
+</script>
+<style scoped></style>
