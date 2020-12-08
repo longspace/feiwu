@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 16:37:04
+ * @LastEditTime: 2020-12-08 19:48:08
 -->
 <template>
   <div class="register">
@@ -108,7 +108,7 @@
             <span>注册表示同意</span>
             <router-link to="/treaty" class="treaty">《用户协议》</router-link>
           </div>
-          <router-link to="webRegisterManage" class="toast-r">
+          <router-link to="memberRegisterHandle" class="toast-r">
             <img src="/static/home/images/register4.png" alt="" />
             <span>我是处废单位</span>
           </router-link>

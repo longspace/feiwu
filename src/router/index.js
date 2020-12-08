@@ -56,19 +56,19 @@ export default new Router({
     },
     
     {
-      path: "/webRegisterProduct",
-      name: "webRegisterProduct",
-      component: () => import("@/pages/home/web-login/web-register-product")
+      path: "/memberRegisterProduct",
+      name: "memberRegisterProduct",
+      component: () => import("@/pages/home/web-login/member-register-product")
     },
     {
-      path: "/webRegisterManage",
-      name: "webRegisterManage",
-      component: () => import("@/pages/home/web-login/web-register-manage")
+      path: "/memberRegisterHandle",
+      name: "memberRegisterHandle",
+      component: () => import("@/pages/home/web-login/member-register-handle")
     },
     {
-      path: "/webLogin",
-      name: "weblLogin",
-      component: () => import("@/pages/home/web-login/web-login")
+      path: "/memberLogin",
+      name: "memberLogin",
+      component: () => import("@/pages/home/web-login/memberLogin")
     },
     {
       path: "/product",

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 11:11:37
+ * @LastEditTime: 2020-12-08 19:50:02
 -->
 <template>
   <div class="welcome-index">
@@ -12,7 +12,7 @@
         <div class="header-login">
           <div class="header-login-toast">
             <span>已有账号，</span>
-            <router-link to="/webLogin">马上登录</router-link>
+            <router-link to="/memberLogin">马上登录</router-link>
             <router-link to="/" class="back-home">返回首页</router-link>
           </div>
         </div>
@@ -23,7 +23,7 @@
       欢迎来到固废驿站，请选择您的账号角色，请注意，一旦选定角色无法更改！
     </div>
     <div class="role-list">
-      <router-link to="/webRegisterManage" tag="div" class="role-item">
+      <router-link to="/memberRegisterHandle" tag="div" class="role-item">
         <div class="role-img">
           <img src="/static/home/images/login1.png" alt="" />
         </div>
@@ -31,7 +31,7 @@
         <div class="role-item-desc">产生危险废物需要处置</div>
         <div class="role-register">注册账号</div>
       </router-link>
-      <router-link to="/webRegisterProduct" tag="div" class="role-item">
+      <router-link to="/memberRegisterProduct" tag="div" class="role-item">
         <div class="role-img">
           <img src="/static/home/images/login2.png" alt="" />
         </div>
@@ -40,7 +40,7 @@
         <div class="role-register">注册账号</div>
       </router-link>
     </div>
-    <router-link to="/webLogin" tag="div" class="button-login"
+    <router-link to="/memberLogin" tag="div" class="button-login"
       >已有账号，立即登录</router-link
     >
     <div class="copy">

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 16:36:52
+ * @LastEditTime: 2020-12-08 19:47:42
 -->
 <template>
   <div class="register">
@@ -12,7 +12,7 @@
         <div class="header-login">
           <div class="header-login-toast">
             <span>已有账号，</span>
-            <router-link to="webLogin">马上登录</router-link>
+            <router-link to="memberLogin">马上登录</router-link>
             <router-link to="/" class="back-home">返回首页</router-link>
           </div>
         </div>

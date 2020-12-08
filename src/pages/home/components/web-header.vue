@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 16:20:22
+ * @LastEditTime: 2020-12-08 19:47:14
 -->
 <template>
   <div class="header">
@@ -25,7 +25,9 @@
         </router-link>
       </ul>
       <div class="header-login">
-        <router-link to="/webLogin" class="login-link">登录</router-link>
+        <router-link to="/memberLogin" class="login-link"
+          >登录</router-link
+        >
         <router-link to="/loginIndex" class="register-link">注册</router-link>
       </div>
     </div>
