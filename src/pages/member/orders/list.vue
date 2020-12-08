@@ -11,7 +11,7 @@
   import mydialog from "@/components/basic/uidialog.vue"
   import uiform from "@/components/basic/uiform.vue"
   import uitable from "@/components/basic/uitable.vue"
-  import {searchList} from "@/utils/http/index.js"
+  import {ordersList,ordersDelete,callCategoryList} from "@/utils/http/index.js"
   export default {
       name:'ordersList',
       data() {
@@ -27,23 +27,36 @@
               ]
             },
             data:[
-              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'搜索词'},
-              {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'230px'},placeholder:['搜索开始时间','搜索结束时间']},
+              {type:'Select',field:'verify',icon:'read',style:{width:'110px'},placeholder:'审核状态',options:[{id:1,label:'已审核'},{id:0,label:'未审核'}]},
+              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
+              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号、商品名称'},
+              {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'230px'},placeholder:['订单开始时间','订单结束时间']},
             ]
           },
           // 表单配置绑定值
           formdata:{
+            verify:undefined,
+            current_state:undefined,
             keywords:'',
             date_range:[]
           },
           tablecfg: {
               headerOptions:[
-                    { title: '搜索词', field: 'keywords'},
-                    { title: 'IP', field: 'ip',width:'200px'},
-                    { title: '搜索时间', field: 'create_at',width:'230px'},
-                ],
+                  { title: '订单号', field: 'order_id', width:'90px'},
+                  { title: '商品名称', field: 'title',width:'120px'},
+                  { title: '每吨价格', field: 'expect_price',width:'120px'},
+                  { title: '重量(吨)', field: 'handle_weight',width:'80px'},
+                  { title: '审核状态', field: 'verify',width:'80px',fieldType:'status',showText:[{id:1,label:"已审核",color:'#1890ff'},{id:0,label:"未审核",color:'#f00'}]},
+                  { title: '订单状态', field: 'current_state',width:'80px',fieldType:'status',showText:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
+                  { title: '处废单位', field: 'handle_company_name',width:'120px'},
+                  { title: '创建时间', field: 'create_at',width:'105px' },
+              ],
               algin:'center',
               loading:false,
+              rowSelection:false, // 复选框
+              operateLabel:'操作管理',
+              operateWidth:'75px',
+              operateOptions: [{ title: '修改', type: 'primary', icon: 'edit', methods: 'edithandle' },{ title: '删除', type: 'danger', icon: 'delete', methods: 'deletehandle' }]
           },
           tabledata:[],
           pages:{
@@ -94,15 +107,9 @@
                 });
                 break;
             case 'edithandle':
-                // this.$router.push("/admin/content/form")
-                // this.$router.push({
-                //     path:"/admin/content/form",
-                //     query:{
-                //         id:row.id
-                //     }
-                // });
+                
                 break;
-           }
+          }
 
         },
         onTableSelectChange(obj){
@@ -111,16 +118,22 @@
         loadData(){
           this.tablecfg.loading = true;
           let form = JSON.parse(JSON.stringify(this.formdata));
+          if(form.current_state == undefined){
+            form.current_state = "";
+          }
+          if(form.verify == undefined){
+            form.verify = "";
+          }
           const {pageSize,currentPage} =this.pages
           form.pageSize = pageSize;
           form.currentPage = currentPage;
-          searchList(form).then(res=>{
+          ordersList(form).then(res=>{
             const {data} = res;
             this.tabledata = data.data;
             this.pages.total = data.total;
             this.tablecfg.loading = false;
           }).catch(err=>{
-            console.log("加载搜索列表出错：",err);
+            console.log("加载订单列表出错：",err);
             this.tablecfg.loading = false;
           })
         },

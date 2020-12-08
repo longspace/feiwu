@@ -11,7 +11,7 @@
   import mydialog from "@/components/basic/uidialog.vue"
   import uiform from "@/components/basic/uiform.vue"
   import uitable from "@/components/basic/uitable.vue"
-  import {ordersList,ordersDelete,callCategoryList,ordersVerify} from "@/utils/http/index.js"
+  import {ordersList,ordersDelete,callCategoryList} from "@/utils/http/index.js"
   export default {
       name:'ordersList',
       data() {
@@ -28,7 +28,7 @@
             },
             data:[
               {type:'Select',field:'verify',icon:'read',style:{width:'110px'},placeholder:'审核状态',options:[{id:1,label:'已审核'},{id:0,label:'未审核'}]},
-              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:'待发货'},{id:1,label:'待收货'},{id:2,label:'已收货'}]},
+              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
               {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号、商品名称'},
               {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'230px'},placeholder:['订单开始时间','订单结束时间']},
             ]
@@ -43,12 +43,12 @@
           tablecfg: {
               headerOptions:[
                   { title: '订单号', field: 'order_id', width:'90px'},
-                  { title: '处废单位', field: 'handle_company_name',width:'120px'},
                   { title: '商品名称', field: 'title',width:'120px'},
                   { title: '每吨价格', field: 'expect_price',width:'120px'},
                   { title: '重量(吨)', field: 'handle_weight',width:'80px'},
-                  { title: '产废单位', field: 'product_company_name',width:'120px'},
                   { title: '审核状态', field: 'verify',width:'80px',fieldType:'status',showText:[{id:1,label:"已审核",color:'#1890ff'},{id:0,label:"未审核",color:'#f00'}]},
+                  { title: '订单状态', field: 'current_state',width:'80px',fieldType:'status',showText:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
+                  { title: '处废单位', field: 'handle_company_name',width:'120px'},
                   { title: '创建时间', field: 'create_at',width:'105px' },
               ],
               algin:'center',
@@ -56,7 +56,7 @@
               rowSelection:false, // 复选框
               operateLabel:'操作管理',
               operateWidth:'75px',
-              operateOptions: []
+              operateOptions: [{ title: '修改', type: 'primary', icon: 'edit', methods: 'edithandle' },{ title: '删除', type: 'danger', icon: 'delete', methods: 'deletehandle' }]
           },
           tabledata:[],
           pages:{
@@ -107,46 +107,8 @@
                 });
                 break;
             case 'edithandle':
-                // this.$router.push("/admin/content/form")
-                // this.$router.push({
-                //     path:"/admin/content/form",
-                //     query:{
-                //         id:row.id
-                //     }
-                // });
-                break;
-            case 'verifyhandle':
-                let content = '您确定 【通过】 审核吗';
-                if(row.verify == 1){
-                  content = '您确定 【取消】 审核吗';
-                }
-                this.$confirm({
-                  title: '温馨提示',
-                  content: content,
-                  okText: '确认',
-                  okType: 'danger',
-                  cancelText: '取消',
-                  onOk() {
-                    ordersVerify({id:row.id,verify:row.verify}).then(res=>{
-                      const {data} = res;
-                      if(data.code == 200){
-                        that.loadData();
-                        that.$message.success(res.data.msg);
-                      }else{
-                        that.$message.error(res.data.msg);
-                      }
-                    }).catch(err=>{
-                      console.log("删除分类出错：",err);
-                    })
-                  },
-                  onCancel() {
-                    console.log('Cancel');
-                  },
-                });
 
                 break;
-
-
           }
 
         },
@@ -181,18 +143,6 @@
         }
       },
       mounted(){
-        let auth = this.yxCheckPermission("EDIT_ARTICLE"); // 审核订单  要改
-        if(auth){
-          this.tablecfg.operateOptions.push({ title: '审核订单', type: 'primary', style:{"color":"#00965e","border":"#00965e solid 1px" },icon: 'safety-certificate', methods: 'verifyhandle' });
-        }
-        auth = this.yxCheckPermission("EDIT_ARTICLE");
-        if(auth){
-          this.tablecfg.operateOptions.push({ title: '修改', type: 'primary', icon: 'edit', methods: 'edithandle' });
-        }
-        auth = this.yxCheckPermission("DELETE_ARTICLE");
-        if(auth){
-          this.tablecfg.operateOptions.push({ title: '删除', type: 'danger', icon: 'delete', methods: 'deletehandle' });
-        }
         this.loadData()
       }
   };

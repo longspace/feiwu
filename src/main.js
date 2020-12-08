@@ -42,7 +42,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        path: "/login",
+        path: "/webLogin",
         query: { redirect: to.fullPath }
       });
       setTimeout(() => {
