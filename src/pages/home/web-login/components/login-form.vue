@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 20:01:29
+ * @LastEditTime: 2020-12-08 16:21:05
 -->
 <template>
   <div class="login">
@@ -10,96 +10,6 @@
         <p class="company-name">固废驿站，工业废物一站式交易平台</p>
       </div>
       <slot name="form"></slot>
-      <!-- <div class="form">
-        <div class="login-title">
-          用户登录
-        </div>
-        <a-form-model
-          ref="loginForm"
-          :rules="rules"
-          :model="form"
-          class="login-form"
-        >
-          <a-form-model-item has-feedback prop="phone" class="form-item-input">
-            <a-input
-              v-model="form.phone"
-              allowClear
-              placeholder="请输入您的手机号"
-              class="input"
-            >
-              <img
-                src="/static/home/images/register2.png"
-                alt=""
-                slot="prefix"
-              />
-            </a-input>
-          </a-form-model-item>
-
-          <a-form-model-item
-            has-feedback
-            class="input-pwd form-item-input"
-            prop="pwd"
-          >
-            <a-input
-              v-model="form.pwd"
-              type="password"
-              allowClear
-              placeholder="请输入您的密码"
-              class="input form-item-input"
-            >
-              <img
-                src="/static/home/images/register3.png"
-                alt=""
-                slot="prefix"
-              />
-            </a-input>
-          </a-form-model-item>
-          <a-form-model-item
-            has-feedback
-            class="input-auth-code"
-            prop="picCode"
-            slot=""
-          >
-            <a-row type="flex" justify="space-between" align="middle">
-              <a-col flex="auto">
-                <a-input
-                  v-model="form.picCode"
-                  allowClear
-                  placeholder="请输入验证码"
-                  class="input"
-                >
-                </a-input>
-              </a-col>
-              <a-col flex="100px" class="a-col-img">
-                <img src="/static/home/images/login3.jpg" alt="" />
-              </a-col>
-            </a-row>
-          </a-form-model-item>
-
-          <a-form-model-item class="buttom-submit">
-            <slot name="button-submit" class="submit"></slot>
-            <a-button
-              type="primary"
-              @click="onSubmitLogin"
-              :disabled="loginButtonStatus"
-              block
-            >
-              登录
-            </a-button>
-          </a-form-model-item>
-        </a-form-model>
-        <div class="form-toast">
-          <div class="toast">
-            <slot name="toast-l"></slot>
-            <span>还没有账号</span>
-            <router-link to="">去注册</router-link>
-          </div>
-          <div class="login-link">
-            <slot name="toast-r"></slot>
-            <router-link to="">忘记密码</router-link>
-          </div>
-        </div>
-      </div> -->
     </div>
     <div class="copyright">
       <span>@Copyingright 中合润一科技有限公司 版权所有 </span>
@@ -250,6 +160,7 @@ export default {
   max-width: 1000px;
   box-shadow: 0px 5px 16px 0px rgba(162, 162, 162, 0.27);
   margin: 124px auto 60px;
+  border-radius: 8px;
   .login-img {
     padding: 47px 90px;
     width: 50%;
@@ -306,21 +217,36 @@ export default {
 }
 </style>
 <style lang="scss">
-.login .ant-input-affix-wrapper .ant-input {
-  height: 48px;
-  font-size: 14px;
-  border-radius: 0;
-}
-.form-item-input .ant-input-affix-wrapper .ant-input {
-  padding-left: 48px;
-  border-radius: 0;
-}
-.form-item-input .ant-input-affix-wrapper .ant-input-prefix {
-  left: 18px;
-}
-.buttom-submit .ant-btn-block {
+.login .ant-form-item .ant-input-affix-wrapper .ant-input {
+  padding-left: 46px;
   height: 48px;
   border-radius: 0;
 }
-
+.login .ant-form-item .ant-input-affix-wrapper .ant-input-prefix {
+  margin-left: 10px;
+}
+.login .input-auth-code .ant-input-affix-wrapper .ant-input {
+  padding-left: 20px;
+}
+.login .input-auth-code img {
+  border: 1px solid #d9d9d9;
+  width: 100px;
+  height: 48px;
+  cursor: pointer;
+}
+.login .ant-btn {
+  width: 100px;
+  height: 48px;
+  border-radius: 0;
+}
+.buttom-submit .ant-btn {
+  width: 100%;
+}
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 20s;
+}
+.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

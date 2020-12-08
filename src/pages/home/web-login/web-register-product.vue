@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 10:17:15
+ * @LastEditTime: 2020-12-08 16:37:04
 -->
 <template>
   <div class="register">
@@ -18,6 +18,7 @@
         </div>
       </div>
     </div>
+
     <login-form>
       <div class="form" slot="form">
         <div class="login-title">
@@ -45,7 +46,7 @@
           </a-form-model-item>
           <a-form-model-item class="input-auth-code" prop="smsCode">
             <a-row type="flex" justify="space-between" align="middle">
-              <a-col flex="auto" class="code-input">
+              <a-col flex="0 0 210px" class="code-input">
                 <a-input
                   v-model="form.smsCode"
                   allowClear
@@ -54,7 +55,7 @@
                 >
                 </a-input>
               </a-col>
-              <a-col flex="100px">
+              <a-col flex="0 1 100px">
                 <a-button
                   type="primary"
                   class="code-button"
@@ -81,10 +82,7 @@
               />
             </a-input>
           </a-form-model-item>
-          <a-form-model-item
-            class="input-pwd form-item-input"
-            prop="checkPwd"
-          >
+          <a-form-model-item class="input-pwd form-item-input" prop="checkPwd">
             <a-input
               v-model="form.checkPwd"
               type="password"
@@ -154,7 +152,7 @@ export default {
     return {
       isProduction: true, // 是否是产废单位
       codeStatus: false, // 验证码按钮状态
-      codeButtonText: "获取验证码", //获取短信验证码按钮内容
+      codeButtonText: "发送验证码", //获取短信验证码按钮内容
       smsVerifyCode: "", // 获取的短信验证码
       form: {
         phone: "",
@@ -326,16 +324,5 @@ export default {
     font-size: 14px;
     color: #f3a824;
   }
-}
-</style>
-<style lang="scss">
-.form .ant-form-item .ant-btn {
-  width: 100%;
-  // margin-left: 15px;
-  border-radius: 0;
-  height: 48px;
-}
-.input-auth-code .code-input {
-  margin-right: 15px;
 }
 </style>

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 16:36:52
+ * @LastEditTime: 2020-12-08 16:40:30
 -->
 <template>
   <div class="register">
@@ -21,7 +21,7 @@
     <login-form>
       <div class="form" slot="form">
         <div class="login-title">
-          处废单位注册
+          忘记密码
         </div>
         <a-form-model
           ref="form"
@@ -98,20 +98,10 @@
           </a-form-model-item>
           <a-form-model-item class="buttom-submit">
             <a-button type="primary" @click="onSubmit">
-              立即注册
+              确认修改
             </a-button>
           </a-form-model-item>
         </a-form-model>
-        <div class="form-toast">
-          <div class="toast">
-            <span>注册表示同意</span>
-            <router-link to="/treaty" class="treaty">《用户协议》</router-link>
-          </div>
-          <router-link to="webRegisterProduct" class="toast-r">
-            <img src="/static/home/images/register5.png" alt="" />
-            <span>我是产废单位</span>
-          </router-link>
-        </div>
       </div>
     </login-form>
   </div>
@@ -119,7 +109,7 @@
 
 <script>
 import LoginForm from "./components/login-form";
-import { webRegister, getSmsCode } from "@/utils/http/index.js";
+import { changePassword, getSmsCode } from "@/utils/http/index.js";
 export default {
   data() {
     let validatePhone = (rule, value, callback) => {
@@ -218,8 +208,8 @@ export default {
     onSubmit() {
       webRegister({
         phone: this.form.phone,
-        smsCode: this.form.smsCode,
-        smsVerifyCode: this.smsVerifyCode,
+        smsCode: this.form.smsCode, //输入的短信验证码
+        smsVerifyCode: this.smsVerifyCode, // 短信验证码
         pwd: this.form.pwd
       })
         .then(res => {

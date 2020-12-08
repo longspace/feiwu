@@ -15,16 +15,46 @@ export default new Router({
       name: "index",
       component: () => import("@/pages/home/index")
     },
+    
     {
-      path: "/webIndex",
-      name: "webIndex",
-      component: () => import("@/pages/home/web-index/index")
+      path: "/loginIndex",
+      name: "loginIndex",
+      component: () => import("@/pages/home/web-login/index")
     },
     {
       path: "/loginIndex",
       name: "loginIndex",
       component: () => import("@/pages/home/web-login/index")
     },
+    {
+      path: "/forget",
+      name: "forget",
+      component: () => import("@/pages/home/web-login/forget")
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("@/pages/home/about")
+    },
+    {
+      path: "/generalGarbageTrading",
+      name: "generalGarbageTradingt",
+      component: () => import("@/pages/home/general-garbage-trading")
+      // 一般废物交易中心
+    },
+    {
+      path: "/dangerGarbageTrading",
+      name: "dangerGarbageTradingt",
+      component: () => import("@/pages/home/danger-garbage-trading")
+      // 危险废物交易中心
+    },
+    {
+      path: "/newsCenter",
+      name: "newsCenter",
+      component: () => import("@/pages/home/news-center")
+      // 危险废物交易中心
+    },
+    
     {
       path: "/webRegisterProduct",
       name: "webRegisterProduct",
@@ -43,7 +73,17 @@ export default new Router({
     {
       path: "/product",
       name: "product",
-      component: () => import("@/pages/home//product")
+      component: () => import("@/pages/home/product")
+    },
+    {
+      path: "/productDetail",
+      name: "productDetail",
+      component: () => import("@/pages/home/product-detail")
+    },
+    {
+      path: "/search",
+      name: "search",
+      component: () => import("@/pages/home/search")
     },
     {
       path: "/login",

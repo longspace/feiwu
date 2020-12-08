@@ -98,11 +98,24 @@ export const callGoodsCategoryParentAndSonList = (data = {}) =>
 export const getSmsCode = (data = {}) => request.post("get/smsCode", data); // 获取短信验证码
 export const getPicCode = (data = {}) => request.get("picCode", data); // 更改短信验证码
 export const webRegister = (data = {}) => request.post("web/register", data); // 注册
-
+export const changePassword = (data = {}) => request.post("changePassword", data); // 忘记密码
+export const webLogin = (data = {}) => request.post("web/login", data); // 前端登录
 export const getHotKeywords = (data = {}) =>
   request.post("get/hotKeywords", data); // 获取搜索关键词
 
-export const webLogin = (data = {}) => request.post("web/login", data); // 前端登录
 
+export const getHotGoods= (data = {}) =>
+  request.post("hotGoods", data); // 获取首页推荐商品
+export const getNewsList = (data = {}) => request.post("newsList", data); // 获取新闻
 export const submitKeywords = (data = {}) =>
   request.post("submit/keywords", data); // banner关键词搜索
+
+
+  export const getGarbageArea = (data = {}) =>
+  request.post("garbageArea", data); // 产废区域
+
+  export const getGarbageType = (data = {}) =>
+  request.post("garbageType", data); // 废物类别
+
+  export const searchGarbage = (data = {}) =>
+  request.post("searchGarbage", data); // 废物类别

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 21:18:36
+ * @LastEditTime: 2020-12-08 16:28:47
 -->
 <template>
   <div class="index">
@@ -14,7 +14,7 @@
     </div>
     <div class="link-tag">
       <div class="link-tag-list">
-        <router-link to="danger" tag="div" class="link-tag-item">
+        <router-link to="/dangerGarbageTrading" tag="div" class="link-tag-item">
           <div class="link-tag-img">
             <img src="/static/home/images/index3.png" alt="" />
           </div>
@@ -31,7 +31,11 @@
             </router-link>
           </div>
         </router-link>
-        <router-link to="/general" tag="div" class="link-tag-item">
+        <router-link
+          to="/generalGarbageTrading"
+          tag="div"
+          class="link-tag-item"
+        >
           <div class="link-tag-img">
             <img src="/static/home/images/index4.png" alt="" />
           </div>
@@ -48,7 +52,7 @@
             </router-link>
           </div>
         </router-link>
-        <router-link to="/news" tag="div" class="link-tag-item">
+        <router-link to="/newsCenter" tag="div" class="link-tag-item">
           <div class="link-tag-img">
             <img src="/static/home/images/index5.png" alt="" />
           </div>
@@ -76,7 +80,60 @@
       <div class="recommend-title">
         <span>为你</span><span class="recommend-color">推荐</span>
       </div>
-      <recommend-list></recommend-list>
+      <div class="recommend-list">
+        <div class="recommend-item">
+          <div class="recommend-item-info">
+            <div class="recommend-item-title">危险废物处置需求推荐</div>
+            <div class="hot-search-tag" v-if="dangerRecommend.tagList">
+              <router-link
+                :to="{ path: '/search', query: { searchValue: dangerItem } }"
+                class="search-tag-item"
+                v-for="(dangerItem, dangerIndex) in dangerRecommend.tagList"
+                :key="dangerIndex"
+              >
+                {{ dangerItem }}
+              </router-link>
+            </div>
+            <router-link to="/search" tag="div" class="hot-search-more">
+              <div class="recommend-more-text">
+                <span>查看更多</span>
+              </div>
+              <div class="recommend-more-img">
+                <img src="/static/home/images/index9.png" alt="" />
+              </div>
+            </router-link>
+          </div>
+          <recommend-card
+            :hotGoodsCard="dangerRecommend.recommendItem"
+          ></recommend-card>
+        </div>
+        <div class="recommend-item">
+          <div class="recommend-item-info">
+            <div class="recommend-item-title">一般固废处置需求推荐</div>
+            <div class="hot-search-tag" v-if="generalRecommend.tagList">
+              <router-link
+                :to="{ path: '/search', query: { searchValue: generalItem } }"
+                class="search-tag-item"
+                v-for="(generalItem, generalIndex) in generalRecommend.tagList"
+                :key="generalIndex"
+              >
+                {{ generalItem }}
+              </router-link>
+            </div>
+            <router-link to="/search" tag="div" class="hot-search-more">
+              <div class="recommend-more-text">
+                <span>查看更多</span>
+              </div>
+              <div class="recommend-more-img">
+                <img src="/static/home/images/index9.png" alt="" />
+              </div>
+            </router-link>
+          </div>
+          <recommend-card
+            :hotGoodsCard="generalRecommend.recommendItem"
+          ></recommend-card>
+        </div>
+      </div>
     </div>
     <div class="news">
       <div class="news-title">
@@ -131,42 +188,37 @@
 
 <script>
 import WebHeader from "./components/web-header";
-import RecommendList from "./web-index/components/recommend-list";
+
+import RecommendCard from "./components/recommend-card";
 import WebFooter from "./components/web-footer";
 import BannerText from "./components/web-banner-text";
-import { getHotKeywords } from "@/utils/http/index.js";
+import { getNewsList, getHotGoods } from "@/utils/http/index.js";
 export default {
   data() {
     return {
-      keywords: ["硫酸", "片碱", "小苏打", "二氧化钾"],
+      // keywords: ["硫酸", "片碱", "小苏打", "二氧化钾"],
       searchValue: "",
       dangerTrashTag: ["氢氧化钠", "盐酸", "硫酸"], // 危险废物标签
       generalTrashTag: ["片碱", "纯碱", "氢氧化钠", "小苏打", "亚硫"], // 一般固废标签
-      news: []
+      news: [],
+      dangerRecommend: {}, // 危险废物推荐
+      generalRecommend: {} // 一般废物推荐
     };
   },
   components: {
     WebHeader,
-    RecommendList,
     WebFooter,
-    BannerText
+    BannerText,
+    RecommendCard
   },
   created() {},
   mounted() {
-    this.initHotKeywords();
+    this.initNews();
+    this.initHotGoodsCard();
   },
   methods: {
-    // //搜索功能
-    // searchKeywords(value) {
-    //   console.log("点击搜索");
-    // },
-    // // 点击关键词标签
-    // getKeywords(index) {
-    //   let keywords = this.$refs.keywords[index].innerText;
-    //   this.searchValue = keywords;
-    // }
-    initHotKeywords() {
-      getHotKeywords()
+    initNews() {
+      getNewsList()
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
@@ -207,6 +259,118 @@ export default {
                 "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
             }
           ];
+          console.log("新增或更新标签出错：", err);
+        });
+    },
+    initHotGoodsCard() {
+      getHotGoods({ type: 1 })
+        .then(res => {
+          const { data } = res;
+        })
+        .catch(err => {
+          this.dangerRecommend = {
+            type: "1",
+            id: "1",
+            name: "危险废物处置需求推荐",
+            tagList: [
+              "含钙废物",
+              "有机废水污泥",
+              "金属氧化物废物废渣",
+              "含钙废物",
+              "有机废水污泥"
+            ], // 推荐需求标签
+            recommendItem: [
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
+                id: "0555",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              },
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
+                id: "0666",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              },
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
+                id: "0777",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              }
+            ]
+          };
+
+          console.log("新增或更新标签出错：", err);
+        });
+      getHotGoods({ type: 2 })
+        .then(res => {
+          const { data } = res;
+        })
+        .catch(err => {
+          this.generalRecommend = {
+            type: "2",
+            id: "2",
+            name: "一般固废处置需求推荐",
+            tagList: [
+              "含钙废物",
+              "有机废水污泥",
+              "金属氧化物废物废渣",
+              "含钙废物",
+              "有机废水污泥"
+            ], // 推荐需求标签
+            recommendItem: [
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
+                id: "0222",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              },
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
+                id: "0333",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              },
+              {
+                img:
+                  "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
+                id: "0444",
+                price: "4000", // 单价
+                name: "澳甲烷废物",
+                stock: "20", // 库存
+                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+                category: "HW06", // 类别
+                code: "276-006-004" //代码
+              }
+            ]
+          };
+
           console.log("新增或更新标签出错：", err);
         });
     }
@@ -372,6 +536,71 @@ export default {
     background: url("../../../static/home/images/index7.png") no-repeat 50%;
     .recommend-color {
       color: #4293f4;
+    }
+  }
+  .recommend-list {
+    width: 96%;
+    max-width: 1200px;
+    margin: 59px auto 0;
+    .recommend-item {
+      display: flex;
+      padding: 60px 56px;
+      box-shadow: 0px 0px 10px 0px rgba(149, 167, 178, 0.31);
+      &:first-child {
+        margin-bottom: 52px;
+      }
+      .recommend-item-info {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        width: 25%;
+        padding-right: 50px;
+        padding-bottom: 26px;
+        .recommend-item-title {
+          font-size: 22px;
+          line-height: 22px;
+          font-weight: bold;
+          color: #333;
+        }
+        .hot-search-tag {
+          margin-top: 42px;
+          .search-tag-item {
+            margin-bottom: 20px;
+            display: inline-block;
+            padding: 0 15px;
+            line-height: 30px;
+            border-radius: 15px;
+            font-size: 13px;
+
+            color: #666;
+            background-color: #ecf2f8;
+            &:not(:last-child) {
+              margin-right: 15px;
+            }
+          }
+        }
+        .hot-search-more {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: 160px;
+          height: 40px;
+          border-radius: 20px;
+          border: 1px solid #4293f4;
+          font-size: 14px;
+          line-height: 1em;
+          cursor: pointer;
+          color: #4293f4;
+          recommend-more-img {
+            margin-right: 10px;
+          }
+        }
+      }
+      .recommend-goods-list {
+        display: flex;
+        justify-content: space-between;
+        width: 75%;
+      }
     }
   }
 }

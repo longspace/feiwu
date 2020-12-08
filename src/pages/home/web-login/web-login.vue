@@ -8,7 +8,7 @@
         <div class="header-login">
           <div class="header-login-toast">
             <span>登录固废驿站，开启工业废物便捷交易之旅！</span>
-            <router-link to="index" class="back-home">返回首页</router-link>
+            <router-link to="/" class="back-home">返回首页</router-link>
           </div>
         </div>
       </div>
@@ -56,7 +56,7 @@
           </a-form-model-item>
           <a-form-model-item class="input-auth-code" prop="picCode" slot="">
             <a-row type="flex" justify="space-between" align="middle">
-              <a-col flex="auto">
+              <a-col flex="0 0 220px">
                 <a-input
                   v-model="form.picCode"
                   allowClear
@@ -65,7 +65,7 @@
                 >
                 </a-input>
               </a-col>
-              <a-col flex="100px" class="a-col-img">
+              <a-col flex="0 0 100px" class="a-col-img">
                 <img
                   ref="imgCaptcha"
                   @click.prevent="getPicCode"
@@ -93,7 +93,7 @@
         <div class="form-toast">
           <div class="toast">
             <span>还没有账户？</span>
-            <router-link to="/webRegister">去注册</router-link>
+            <router-link to="/loginIndex">去注册</router-link>
           </div>
           <div class="toast-r">
             <router-link to="/forget">忘记密码</router-link>
@@ -282,33 +282,5 @@ export default {
   justify-content: space-between;
   font-size: 14px;
   color: #666;
-}
-</style>
-<style lang="scss">
-.login .ant-input-affix-wrapper .ant-input {
-  height: 48px;
-  font-size: 14px;
-  border-radius: 0;
-}
-.form-item-input .ant-input-affix-wrapper .ant-input {
-  padding-left: 48px;
-  border-radius: 0;
-}
-.form-item-input .ant-input-affix-wrapper .ant-input-prefix {
-  left: 18px;
-}
-.buttom-submit .ant-btn-block {
-  height: 48px;
-  border-radius: 0;
-}
-.login .input-auth-code .a-col-img {
-  margin-left: 5px;
-  img {
-    width: 100px;
-    height: 48px;
-  }
-}
-.login .ant-form-item {
-  margin-bottom: 17px;
 }
 </style>

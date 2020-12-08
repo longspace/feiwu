@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 20:32:16
+ * @LastEditTime: 2020-12-08 17:02:29
 -->
 <template>
   <div class="banner-text">
@@ -39,10 +39,11 @@
 </template>
 
 <script>
+import { getHotKeywords } from "@/utils/http/index.js";
 export default {
   data() {
     return {
-      keywords: ["硫酸", "片碱", "小苏打", "二氧化钾"],
+      keywords: [],
       searchValue: "",
       searchClassName: ""
     };
@@ -52,30 +53,28 @@ export default {
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {
     this.getClassName();
+    this.initHotKeywords();
   },
   props: { className: { type: String } },
   methods: {
+    initHotKeywords() {
+      getHotKeywords()
+        .then(res => {
+          const { data } = res;
+        })
+        .catch(err => {
+          this.keywords = ["硫酸", "片碱", "小苏打", "二氧化钾"];
+          console.log("新增或更新标签出错：", err);
+        });
+    },
     //搜索功能
     searchKeywords(searchValue) {
       this.$router.push({
         path: "/search",
         query: { searchValue: searchValue }
       });
-      // getHotKeywords()
-      //   .then(res => {
-      //     const { data } = res;
-      //     if (data.code == 200) {
-      //       this.mydialogcfg.visible = false;
-      //       this.loadData();
-      //       this.$message.success(res.data.msg);
-      //     } else {
-      //       this.$message.error(res.data.msg);
-      //     }
-      //   })
-      //   .catch(err => {
-      //     console.log("新增或更新标签出错：", err);
-      //   });
     },
+
     // 点击关键词标签
     getKeywords(index) {
       let keywords = this.$refs.keywords[index].innerText;
@@ -91,6 +90,7 @@ export default {
 <style scoped lang="scss">
 @import "../../../../static/home/css/index.scss";
 .banner-text {
+  display: inline-block;
   .banner-title {
     font-size: 36px;
     line-height: 2em;
@@ -102,6 +102,7 @@ export default {
     display: flex;
     justify-content: space-between;
     width: 836px;
+    margin: 0 auto;
     height: 60px;
     .search-input {
       flex: 1;

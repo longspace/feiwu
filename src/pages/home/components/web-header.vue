@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 14:10:49
+ * @LastEditTime: 2020-12-08 16:20:22
 -->
 <template>
   <div class="header">
@@ -9,26 +9,24 @@
     </div>
     <div class="header-right">
       <ul class="nav">
-        <li class="nav-item" v-for="navItem in nav" :key="navItem.id">
-          <router-link :to="navItem.linkName" class="nav-link">{{
+        <router-link
+          tag="li"
+          :to="navItem.linkName"
+          class="nav-item"
+          v-for="(navItem, navIndex) in nav"
+          :key="navItem.id"
+          :class="{ active: navItem.isActive }"
+          @click="changeItem(navIndex, navItem)"
+        >
+          {{ navItem.name }}
+          <!-- <router-link :to="navItem.linkName" class="nav-link">{{
             navItem.name
-          }}</router-link>
-          <!-- <ul class="nav-drop" v-if="navItem.tag">
-            <li
-              class="nav-arop-item"
-              v-for="secodNav in navItem.tag"
-              :key="secodNav.id"
-            >
-              <router-link :to="secodNav.linkName" class="nav-drop-link">
-                {{ secodNav.secName }}
-              </router-link>
-            </li>
-          </ul> -->
-        </li>
+          }}</router-link> -->
+        </router-link>
       </ul>
       <div class="header-login">
-        <router-link to="/web-login" class="login-link">登录</router-link>
-        <router-link to="web-/register" class="register-link">注册</router-link>
+        <router-link to="/webLogin" class="login-link">登录</router-link>
+        <router-link to="/loginIndex" class="register-link">注册</router-link>
       </div>
     </div>
   </div>
@@ -42,42 +40,50 @@ export default {
         {
           name: "首页",
           id: "1",
-          linkName: "/index"
+          linkName: "/",
+          isActive: true
         },
         {
           name: "危险废物交易中心",
           id: "2",
-          linkName: "/danger-garbage-trading"
+          linkName: "/dangerGarbageTrading",
+          isActive: false
         },
         {
           name: "一般固废交易中心",
           id: "3",
-          linkName: "/ordinary-garbage-trading"
+          linkName: "/generalGarbageTrading",
+          isActive: false
         },
         {
-          name: "咨询中心",
+          name: "资讯中心",
           id: "4",
-          linkName: "/advisory-center",
+          linkName: "/newsCenter",
+          isActive: false,
           tag: [
             {
               secName: "政策解读",
               id: "4.1",
+              isActive: false,
               linkName: "policy"
             },
             {
               secName: "行业动态",
               id: "4.2",
+              isActive: false,
               linkName: "news"
             },
             {
               secName: "技术进展",
               id: "4.3",
+              isActive: false,
               linkName: "technology-progress"
             },
             {
               secName: "国家名录",
               linkName: "national-roll",
-              id: "4.4"
+              id: "4.4",
+              isActive: false
             }
           ]
         },
@@ -85,28 +91,7 @@ export default {
           name: "关于我们",
           linkName: "/about",
           id: "5",
-          tag: [
-            {
-              secName: "公司简介",
-              id: "5.1",
-              linkName: "company"
-            },
-            {
-              secName: "平台介绍",
-              id: "5.2",
-              linkName: "platform"
-            },
-            {
-              secName: "发展历程",
-              id: "5.3",
-              linkName: "progress"
-            },
-            {
-              secName: "联系我们",
-              id: "5.4",
-              linkName: "contact"
-            }
-          ]
+          isActive: false
         }
       ]
     };
@@ -118,6 +103,16 @@ export default {
   methods: {
     gotoAddress(path) {
       this.$router.push(path);
+    },
+    changeItem(navIndex) {
+      this.nav.forEach((item, index) => {
+        if (index == navIndex) {
+          console.log("nav");
+          navItem.isActive = true;
+        } else {
+          navItem.isActive = false;
+        }
+      });
     }
   }
 };
@@ -136,17 +131,15 @@ export default {
       margin-right: 100px;
       .nav-item {
         position: relative;
+        color: #fff;
+        font-size: 16px;
+        line-height: 78px;
+        border-bottom: 2px solid transparent;
         &:hover {
-          .nav-drop {
-            display: block;
-          }
+          border-bottom: 2px solid #fff;
         }
-        .nav-link {
-          display: inline-block;
-          color: #fff;
-          font-size: 16px;
-          line-height: 78px;
-          border-bottom: 2px solid;
+        &.active {
+          border-bottom: 2px solid #fff;
         }
         .nav-drop {
           display: none;
