@@ -55,7 +55,8 @@
                   { title: '状态', field: 'status',width:'100px',fieldType:'status'},
                   { title: '创建时间', field: 'create_at',width:'145px'},
               ],
-              algin:'center',
+              algin:'center',              
+              loading:false,
               operateLabel:'操作管理',
               operateWidth:'75px',
               operateOptions: []
@@ -201,7 +202,8 @@
             console.log("加载角色列表出错：",err);
           })
         },
-        loadData(){
+        loadData(){          
+          this.tablecfg.loading = true
           let form = this.formdata;
           const {pageSize,currentPage} =this.pages
           form.pageSize = pageSize;
@@ -210,8 +212,10 @@
             const {data} = res;
             this.tabledata = data.data;
             this.pages.total = data.total;
+            this.tablecfg.loading = false
           }).catch(err=>{
             console.log("加载用户列表出错：",err);
+            this.tablecfg.loading = false
           })
         },
         onPageChange(e){

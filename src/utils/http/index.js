@@ -53,9 +53,11 @@ export const goodsDetails = (data={}) => request.post("goods/goodsDetails",data)
 export const goodsSaleHandle = (data={}) => request.post("goods/saleHandle",data) // 上下架处理
 export const createOrder = (data={}) => request.post("goods/createOrder",data) // 生成订单
 
-export const ordersList = (data={}) => request.post("orders/ordersList",data)
+export const ordersList = (data={}) => request.post("orders/ordersList",data) // 订单列表
 // export const ordersHandle = (data={}) => request.post("goods/ordersHandle",data)
-export const ordersDelete = (data={}) => request.post("orders/ordersDelete",data)
+export const ordersDelete = (data={}) => request.post("orders/ordersDelete",data) // 删除订单
+export const ordersVerify = (data={}) => request.post("orders/ordersVerify",data) //审核订单
+
 
 
 export const companyList = (data={}) => request.post("company/companyList",data)
@@ -76,6 +78,9 @@ export const callpackageStyle = (data={}) => request.post("call/packageStyle",da
 export const callfeatures = (data={}) => request.post("call/features",data) // 危险特性
 export const callhandleCompanys = (data={}) => request.post("call/handleCompanys",data) // 处废企业列表
 
+export const ordersReport = (data={}) => request.post("report/ordersReport",data) // 订单拆线图
+export const ordersLineChart = (data={}) => request.post("report/ordersLineChart",data) // 订单拆线图
+export const searchList = (data={}) => request.post("report/searchList",data) // 搜索记录
 
 
 export const callGoodsCategoryList = (data={}) => request.post("call/goodsCategoryParentList",data) // 商品大分类调用

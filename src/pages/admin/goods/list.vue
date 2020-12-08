@@ -281,6 +281,13 @@
                 console.log(this.drawer.data.length)
                 break;
             case 'orderhandle':
+                if(row.verify == 0){
+                  this.$error({
+                    title: '温馨提示',
+                    content: '仅审核通过后的商品才可创建订单！',
+                  });
+                  return false
+                }
                 let rowdata = JSON.parse(JSON.stringify(row));
                 if(row.no_handled_weight == 0){
                   this.$message.warning('此商品已被处置完!');

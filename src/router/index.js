@@ -80,7 +80,7 @@ export default new Router({
           meta:{title:'商品分类',requireAuth:true},
         },
         {
-          path: 'orders/list',
+          path: 'orders/orderList',
           name:'ordersList',
           component: () => import('@/pages/admin/orders/list'),
           meta:{title:'订单列表',requireAuth:true},
@@ -96,6 +96,18 @@ export default new Router({
           name:'companyHandleList',
           component: () => import('@/pages/admin/company/handlelist'),
           meta:{title:'处废企业列表',requireAuth:true},
+        },
+        {
+          path: 'report/orderReport',
+          name:'orderReport',
+          component: () => import('@/pages/admin/report/orderreport'),
+          meta:{title:'订单报表',requireAuth:true},
+        },
+        {
+          path: 'report/searchHistory',
+          name:'searchHistory',
+          component: () => import('@/pages/admin/report/searchhistory'),
+          meta:{title:'搜索记录',requireAuth:true},
         },
         {
           path: 'configs/userList',

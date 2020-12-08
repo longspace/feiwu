@@ -53,7 +53,7 @@
             :placeholder="item.placeholder?placeholder:'选择日期'" show-time/>
 
           <!-- 日期范围-->
-          <a-range-picker v-if="item.type==='DateRange'" allowClear v-model="formdata[item.field]" :style="item.style"
+          <a-range-picker v-if="item.type==='DateRange'" :allowClear="item.allowClear == 1?false:true" v-model="formdata[item.field]" :style="item.style"
             :placeholder="item.placeholder?item.placeholder:['开始时间','结束时间']" />
 
           <!-- 单文件上传 -->
