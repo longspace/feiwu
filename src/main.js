@@ -13,10 +13,10 @@ import "ant-design-vue/dist/antd.css";
 import antdesignvue from "ant-design-vue";
 Vue.use(antdesignvue);
 
-import VueQuillEditor from "vue-quill-editor";
-Vue.use(VueQuillEditor);
-import "quill/dist/quill.core.css";
-import "quill/dist/quill.snow.css";
+// import VueQuillEditor from "vue-quill-editor";
+// Vue.use(VueQuillEditor);
+// import "quill/dist/quill.core.css";
+// import "quill/dist/quill.snow.css";
 
 import functions from "@/utils/functions/index.js";
 Vue.use(functions);
@@ -29,8 +29,6 @@ moment.locale("zh-cn");
 import NProgress from "nprogress"; // Progress 进度条
 import "nprogress/nprogress.css"; // Progress 进度条样式
 
-// import "../static/home/css/index.scss";
-
 Vue.config.productionTip = false;
 
 router.beforeEach((to, from, next) => {
@@ -42,7 +40,7 @@ router.beforeEach((to, from, next) => {
       next();
     } else {
       next({
-        path: "/webLogin",
+        path: "/memberLogin",
         query: { redirect: to.fullPath }
       });
       setTimeout(() => {
@@ -60,22 +58,6 @@ router.afterEach(() => {
     NProgress.done();
   }, 50);
   // NProgress.done() // 结束Progress
-});
-Vue.directive("check", {
-  inserted: function(el, permission) {
-    let doPermission = JSON.parse(localStorage.getItem("nodePermission")) || [];
-    if (permission.value) {
-      let flag = false; // 默认要删除该元素
-      doPermission.forEach(item => {
-        if (item.path == permission.value) {
-          flag = true;
-        }
-      });
-      if (!flag) {
-        el.parentNode.removeChild(el);
-      }
-    }
-  }
 });
 
 /* eslint-disable no-new */
