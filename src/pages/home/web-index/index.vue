@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-07 21:18:36
+ * @LastEditTime: 2020-12-07 17:58:50
 -->
 <template>
   <div class="index">
@@ -14,43 +14,39 @@
     </div>
     <div class="link-tag">
       <div class="link-tag-list">
-        <router-link to="danger" tag="div" class="link-tag-item">
+        <div class="link-tag-item">
           <div class="link-tag-img">
             <img src="/static/home/images/index3.png" alt="" />
           </div>
           <div class="link-tag-name">危险废物交易中心</div>
           <div class="link-tag-desc">
-            <router-link
-              tag="span"
-              :to="'/danger/' + dangerTag"
-              class="tag-desc-item trade-link-tag"
+            <span
+              class="tag-desc-item"
               v-for="(dangerTag, index) in dangerTrashTag"
               :key="index"
             >
               {{ dangerTag }}
-            </router-link>
+            </span>
           </div>
-        </router-link>
-        <router-link to="/general" tag="div" class="link-tag-item">
+        </div>
+        <div class="link-tag-item">
           <div class="link-tag-img">
-            <img src="/static/home/images/index4.png" alt="" />
+            <img src="../../../../static/home/images/index4.png" alt="" />
           </div>
           <div class="link-tag-name">一般废物交易中心</div>
           <div class="link-tag-desc">
-            <router-link
-              tag="span"
-              :to="'/general/' + generalTag"
-              class="tag-desc-item trade-link-tag"
+            <span
+              class="tag-desc-item"
               v-for="(generalTag, index) in generalTrashTag"
               :key="index"
             >
               {{ generalTag }}
-            </router-link>
+            </span>
           </div>
-        </router-link>
-        <router-link to="/news" tag="div" class="link-tag-item">
+        </div>
+        <div class="link-tag-item">
           <div class="link-tag-img">
-            <img src="/static/home/images/index5.png" alt="" />
+            <img src="../../../../static/home/images/index5.png" alt="" />
           </div>
           <div class="link-tag-name">咨询中心</div>
           <div class="link-tag-desc">
@@ -58,10 +54,10 @@
               行业热点新闻追踪报道
             </span>
           </div>
-        </router-link>
-        <router-link tag="div" to="/about" class="link-tag-item">
+        </div>
+        <div class="link-tag-item">
           <div class="link-tag-img">
-            <img src="/static/home/images/index6.png" alt="" />
+            <img src="../../../../static/home/images/index6.png" alt="" />
           </div>
           <div class="link-tag-name">关于固废驿站</div>
           <div class="link-tag-desc">
@@ -69,7 +65,7 @@
               连接产废和处废两大环节 增效节能环保
             </span>
           </div>
-        </router-link>
+        </div>
       </div>
     </div>
     <div class="recommend">
@@ -130,10 +126,10 @@
 </template>
 
 <script>
-import WebHeader from "./components/web-header";
-import RecommendList from "./web-index/components/recommend-list";
-import WebFooter from "./components/web-footer";
-import BannerText from "./components/web-banner-text";
+import WebHeader from "../components/web-header";
+import RecommendList from "./components/recommend-list";
+import WebFooter from "../components/web-footer";
+import BannerText from "../components/web-banner-text";
 import { getHotKeywords } from "@/utils/http/index.js";
 export default {
   data() {
@@ -153,7 +149,7 @@ export default {
   },
   created() {},
   mounted() {
-    // this.initHotKeywords();
+    this.initHotKeywords();
   },
   methods: {
     // //搜索功能
@@ -214,7 +210,7 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-@import "../../../static/home/css/index.scss";
+@import "../../../../static/home/css/index.scss";
 .web-header {
   position: absolute;
   top: 0;
@@ -225,7 +221,7 @@ export default {
 .banner {
   position: relative;
   width: 100%;
-  background: url("../../../static/home/images/index1.jpg") no-repeat 50% /
+  background: url("../../../../static/home/images/index1.jpg") no-repeat 50% /
     cover;
   &::before {
     content: "";
@@ -302,16 +298,15 @@ export default {
       text-align: center;
       padding: 28px 50px 22px;
       border: 1px solid #e5e5e5;
-      cursor: pointer;
       &:not(:last-child) {
         margin-right: 32px;
       }
       .link-tag-name {
         margin-top: 14px;
+
         font-size: 20px;
         line-height: 2em;
         font-weight: bold;
-
         color: #666;
         &::after {
           content: "";
@@ -354,9 +349,6 @@ export default {
           }
           // white-space: nowrap;
         }
-        .trade-link-tag {
-          cursor: pointer;
-        }
       }
     }
   }
@@ -369,7 +361,7 @@ export default {
     text-align: center;
     color: #333;
     letter-spacing: 4px;
-    background: url("../../../static/home/images/index7.png") no-repeat 50%;
+    background: url(../../../../static/home/images/index7.png) no-repeat 50%;
     .recommend-color {
       color: #4293f4;
     }
@@ -386,7 +378,7 @@ export default {
     text-align: center;
     color: #333;
     letter-spacing: 4px;
-    background: url("../../../static/home/images/index7.png") no-repeat 50%;
+    background: url(../../../../static/home/images/index7.png) no-repeat 50%;
     .news-color {
       color: #4293f4;
     }
