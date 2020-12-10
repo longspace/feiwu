@@ -1,11 +1,11 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 19:47:14
+ * @LastEditTime: 2020-12-10 15:31:51
 -->
 <template>
   <div class="header">
     <div class="header-logo">
-      <img src="/static/home/images/logo2.png" alt="" />
+      <img src="/static/home/images/logo.png" alt="" />
     </div>
     <div class="header-right">
       <ul class="nav">
@@ -120,9 +120,13 @@ export default {
 <style scoped lang="scss">
 @import "../../../../static/home/css/index.scss";
 .header {
-  @include fja(space-between);
-  color: $font-color;
-  @include width;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: #fff;
   .header-right {
     @include fja(space-between);
     .nav {
@@ -131,15 +135,17 @@ export default {
       margin-right: 100px;
       .nav-item {
         position: relative;
-        color: #fff;
+        color: #333;
         font-size: 16px;
         line-height: 78px;
         border-bottom: 2px solid transparent;
         &:hover {
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid #4293f4;
+          color: #4293f4;
         }
         &.active {
-          border-bottom: 2px solid #fff;
+          border-bottom: 2px solid #4293f4;
+          color: #4293f4;
         }
         .nav-drop {
           display: none;
@@ -171,13 +177,13 @@ export default {
       .login-link {
         padding-right: 10px;
         font-size: 16px;
-        color: #fff;
-        border-right: 1px solid rgba(255, 255, 255, 0.5);
+        color: #4293f4;
+        border-right: 1px solid #4293f4;
       }
       .register-link {
         padding-left: 10px;
         font-size: 16px;
-        color: #fff;
+        color: #4293f4;
       }
     }
   }

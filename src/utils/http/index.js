@@ -1,3 +1,7 @@
+/*
+ * @Author: summer
+ * @LastEditTime: 2020-12-08 21:55:20
+ */
 // api 接口列表
 import request from "./request.js";
 
@@ -10,22 +14,30 @@ export const getMyAuthNode = (data = {}) => request.post("getMyAuthNode", data);
 export const profile = (data = {}) => request.post("profile", data);
 export const handleProfile = (data = {}) => request.post("handleProfile", data);
 
+export const ordersList = (data = {}) =>
+  request.post("orders/ordersList", data); // 订单列表
+export const ordersDelete = (data = {}) =>
+  request.post("orders/ordersDelete", data); // 删除订单
 
-export const ordersList = (data={}) => request.post("orders/ordersList",data) // 订单列表
-export const ordersDelete = (data={}) => request.post("orders/ordersDelete",data) // 删除订单
+export const uploadSingleImg = (data = {}) =>
+  request.post("uploadSingleImg", data); // 上传单图
+export const uploadImgs = (data = {}) => request.post("uploadImgs", data); // 上传多图
 
-export const uploadSingleImg = (data={}) => request.post("uploadSingleImg",data) // 上传单图
-export const uploadImgs = (data={}) => request.post("uploadImgs",data) // 上传多图
+export const callArea = (data = {}) => request.post("call/area", data); // 省市联动
+export const callphysicalState = (data = {}) =>
+  request.post("call/physicalState", data); // 物理状态
+export const callpackageStyle = (data = {}) =>
+  request.post("call/packageStyle", data); // 包装形式
+export const callfeatures = (data = {}) => request.post("call/features", data); // 危险特性
+export const callhandleCompanys = (data = {}) =>
+  request.post("call/handleCompanys", data); // 处废企业列表
 
-export const callArea = (data={}) => request.post("call/area",data) // 省市联动
-export const callphysicalState = (data={}) => request.post("call/physicalState",data) // 物理状态
-export const callpackageStyle = (data={}) => request.post("call/packageStyle",data) // 包装形式
-export const callfeatures = (data={}) => request.post("call/features",data) // 危险特性
-export const callhandleCompanys = (data={}) => request.post("call/handleCompanys",data) // 处废企业列表
-
-export const ordersReport = (data={}) => request.post("report/ordersReport",data) // 订单拆线图
-export const ordersLineChart = (data={}) => request.post("report/ordersLineChart",data) // 订单拆线图
-export const searchList = (data={}) => request.post("report/searchList",data) // 搜索记录
+export const ordersReport = (data = {}) =>
+  request.post("report/ordersReport", data); // 订单拆线图
+export const ordersLineChart = (data = {}) =>
+  request.post("report/ordersLineChart", data); // 订单拆线图
+export const searchList = (data = {}) =>
+  request.post("report/searchList", data); // 搜索记录
 
 export const callGoodsCategoryList = (data = {}) =>
   request.post("call/goodsCategoryParentList", data); // 商品大分类调用
@@ -36,24 +48,27 @@ export const callGoodsCategoryParentAndSonList = (data = {}) =>
 export const getSmsCode = (data = {}) => request.post("get/smsCode", data); // 获取短信验证码
 export const getPicCode = (data = {}) => request.get("picCode", data); // 更改短信验证码
 export const webRegister = (data = {}) => request.post("web/register", data); // 注册
-export const changePassword = (data = {}) => request.post("changePassword", data); // 忘记密码
+export const changePassword = (data = {}) =>
+  request.post("changePassword", data); // 忘记密码
 export const webLogin = (data = {}) => request.post("web/login", data); // 前端登录
 export const getHotKeywords = (data = {}) =>
   request.post("get/hotKeywords", data); // 获取搜索关键词
 
-
-export const getHotGoods= (data = {}) =>
-  request.post("hotGoods", data); // 获取首页推荐商品
+export const getHotGoods = (data = {}) => request.post("hotGoods", data); // 获取首页推荐商品
 export const getNewsList = (data = {}) => request.post("newsList", data); // 获取新闻
 export const submitKeywords = (data = {}) =>
   request.post("submit/keywords", data); // banner关键词搜索
 
+export const getGarbageArea = (data = {}) => request.post("garbageArea", data); // 产废区域
 
-  export const getGarbageArea = (data = {}) =>
-  request.post("garbageArea", data); // 产废区域
+export const getGarbageType = (data = {}) => request.post("garbageType", data); // 废物类别
 
-  export const getGarbageType = (data = {}) =>
-  request.post("garbageType", data); // 废物类别
+export const searchGarbage = (data = {}) => request.post("searchGarbage", data); //搜索废物
 
-  export const searchGarbage = (data = {}) =>
-  request.post("searchGarbage", data); // 废物类别
+export const searchProductList = (data = {}) =>
+  request.post("searchProductList", data); // 搜索垃圾废物列表
+
+export const getGarbageOrigin = (data = {}) =>
+  request.post("garbageOrigin", data); // 废物来源
+
+export const getGarbageCode = (data = {}) => request.post("garbageCode", data); // 废物类别代码

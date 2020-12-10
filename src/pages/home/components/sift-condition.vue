@@ -1,140 +1,149 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 19:30:13
+ * @LastEditTime: 2020-12-09 16:56:54
 -->
 <template>
   <div class="sift-condition">
-    <div class="condition-item">
+    <div class="condition-item" v-if="conditionTag.length">
       <div class="condition-item-label">已选条件</div>
       <div class="condition-tag">
         <div class="tag-item">
-          <div class="tag-item-inline" v-if="clickGarbageType">
-            <div class="tag-item-text">{{ clickGarbageType }}</div>
-            <div class="tag-close" @click="closeGarbageType">
+          <div class="tag-item-inline">
+            <div class="tag-item-text"></div>
+            <div class="tag-close" @click="closeCondition">
               <img src="/static/home/images/product3.png" alt="" />
             </div>
           </div>
         </div>
-        <!-- <a-tag closable @close="preventDefault" class="condition-tag-item">
-          HW05 木材防腐剂废物
-        </a-tag> -->
       </div>
-      <div class="condition-plus">
+      <div class="condition-plus" @click="clearCondition">
         <img src="/static/home/images/product2.png" alt="" />
         <span>全部清空</span>
       </div>
     </div>
     <div class="condition-item">
-      <div class="condition-item-label">产废区域</div>
+      <div class="condition-item-label">
+        <slot>产废区域</slot>
+      </div>
       <div class="condition-tag">
-        <div class="condition-tag-item">上海市</div>
-        <div class="condition-tag-item">江西省</div>
+        <div
+          class="condition-tag-item"
+          :class="garbageAreaItem.isActive ? 'active' : ''"
+          v-for="(garbageAreaItem, garbageAreaIndex) in garbageArea"
+          :key="garbageAreaIndex"
+          @click="getClickGarbageArea(garbageAreaIndex)"
+          ref="garbageArea"
+        >
+          {{ garbageAreaItem.title }}
+        </div>
       </div>
     </div>
     <div class="condition-item">
-      <div class="condition-item-label">废物类别</div>
-      <div class="condition-tag" v-if="this.garbageType">
+      <div class="condition-item-label">
+        <slot>废物类别</slot>
+      </div>
+      <div class="condition-tag">
         <div
           class="condition-tag-item"
+          :class="garbageTypeItem.isActive ? 'active' : ''"
           v-for="(garbageTypeItem, garbageTypeIndex) in garbageType"
           :key="garbageTypeIndex"
           @click="getClickGarbageType(garbageTypeIndex)"
           ref="garbageType"
         >
-          {{ garbageTypeItem }}
+          {{ garbageTypeItem.value }}{{ garbageTypeItem.title }}
         </div>
-        <!-- <div class="condition-tag-item">HW02 医药废物</div>
-        <div class="condition-tag-item">HW03 废药物、药品</div>
-        <div class="condition-tag-item">HW04 农药废物</div>
-        <div class="condition-tag-item">HW06 废有机溶剂与含有机溶剂废物</div>
-        <div class="condition-tag-item">HW07 热处理含氰废物</div>
-        <div class="condition-tag-item">HW06 废有机溶剂与含有机溶剂废物</div>
-        <div class="condition-tag-item">HW07 热处理含氰废物</div>
-        <div class="condition-tag-item">HW08 废矿物油与含矿物油废物</div>
-        <div class="condition-tag-item">HW08 废矿物油与含矿物油废物</div>
-        <div class="condition-tag-item">HW09 油/水、烃/水混合物或乳化液</div> -->
       </div>
       <div class="condition-plus">更多</div>
     </div>
+    <!-- <div class="condition-item" v-if="garbageCode">
+      <div class="condition-item-label">
+        <slot>类别代码</slot>
+      </div>
+      <div class="condition-tag">
+        <div
+          class="condition-tag-item"
+          v-for="(garbageCodeItem, garbageCodeIndex) in garbageCode"
+          :key="garbageCodeIndex"
+          @click="getClickGarbageType(garbageCodeItem)"
+          ref="garbageType"
+        >
+          {{ garbageCodeItem }}
+        </div>
+      </div>
+      <div class="condition-plus">更多</div>
+    </div> -->
   </div>
 </template>
 
 <script>
-import { getGarbageArea, getGarbageType } from "@/utils/http/index.js";
+import {
+  getGarbageArea,
+  getGarbageType,
+  getGarbageOrigin,
+  getGarbageCode
+} from "@/utils/http/index.js";
 export default {
   data() {
     return {
-      garbageArea: [],
-      clickArea: "", // 点击的产废区域
-      garbageType: "", // 废物类别
-      clickGarbageType: "" // 点击的废物类别
+      clickGarbageType: "", // 点击的废物类别
+      clickGarbageArea: "", // 点击的废物区域
+      conditionTag: [] //已选条件
     };
+  },
+  props: {
+    garbageArea: {
+      type: Array
+    },
+    garbageType: {
+      type: Array
+    }
+    // clickGarbageType: {
+    //   type: String
+    // },
+    // clickGarbageArea: {
+    //   type: String
+    // }
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {
-    this.initGarbageType();
-  },
+  mounted() {},
   methods: {
-    initGarbageArea() {
-      getGarbageArea()
-        .then(res => {
-          const { data } = res;
-          if (data.code == 200) {
-            that.loadData();
-            that.$message.success(res.data.msg);
-          } else {
-            that.$message.error(res.data.msg);
-          }
-        })
-        .catch(err => {
-          console.log("登录出错：", err);
-        });
-    },
-    initGarbageType() {
-      getGarbageType()
-        .then(res => {
-          const { data } = res;
-          if (data.code == 200) {
-            that.loadData();
-            that.$message.success(res.data.msg);
-          } else {
-            that.$message.error(res.data.msg);
-          }
-        })
-        .catch(err => {
-          this.garbageType = [
-            "HW01 医疗废物²",
-            "HW02 医药废物",
-            "HW03 废药物、药品",
-            "HW07 热处理含氰废物",
-            "HW01 医疗废物²",
-            "HW02 医药废物",
-            "HW03 废药物、药品",
-            "HW07 热处理含氰废物",
-            "HW01 医疗废物²",
-            "HW02 医药废物",
-            "HW03 废药物、药品",
-            "HW07 热处理含氰废物",
-            "HW01 医疗废物²",
-            "HW02 医药废物",
-            "HW03 废药物、药品",
-            "HW07 热处理含氰废物"
-          ];
-          console.log("登录出错：", err);
-        });
-    },
     // 点击废物类别
     getClickGarbageType(garbageTypeIndex) {
-      this.clickGarbageType = this.$refs.garbageType[
-        garbageTypeIndex
-      ].innerText;
-      console.log("点击的类别", this.clickGarbageType);
+      this.garbageType.forEach((item, index) => {
+        if (index == garbageTypeIndex) {
+          item.isActive = true;
+        } else {
+          item.isActive = false;
+        }
+      });
     },
-    // 清除筛选类别
-    closeGarbageType() {
-      this.clickGarbageType = "";
+    getClickGarbageArea(garbageAreaIndex) {
+      this.garbageArea.forEach((item, index) => {
+        if (index == garbageAreaIndex) {
+          item.isActive = true;
+        } else {
+          item.isActive = false;
+        }
+      });
+      console.log(
+        "点击的区域",
+        this.$refs.garbageArea[garbageAreaIndex].innerText
+      );
+      // let clickTag = this.$refs.garbageArea[garbageAreaIndex].innerText;
+    },
+    // 清除筛选条件
+    closeCondition() {
+      // this.clickGarbageTag = "";
+    },
+    clearCondition() {
+      console.log("关闭标签");
+    },
+    getConditionTag() {
+      this.$refs.garbageType.className.indexOf(className) > -1;
+      this.conditionTag.push();
     }
   }
 };
@@ -170,11 +179,15 @@ export default {
         line-height: 28px;
         background: #f5f5f5;
       }
+      .active {
+        color: #fff;
+        background: #4293f4;
+      }
     }
     .condition-plus {
       display: flex;
-	  justify-content: center;
-	  align-items: center;
+      justify-content: center;
+      align-items: center;
       flex: 0 090px;
     }
     &:first-child {
