@@ -35,8 +35,15 @@ router.beforeEach((to, from, next) => {
   // document.title = to.meta.title+'_工业废物数字化交易平台V1.0'
   NProgress.start(); // 进度条开始
   if (to.meta.requireAuth) {
-    let token = localStorage.getItem("AuthToken");
+    let token = localStorage.getItem("sessionToken");
     if (token !== "" && token != null) {
+      // if(to.meta.userType.includes(1)){
+      //   next();
+      // }else{
+      //   next({
+      //     path: "/page404"
+      //   });
+      // }
       next();
     } else {
       next({
@@ -45,7 +52,7 @@ router.beforeEach((to, from, next) => {
       });
       setTimeout(() => {
         NProgress.done();
-      }, 50);
+      }, 10);
     }
   } else {
     next();
@@ -56,7 +63,7 @@ router.afterEach(() => {
   // 后置守卫，导航被确认
   setTimeout(() => {
     NProgress.done();
-  }, 50);
+  }, 10);
   // NProgress.done() // 结束Progress
 });
 

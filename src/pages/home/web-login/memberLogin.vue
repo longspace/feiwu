@@ -179,18 +179,25 @@ export default {
   methods: {
     onSubmitLogin() {
       webLogin({
-        phone: this.form.phone,
-        pwd: this.form.pwd,
+        account: this.form.phone,
+        passwd: this.form.pwd,
         picCode: this.form.picCode
       })
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
-            that.loadData();
-            that.$message.success(res.data.msg);
-            this.$router.push({ path: "/webIndex" });
+            localStorage.setItem('sessionToken',res.data.token)
+            localStorage.setItem('userInfo',JSON.stringify(res.data.userInfo))
+            // let AuthToken = localStorage.getItem('AuthToken')
+            // getMyPermission({}).then(rs=>{
+            //   that.$store.commit("setMenuPermission",JSON.stringify(rs.data.data))
+            //   that.$store.commit("setNodePermission",JSON.stringify(rs.data.node))
+            //   that.$router.push('/admin/dashboard')
+            // })
+            // this.$message.success(res.data.msg);
+            this.$router.push({ path: "/member/dashboard" });
           } else {
-            that.$message.error(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
         .catch(err => {

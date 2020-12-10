@@ -21,94 +21,8 @@
 <script>
 export default {
   data() {
-    let validatePhone = (rule, value, callback) => {
-      if (/^1[3|4|5|7|8]\d{9}$/.test(value)) {
-        callback(new Error("手机号码输入错误，请重新填写"));
-      } else {
-        callback();
-      }
-    };
-    let validatePass = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请输入密码"));
-      } else {
-        if (this.form.checkPwd !== "") {
-          this.$refs.registerForm.validateField("checkPwd");
-        }
-        callback();
-      }
-    };
-    let validatePass2 = (rule, value, callback) => {
-      if (value === "") {
-        callback(new Error("请再次输入密码"));
-      } else if (value !== this.form.pwd) {
-        callback(new Error("输入的密码不同"));
-      } else {
-        callback();
-      }
-    };
     return {
-      loginButtonStatus: true, //登录按钮状态
-      isProduction: true, // 是否是产废单位
-      codeStatus: false, // 验证码按钮状态
-      codeButtonText: "获取验证码", //获取短信验证码按钮内容
-      form: {
-        phone: "",
-        smsCode: "",
-        picCode: "", // 短信验证码
-        pwd: "", //密码
-        checkPwd: "" //确认密码
-      },
-      // 表单校验规则
-      rules: {
-        phone: [
-          {
-            required: true,
-            message: "请输入手机号",
-            trigger: "blur"
-          },
-          {
-            validator: validatePhone,
-            trigger: "change"
-          }
-        ],
-        smsCode: [
-          {
-            required: true,
-            message: "请输入短信验证码",
-            trigger: "change"
-          }
-        ],
-        pwd: [
-          {
-            required: true,
-            message: "请输入密码",
-            trigger: "blur"
-          },
-          {
-            min: 8,
-            max: 16,
-            message: "密码长度为8-16",
-            trigger: "change"
-          },
-          { validator: validatePass, trigger: "change" }
-        ],
-        checkPwd: [
-          {
-            required: true,
-            message: "请输入确认密码",
-            trigger: "change"
-            // validator: validatePass2
-          },
-          {
-            min: 8,
-            max: 16,
-            message: "密码长度为8-16",
-            trigger: "change"
-          },
-          { validator: validatePass2, trigger: "change" }
-        ]
-      }
+
     };
   },
   //生命周期 - 创建完成（访问当前this实例）
@@ -116,40 +30,15 @@ export default {
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {},
   methods: {
-    onSubmitLogin() {
-      console.log("登录");
-    }
+
   },
   changeRoleRegister() {
     this.isProduction = !this.isProduction;
   },
   onSubmit() {
-    this.$refs.registerForm.validate(valid => {
-      if (valid) {
-        alert("submit!");
-      } else {
-        console.log("error submit!!");
-        return false;
-      }
-    });
+
   },
-  sendVerifyCode() {
-    console.log("获取验证码");
-    let timeDown = 60;
-    this.codeStatus = !this.codeStatus;
-    let codeInterval = setInterval(() => {
-      timeDown--;
-      console.log("timedown:", timeDown);
-      if (timeDown == 0) {
-        clearInterval(codeInterval);
-        this.codeStatus = !this.codeStatus;
-        this.codeButtonText = "获取验证码";
-      } else {
-        this.codeButtonText = `${timeDown}s`;
-        console.log("发送验证码倒计时:", timeDown);
-      }
-    }, 1000);
-  }
+
 };
 </script>
 <style scroped lang="scss">

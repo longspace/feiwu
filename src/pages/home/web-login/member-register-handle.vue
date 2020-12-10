@@ -107,7 +107,7 @@
             <span>注册表示同意</span>
             <router-link to="/treaty" class="treaty">《用户协议》</router-link>
           </div>
-          <router-link to="webRegisterProduct" class="toast-r">
+          <router-link to="/memberRegisterProduct" class="toast-r">
             <img src="/static/home/images/register5.png" alt="" />
             <span>我是产废单位</span>
           </router-link>
@@ -153,6 +153,7 @@ export default {
       codeButtonText: "发送验证码", //获取短信验证码按钮内容
       smsVerifyCode: "", // 获取的短信验证码
       form: {
+        type:2,
         phone: "",
         smsCode: "", // 输入框输入的短信验证码
         pwd: "", //密码
@@ -216,20 +217,28 @@ export default {
   components: { LoginForm },
   methods: {
     onSubmit() {
+      if(this.form.phone == ""){
+        this.$message.error("手机号必填！")
+        return false;
+      }
+      if(this.form.smscode == ""){
+        this.$message.error("验证码必填！")
+        return false;
+      }
       webRegister({
-        phone: this.form.phone,
-        smsCode: this.form.smsCode,
-        smsVerifyCode: this.smsVerifyCode,
-        pwd: this.form.pwd
+        type:2,
+        account: this.form.phone,
+        smscode: this.form.smsCode,
+        verifycode: this.smsVerifyCode,
+        passwd: this.form.pwd
       })
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
-            that.loadData();
-            this.$router.push({ path: "/webLogin" });
-            that.$message.success(res.data.msg);
+            this.$router.push({ path: "/member/dashboard" });
+            this.$message.success(res.data.msg);
           } else {
-            that.$message.error(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
         .catch(err => {
@@ -240,37 +249,38 @@ export default {
     sendVerifyCode() {
       console.log("获取验证码");
       getSmsCode({
-        phone: this.form.phone,
+        account: this.form.phone,
         picCode: this.form.picCode
       })
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
-            that.loadData();
-            that.$message.success(res.data.msg);
+            this.$message.success("发送成功，请查看手机！");
+            let timeDown = 60;
+            this.codeStatus = !this.codeStatus;
+            // this.smsVerifyCode = "1234";
+            // console.log("this.smmcode:", this.smsVerifyCode);
+
+            let codeInterval = setInterval(() => {
+              timeDown--;
+              console.log("timedown:", timeDown);
+              if (timeDown == 0) {
+                clearInterval(codeInterval);
+                this.codeStatus = !this.codeStatus;
+                this.codeButtonText = "获取验证码";
+              } else {
+                this.codeButtonText = `${timeDown}s`;
+                console.log("发送验证码倒计时:", timeDown);
+              }
+            }, 1000);
+            console.log("登录出错：", err);
+
           } else {
             that.$message.error(res.data.msg);
           }
         })
         .catch(err => {
-          let timeDown = 60;
-          this.codeStatus = !this.codeStatus;
-          this.smsVerifyCode = "1234";
-          console.log("this.smmcode:", this.smsVerifyCode);
 
-          let codeInterval = setInterval(() => {
-            timeDown--;
-            console.log("timedown:", timeDown);
-            if (timeDown == 0) {
-              clearInterval(codeInterval);
-              this.codeStatus = !this.codeStatus;
-              this.codeButtonText = "获取验证码";
-            } else {
-              this.codeButtonText = `${timeDown}s`;
-              console.log("发送验证码倒计时:", timeDown);
-            }
-          }, 1000);
-          console.log("登录出错：", err);
         });
     }
   }

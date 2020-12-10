@@ -12,7 +12,7 @@
         <div class="header-login">
           <div class="header-login-toast">
             <span>已有账号，</span>
-            <router-link to="webLogin">马上登录</router-link>
+            <router-link to="/memberLogin">马上登录</router-link>
             <router-link to="/" class="back-home">返回首页</router-link>
           </div>
         </div>
@@ -28,6 +28,7 @@
           ref="form"
           :rules="rules"
           :model="form"
+          @submit="onSubmit"
           class="login-form"
         >
           <a-form-model-item prop="phone" class="form-item-input">
@@ -155,6 +156,7 @@ export default {
       codeButtonText: "发送验证码", //获取短信验证码按钮内容
       smsVerifyCode: "", // 获取的短信验证码
       form: {
+        type:1,
         phone: "",
         smsCode: "", // 输入框输入的短信验证码
         pwd: "", //密码
@@ -187,9 +189,9 @@ export default {
             trigger: "blur"
           },
           {
-            min: 8,
+            min: 6,
             max: 16,
-            message: "密码长度为8-16",
+            message: "密码长度为6-16",
             trigger: "change"
           },
           { validator: validatePass, trigger: "change" }
@@ -202,9 +204,9 @@ export default {
             // validator: validatePass2
           },
           {
-            min: 8,
+            min: 6,
             max: 16,
-            message: "密码长度为8-16",
+            message: "密码长度为6-16",
             trigger: "change"
           },
           { validator: validatePass2, trigger: "change" }
@@ -219,61 +221,73 @@ export default {
   components: { LoginForm },
   methods: {
     onSubmit() {
+      if(this.form.phone == ""){
+        this.$message.error("手机号必填！")
+        return false;
+      }
+      if(this.form.smscode == ""){
+        this.$message.error("验证码必填！")
+        return false;
+      }
       webRegister({
-        phone: this.form.phone,
-        smsCode: this.form.smsCode,
-        smsVerifyCode: this.smsVerifyCode,
-        pwd: this.form.pwd
+        type:1,
+        account: this.form.phone,
+        smscode: this.form.smsCode,
+        verifycode: this.smsVerifyCode,
+        passwd: this.form.pwd
       })
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
-            that.loadData();
-            this.$router.push({ path: "/webLogin" });
+            this.$router.push({ path: "/member/dashboard" });
             that.$message.success(res.data.msg);
           } else {
             that.$message.error(res.data.msg);
           }
         })
         .catch(err => {
-          console.log("this.form:", data);
           console.log("登录出错：", err);
         });
     },
     sendVerifyCode() {
+      if(this.form.phone == ""){
+        this.$message.error("手机号必填！")
+        return false;
+      }
       console.log("获取验证码");
       getSmsCode({
-        phone: this.form.phone,
+        account: this.form.phone,
         picCode: this.form.picCode
       })
         .then(res => {
           const { data } = res;
           if (data.code == 200) {
-            that.loadData();
-            that.$message.success(res.data.msg);
+            this.$message.success("发送成功，请查看手机！");
+            let timeDown = 60;
+            this.codeStatus = !this.codeStatus;
+            // this.smsVerifyCode = "1234";
+            // console.log("this.smmcode:", this.smsVerifyCode);
+
+            let codeInterval = setInterval(() => {
+              timeDown--;
+              console.log("timedown:", timeDown);
+              if (timeDown == 0) {
+                clearInterval(codeInterval);
+                this.codeStatus = !this.codeStatus;
+                this.codeButtonText = "获取验证码";
+              } else {
+                this.codeButtonText = `${timeDown}s`;
+                console.log("发送验证码倒计时:", timeDown);
+              }
+            }, 1000);
+            console.log("登录出错：", err);
+
           } else {
             that.$message.error(res.data.msg);
           }
         })
         .catch(err => {
-          let timeDown = 60;
-          this.codeStatus = !this.codeStatus;
-          this.smsVerifyCode = "1234";
-          console.log("this.smmcode:", this.smsVerifyCode);
 
-          let codeInterval = setInterval(() => {
-            timeDown--;
-            console.log("timedown:", timeDown);
-            if (timeDown == 0) {
-              clearInterval(codeInterval);
-              this.codeStatus = !this.codeStatus;
-              this.codeButtonText = "获取验证码";
-            } else {
-              this.codeButtonText = `${timeDown}s`;
-              console.log("发送验证码倒计时:", timeDown);
-            }
-          }, 1000);
-          console.log("登录出错：", err);
         });
     }
   }

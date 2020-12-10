@@ -28,8 +28,8 @@
             },
             data:[
               {type:'Select',field:'verify',icon:'read',style:{width:'110px'},placeholder:'审核状态',options:[{id:1,label:'已审核'},{id:0,label:'未审核'}]},
-              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
-              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号、商品名称'},
+              {type:'Select',field:'current_state',icon:'read',style:{width:'110px'},placeholder:'订单状态',options:[{id:0,label:"待发货",color:'#999'},{id:1,label:"待收货",color:'rgb(230, 162, 60)'},{id:2,label:"已收货",color:'#1bbc9b'},{id:3,label:"已处理",color:'#f00'}]},
+              {type:'Input',label:'',field:'keywords',icon:'align-left',style:{width:'260px'},placeholder:'订单号'},
               {type:'DateRange',label:'',field:'date_range',icon:'smile',style:{width:'230px'},placeholder:['订单开始时间','订单结束时间']},
             ]
           },
@@ -47,8 +47,8 @@
                   { title: '每吨价格', field: 'expect_price',width:'120px'},
                   { title: '重量(吨)', field: 'handle_weight',width:'80px'},
                   { title: '审核状态', field: 'verify',width:'80px',fieldType:'status',showText:[{id:1,label:"已审核",color:'#1890ff'},{id:0,label:"未审核",color:'#f00'}]},
-                  { title: '订单状态', field: 'current_state',width:'80px',fieldType:'status',showText:[{id:0,label:"待发货",color:'#1890ff'},{id:1,label:"待收货",color:'#f00'},{id:2,label:"已收货",color:'#f00'},{id:3,label:"已处理",color:'#f00'}]},
-                  { title: '处废单位', field: 'handle_company_name',width:'120px'},
+                  { title: '订单状态', field: 'current_state',width:'80px',fieldType:'status',showText:[{id:0,label:"待发货",color:'#999'},{id:1,label:"待收货",color:'rgb(230, 162, 60)'},{id:2,label:"已收货",color:'#1bbc9b'},{id:3,label:"已处理",color:'#f00'}]},
+                  // { title: '处废单位', field: 'handle_company_name',width:'120px'},
                   { title: '创建时间', field: 'create_at',width:'105px' },
               ],
               algin:'center',
@@ -107,7 +107,9 @@
                 });
                 break;
             case 'edithandle':
-                
+                if(row.current_state != 0){
+                  this.$message.error("此订单已发货，不可修改");
+                }
                 break;
           }
 

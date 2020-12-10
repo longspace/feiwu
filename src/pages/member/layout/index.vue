@@ -1,7 +1,7 @@
 <template>
   <a-layout id="components-layout-demo-custom-trigger">
     <a-layout-sider v-model="collapsed" :trigger="null" collapsible>
-      <div class="layout-logo">{{logoTitle}}</div>
+      <div class="layout-logo"><img src="/static/images/logo.png" /></div>
       <a-menu mode="inline" :defaultSelectedKeys="defaultSelectedKeys" :openKeys="currentOpenKeys" :style="{  borderRight: 0 }"
         @click="clickMenu" @openChange="openChange">
         <template v-for="(item,index) in menuItem">
@@ -26,13 +26,20 @@
     <a-layout>
       <a-layout-header style="background: #fff; padding: 0">
         <!-- <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="triggerMenu" /> -->
-        <span style="padding: 0 0 0 12px;"><a-icon type="info-circle" /> 您的企业经营许可证还有 30 天到期</span>
+        <span style="padding: 0 0 0 12px;"><a-icon type="info-circle" style="font-size: 16px; padding-right: 10px;" />
+
+        <template v-if="userInfo.business_license_expire_day < 180 ">
+        <span style="color: red;">您的企业经营许可证还有 {{ userInfo.business_license_expire_day }} 天到期</span>
+        </template>
+        <template v-else>今天是 {{today}}</template>
+         类型：{{userInfo.type}}
+        </span>
         <div style="float:right;margin-right:12px;">
           <a href="/" target="_blank" style="color: #666; padding-right: 10px;">访问首页</a>
           <!-- <router-link to="/" target="_blank">访问首页</router-link> -->
           <a-dropdown placement="bottomRight">
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-              <a-icon type="user" /> {{user.user_name}}，你好
+              <a-icon type="user" /> {{userInfo.company_name}}，你好
               <a-icon type="down" />
             </a>
             <a-menu slot="overlay" @click="onHeaderClick">
@@ -69,10 +76,12 @@
     name: 'layout',
     data() {
       return {
-        logoTitle: '页溪后台管理中心',
-        user:{
-          user_name:'管理员',
+        userInfo:{
+          company_name:'',
+          type:'',
+          business_license_expire_day:0
         },
+        today:'',
         collapsed: false,
         currentOpenKeys: [1], // 重点 当前展开的菜单
         defaultSelectedKeys: ['dashboard'], // 默认选中的菜单
@@ -125,8 +134,19 @@
       }
     },
     mounted() {
-      let type = 1;
-      if(type == 1){
+      let obj = new Date();
+      let objdate = {y:obj.getFullYear(),m:obj.getMonth()+1,d:obj.getDate()}
+      this.today = objdate.y+"年"+objdate.m+"月"+objdate.d+'日';
+
+      let userInfo = localStorage.getItem("userInfo");
+      console.log("userInfo",userInfo)
+      if(userInfo == null || userInfo == undefined){
+        this.$message.error("您尚未登录或登录超时!");
+        this.$router.push("/memberLogin")
+      }
+      userInfo = JSON.parse(userInfo);
+      this.userInfo = userInfo
+      if(userInfo.type == 2){
         this.menuItem = [{
             key: 1,
             title: '仪表盘',
@@ -179,33 +199,51 @@
           },
           {
             key: 2,
-            title: '订单管理',
-            'path': 'orders',
-            icon: 'dollar',
-            children: [{
+            title: '商品管理',
+            'path': 'goods',
+            icon: 'shopping-cart',
+            children: [ {
               key: 21,
-              title: '订单列表',
+              title: '商品添加',
               icon: '',
-              'path': 'orderlist'
-            }, {
+              'path': 'goodsform'
+            },{
               key: 22,
-              title: '预购清单',
+              title: '商品列表',
               icon: '',
-              'path': 'booklist'
+              'path': 'goodslist'
             }]
           },
           {
             key: 3,
+            title: '订单管理',
+            'path': 'orders',
+            icon: 'dollar',
+            children: [{
+              key: 31,
+              title: '订单列表',
+              icon: '',
+              'path': 'orderlist'
+            },
+            {
+              key: 32,
+              title: '订单报表',
+              icon: '',
+              'path': 'orderreport'
+            }]
+          },
+          {
+            key: 9,
             title: '个人中心',
             'path': 'companySet',
             icon: 'user',
             children: [{
-              key: 31,
+              key: 91,
               title: '企业资料',
               icon: '',
               'path': 'company'
             }, {
-              key: 32,
+              key: 92,
               title: '修改密码',
               icon: '',
               'path': 'profile'
@@ -252,12 +290,12 @@
 
   .layout-logo {
     height: 50px;
-    line-height: 50px;
     background: rgba(255, 255, 255, 0.2);
     font-size: 18px;
     text-align: center;
     border-bottom: #e6e6e7 solid 1px;
   }
+  .layout-logo img{ height:40px; width: 160px; margin-top: 5px;}
 
   .ant-layout {
     height: calc(100vh);

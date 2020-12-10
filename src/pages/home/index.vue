@@ -220,16 +220,14 @@ export default {
     initNews() {
       getNewsList()
         .then(res => {
-          const { data } = res;
-          if (data.code == 200) {
-            this.mydialogcfg.visible = false;
-            this.loadData();
-            this.$message.success(res.data.msg);
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        })
-        .catch(err => {
+          // const { data } = res;
+          // if (data.code == 200) {
+          //   this.mydialogcfg.visible = false;
+          //   this.loadData();
+          //   this.$message.success(res.data.msg);
+          // } else {
+          //   this.$message.error(res.data.msg);
+          // }
           this.news = [
             {
               id: "1111",
@@ -260,14 +258,15 @@ export default {
             }
           ];
           console.log("新增或更新标签出错：", err);
+        })
+        .catch(err => {
+          
         });
     },
     initHotGoodsCard() {
       getHotGoods({ type: 1 })
         .then(res => {
           const { data } = res;
-        })
-        .catch(err => {
           this.dangerRecommend = {
             type: "1",
             id: "1",
@@ -315,14 +314,14 @@ export default {
               }
             ]
           };
+        })
+        .catch(err => {
 
           console.log("新增或更新标签出错：", err);
         });
       getHotGoods({ type: 2 })
         .then(res => {
           const { data } = res;
-        })
-        .catch(err => {
           this.generalRecommend = {
             type: "2",
             id: "2",
@@ -370,7 +369,8 @@ export default {
               }
             ]
           };
-
+        })
+        .catch(err => {
           console.log("新增或更新标签出错：", err);
         });
     }

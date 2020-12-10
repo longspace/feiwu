@@ -139,7 +139,7 @@ export default {
 }
 </style>
 <style>
-.ant-input-affix-wrapper .ant-input:not(:first-child) {
+.banner-text .ant-input-affix-wrapper .ant-input:not(:first-child) {
   padding-left: 50px;
 }
 .banner-search .ant-input {

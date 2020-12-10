@@ -31,8 +31,8 @@ request.interceptors.request.use(
         config.headers["Content-Type"] = "application/json";
       }
     }
-    if (!config.headers["Auth-Token"] && localStorage.getItem("AuthToken")) {
-      config.headers["Auth-Token"] = localStorage.getItem("AuthToken");
+    if (!config.headers["sessionToken"] && localStorage.getItem("sessionToken")) {
+      config.headers["sessionToken"] = localStorage.getItem("sessionToken");
     }
     return config;
   },
@@ -45,6 +45,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   response => {
     // message.success('服务器响应了您的请求');
+    // console.log("response",response)
     const res = response.data;
     if (res.code == 401) {
       // 未登录

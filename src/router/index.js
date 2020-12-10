@@ -14,7 +14,7 @@ export default new Router({
       path: "/",
       name: "index",
       component: () => import("@/pages/home/index")
-    },    
+    },
     {
       path: "/loginIndex",
       name: "loginIndex",
@@ -48,7 +48,7 @@ export default new Router({
       component: () => import("@/pages/home/news-center")
       // 危险废物交易中心
     },
-    
+
     {
       path: "/memberRegisterProduct",
       name: "memberRegisterProduct",
@@ -111,13 +111,25 @@ export default new Router({
           path: "orderlist",
           name: "orderlist",
           component: () => import("@/pages/member/orders/list"),
-          meta: { title: "订单列表", requireAuth: true }
+          meta: { title: "订单列表", requireAuth: true ,userType:[1]}
         },
         {
           path: "booklist",
           name: "booklist",
           component: () => import("@/pages/member/orders/book"),
           meta: { title: "预购清单", requireAuth: true }
+        },
+        {
+          path: "goodslist",
+          name: "goodslist",
+          component: () => import("@/pages/member/goods/list"),
+          meta: { title: "商品列表", requireAuth: true }
+        },
+        {
+          path: "goodsform",
+          name: "goodsform",
+          component: () => import("@/pages/member/goods/form"),
+          meta: { title: "商品添加", requireAuth: true }
         },
       ]
     },

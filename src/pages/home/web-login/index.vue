@@ -23,7 +23,7 @@
       欢迎来到固废驿站，请选择您的账号角色，请注意，一旦选定角色无法更改！
     </div>
     <div class="role-list">
-      <router-link to="/memberRegisterHandle" tag="div" class="role-item">
+      <router-link to="/memberRegisterProduct" tag="div" class="role-item">
         <div class="role-img">
           <img src="/static/home/images/login1.png" alt="" />
         </div>
@@ -31,11 +31,11 @@
         <div class="role-item-desc">产生危险废物需要处置</div>
         <div class="role-register">注册账号</div>
       </router-link>
-      <router-link to="/memberRegisterProduct" tag="div" class="role-item">
+      <router-link to="/memberRegisterHandle" tag="div" class="role-item">
         <div class="role-img">
           <img src="/static/home/images/login2.png" alt="" />
         </div>
-        <div class="role-name">我是产废企业</div>
+        <div class="role-name">我是处废企业</div>
         <div class="role-item-desc">处置利用危险废物的持证单位</div>
         <div class="role-register">注册账号</div>
       </router-link>
