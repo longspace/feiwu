@@ -1,22 +1,22 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 17:02:29
+ * @LastEditTime: 2020-12-11 09:30:25
 -->
 <template>
   <div class="banner-text">
     <div class="banner-title">固废驿站 - 工业废物一站式交易平台</div>
-    <div class="banner-search">
+    <div class="banner-search" :class="className">
       <div class="search-input">
         <a-input
           placeholder="请输入您要搜索的危废、固废代码或名称"
-          :value="searchValue"
+          :value="hotKeywords"
           size="large"
-          @pressEnter="searchKeywords(searchValue)"
+          @pressEnter="searchKeywords(hotKeywords)"
           ><a-icon slot="prefix" type="search"
         /></a-input>
       </div>
       <div class="search-button">
-        <a-button type="primary" @click="searchKeywords(searchValue)"
+        <a-button type="primary" @click="searchKeywords(hotKeywords)"
           >搜一下</a-button
         >
       </div>
@@ -44,15 +44,19 @@ export default {
   data() {
     return {
       keywords: [],
-      searchValue: "",
+      hotKeywords: "",
       searchClassName: ""
     };
+  },
+  props: {
+    className: {
+      type: String
+    }
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {
-    this.getClassName();
     this.initHotKeywords();
   },
   props: { className: { type: String } },
@@ -68,21 +72,17 @@ export default {
         });
     },
     //搜索功能
-    searchKeywords(searchValue) {
+    searchKeywords(hotKeywords) {
       this.$router.push({
         path: "/search",
-        query: { searchValue: searchValue }
+        query: { hotKeywords: hotKeywords }
       });
     },
 
     // 点击关键词标签
     getKeywords(index) {
       let keywords = this.$refs.keywords[index].innerText;
-      this.searchValue = keywords;
-    },
-    getClassName() {
-      this.searchClassName = this.className;
-      console.log("class Name：", this.searchClassName);
+      this.hotKeywords = keywords;
     }
   }
 };
@@ -96,36 +96,27 @@ export default {
     line-height: 2em;
     text-align: center;
     color: #fff;
-    margin-bottom: 42px;
   }
   .banner-search {
     display: flex;
     justify-content: space-between;
     width: 836px;
-    margin: 0 auto;
-    height: 60px;
+    margin: 22px auto 24px;
     .search-input {
       flex: 1;
       margin-right: 13px;
-
-      .ant-input {
-        height: 60px;
-        padding-left: 45px;
-      }
     }
     .search-button {
       width: 160px;
-      height: 60px;
       .ant-btn {
         font-size: 20px;
         width: 100%;
-        height: 100%;
       }
     }
   }
   .banner-keywords {
     display: flex;
-    margin-top: 24px;
+
     color: #fff;
     font-size: 14px;
     .keywords-list {
@@ -136,6 +127,9 @@ export default {
       }
     }
   }
+  .index-search {
+    margin: 42px auto 24px;
+  }
 }
 </style>
 <style>
@@ -143,9 +137,18 @@ export default {
   padding-left: 50px;
 }
 .banner-search .ant-input {
-  height: 60px;
+  height: 54px;
   padding-left: 45px;
   font-size: 18px;
+}
+.index-search .ant-input {
+  height: 60px;
+}
+.banner-text .banner-search .search-button .ant-btn {
+  height: 54px;
+}
+.banner-text .index-search .search-button .ant-btn {
+  height: 60px;
 }
 .banner-search .ant-input-prefix {
   left: 25px;

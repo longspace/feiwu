@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-05 18:31:50
+ * @LastEditTime: 2020-12-11 11:56:14
 -->
 <template>
   <footer class="footer">
@@ -102,7 +102,7 @@ export default {
   padding-top: 62px;
   background: #293947;
   .footer-list {
-    widows: 96%;
+    width: 96%;
     max-width: 1200px;
     margin: 0 auto;
     .footer-top {

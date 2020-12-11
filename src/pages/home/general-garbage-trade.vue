@@ -1,12 +1,9 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-10 14:16:20
+ * @LastEditTime: 2020-12-11 09:55:56
 -->
 <template>
-  <div class="dangerCenter">
-    <div class="header">
-      <web-header></web-header>
-    </div>
+  <div class="tradeCenter">
     <div class="banner">
       <div class="banner-b">
         <web-banner-text></web-banner-text>
@@ -14,48 +11,6 @@
     </div>
     <div class="product-center">
       <sift-condition :garbage-area="garbageArea" :garbage-type="garbageType">
-        <!-- <div class="condition-item" slot="condition-item">
-          <div class="condition-item-label">产废区域</div>
-          <div class="condition-tag" v-if="garbageArea">
-            <div
-              class="condition-tag-item"
-              v-for="(areaItem, areaIndex) in garbageArea"
-              :key="areaIndex"
-            >
-              {{ areaItem }}
-            </div>
-          </div>
-        </div> -->
-        <!-- <div class="condition-item" slot="condition-item">
-          <div class="condition-item-label">废物来源</div>
-          <div class="condition-tag" v-if="this.garbageType">
-            <div
-              class="condition-tag-item"
-              v-for="(garbageTypeItem, garbageTypeIndex) in garbageType"
-              :key="garbageTypeIndex"
-              @click="getClickGarbageType(garbageTypeIndex)"
-              ref="garbageType"
-            >
-              {{ garbageTypeItem }}
-            </div>
-          </div>
-          <div class="condition-plus">更多</div>
-        </div>
-        <div class="condition-item" slot="condition-item">
-          <div class="condition-item-label">废物类别</div>
-          <div class="condition-tag" v-if="this.garbageType">
-            <div
-              class="condition-tag-item"
-              v-for="(garbageTypeItem, garbageTypeIndex) in garbageType"
-              :key="garbageTypeIndex"
-              @click="getClickGarbageType(garbageTypeIndex)"
-              ref="garbageType"
-            >
-              {{ garbageTypeItem }}
-            </div>
-          </div>
-          <div class="condition-plus">更多</div>
-        </div> -->
       </sift-condition>
       <div class="product">
         <div class="product-box">
@@ -120,7 +75,6 @@
 </template>
 
 <script>
-import WebHeader from "./components/web-header";
 import WebBannerText from "./components/web-banner-text";
 import SiftCondition from "./components/sift-condition";
 import ProductItem from "./components/product-item";
@@ -340,7 +294,6 @@ export default {
     // this.initGarbageType();
   },
   components: {
-    WebHeader,
     WebBannerText,
     SiftCondition,
     ProductItem,
@@ -364,6 +317,7 @@ export default {
   background: url("../../../static/home/images/danger1.jpg") no-repeat 50% /
     cover;
   overflow: hidden;
+  min-height: 300px;
   &::before {
     content: "";
     display: block;

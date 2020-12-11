@@ -1,10 +1,9 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-10 15:12:11
+ * @LastEditTime: 2020-12-11 11:34:55
 -->
 <template>
   <div class="product-detail">
-    <web-header></web-header>
     <div class="banner">
       <div class="banner-b">
         <web-banner-text></web-banner-text>
@@ -178,7 +177,7 @@
       </div>
       <div class="detail-info">
         <div class="product-tabs">
-          <a-tabs default-active-key="1" @change="changeTabs">
+          <a-tabs default-active-key="1">
             <a-tab-pane key="1" tab="商品详情">
               <div
                 v-if="productInfo.productDetail.length"
@@ -202,7 +201,7 @@
                 </div>
               </div>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="检测报告" force-render>
+            <a-tab-pane key="2" tab="检测报告" force-render @click="changeTabs">
               <div
                 class="report-img-list"
                 v-if="productInfo.productReport"
@@ -235,8 +234,7 @@
         width="400px"
         v-model="vipVisible"
         title="加入VIP会员"
-        ok-text="确认"
-        cancel-text="取消"
+        :footer="null"
         @ok="handleOk"
       >
         <p @click="handleContact" class="contact-button">
@@ -249,7 +247,7 @@
         width="400px"
         v-model="vipReportVisible"
         title="您还不是VIP,不能查看检测报告"
-        ok-text="联系客服：021-36382923"
+        :footer="null"
         cancel-text=""
         @ok="handleContact"
       >
@@ -266,7 +264,6 @@
 </template>
 
 <script>
-import WebHeader from "./components/web-header";
 import WebBannerText from "./components/web-banner-text";
 import HotProductItem from "./components/hot-product-item";
 // import Swiper from "./components/swiper";
@@ -279,7 +276,7 @@ export default {
       isInit: 1,
       vipVisible: false, // vip对话框
       vipReportVisible: false, // vip对话框
-      permission: 1, // 权限，0 表示游客，1为会员,2为VIP
+      permission: 0, // 权限，0 表示游客，1为会员,2为VIP
       hotProduct: {
         type: 1,
         productList: [
@@ -418,8 +415,6 @@ export default {
       },
       swiperOptionTop: {
         slidesPerView: 1,
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
         navigation: {
           nextEl: ".swiper-button-next",
           prevEl: ".swiper-button-prev"
@@ -428,15 +423,13 @@ export default {
       swiperOptionThumbs: {
         spaceBetween: 13,
         // centeredSlides: true,
-        loop: true,
-        loopedSlides: 5, // looped slides should be the same
         slidesPerView: 3,
         touchRatio: 0.2,
         slideToClickedSlide: true
       }
     };
   },
-  components: { WebHeader, WebBannerText, HotProductItem, swiper, swiperSlide },
+  components: { WebBannerText, HotProductItem, swiper, swiperSlide },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
@@ -479,13 +472,14 @@ export default {
       console.log();
       this.$router.push({ path: "/memberLogin" });
     },
-    changeTabs(key) {
-      if (key == 2 && this.permission != 2) {
-        this.$refs.reportImgList.style.display = "none";
-        this.vipReportVisible = true;
-        console.log("tabs", key);
-        console.log("toast", this.$refs.reportImgList);
-      }
+    changeTabs() {
+      // if (this.permission != 2) {
+      //   this.$refs.reportImgList.style.display = "none";
+      //   this.vipReportVisible = true;
+      //   console.log("tabs", key);
+      //   console.log("toast", this.$refs.reportImgList);
+      console.log("点击痰喘");
+      // }
     },
     handleContact() {
       console.log("联系客服");

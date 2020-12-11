@@ -10,75 +10,118 @@ Router.prototype.push = function push(location) {
 export default new Router({
   mode: "history", // 去掉 #
   routes: [
+    // { path: "/index", redirect: "/" },
     {
       path: "/",
-      name: "index",
-      component: () => import("@/pages/home/index")
-    },    
-    {
-      path: "/loginIndex",
-      name: "loginIndex",
-      component: () => import("@/pages/home/web-login/index")
+      name: "web",
+      component: () => import("@/pages/home/components/web-layout"),
+      redirect: "/index",
+      children: [
+        {
+          path: "/index",
+          name: "index",
+          component: () => import("@/pages/home/index")
+        },
+        {
+          path: "/about",
+          name: "about",
+          component: () => import("@/pages/home/about")
+        },
+        {
+          path: "/dangerGarbageTrade",
+          name: "dangerGarbageTrade",
+          component: () => import("@/pages/home/danger-garbage-trade")
+          // 危险废物交易中心
+        },
+        {
+          path: "/generalGarbageTrade",
+          name: "generalGarbageTrade",
+          component: () => import("@/pages/home/general-garbage-trade")
+          // 一般废物交易中心
+        },
+        {
+          path: "/productDetail",
+          name: "productDetail",
+          component: () => import("@/pages/home/product-detail")
+        },
+        {
+          path: "/newsLayout",
+          name: "newsLayout",
+          redirect: "/newsCenter",
+          component: () => import("@/pages/home/components/news-layout"),
+          // 危险废物交易中心
+          children: [
+            {
+              path: "/newsCenter",
+              name: "newsCenter",
+              component: () => import("@/pages/home/news-center")
+              // 危险废物交易中心
+            },
+            {
+              path: "/newsDetail",
+              name: "newsDetail",
+              component: () => import("@/pages/home/news-detail")
+              // 危险废物交易中心
+            },
+            {
+              path: "/newsWasteList",
+              name: "newsWasteList",
+              component: () => import("@/pages/home/news-waste-list")
+              // 危险废物交易中心
+            }
+          ]
+        },
+
+        {
+          path: "/search",
+          name: "search",
+          component: () => import("@/pages/home/search")
+        }
+      ]
     },
-    {
-      path: "/forget",
-      name: "forget",
-      component: () => import("@/pages/home/web-login/forget")
-    },
-    {
-      path: "/about",
-      name: "about",
-      component: () => import("@/pages/home/about")
-    },
-    {
-      path: "/generalGarbageTrading",
-      name: "generalGarbageTradingt",
-      component: () => import("@/pages/home/general-garbage-trading")
-      // 一般废物交易中心
-    },
-    {
-      path: "/dangerGarbageTrading",
-      name: "dangerGarbageTradingt",
-      component: () => import("@/pages/home/danger-garbage-trading")
-      // 危险废物交易中心
-    },
-    {
-      path: "/newsCenter",
-      name: "newsCenter",
-      component: () => import("@/pages/home/news-center")
-      // 危险废物交易中心
-    },
-    
-    {
-      path: "/memberRegisterProduct",
-      name: "memberRegisterProduct",
-      component: () => import("@/pages/home/web-login/member-register-product")
-    },
-    {
-      path: "/memberRegisterHandle",
-      name: "memberRegisterHandle",
-      component: () => import("@/pages/home/web-login/member-register-handle")
-    },
-    {
-      path: "/memberLogin",
-      name: "memberLogin",
-      component: () => import("@/pages/home/web-login/memberLogin")
-    },
-    {
-      path: "/product",
-      name: "product",
-      component: () => import("@/pages/home/product")
-    },
-    {
-      path: "/productDetail",
-      name: "productDetail",
-      component: () => import("@/pages/home/product-detail")
-    },
-    {
-      path: "/search",
-      name: "search",
-      component: () => import("@/pages/home/search")
-    },
+    // {
+    //   path: "/",
+    //   name: "index",
+    //   component: () => import("@/pages/home/index")
+    // },
+
+    // {
+    //   path: "/loginIndex",
+    //   name: "loginIndex",
+    //   component: () => import("@/pages/home/web-login/index")
+    // },
+    // {
+    //   path: "/forget",
+    //   name: "forget",
+    //   component: () => import("@/pages/home/web-login/forget")
+    // },
+    // {
+    //   path: "/about",
+    //   name: "about",
+    //   component: () => import("@/pages/home/about")
+    // },
+
+    // {
+    //   path: "/memberRegisterProduct",
+    //   name: "memberRegisterProduct",
+    //   component: () => import("@/pages/home/web-login/member-register-product")
+    // },
+    // {
+    //   path: "/memberRegisterHandle",
+    //   name: "memberRegisterHandle",
+    //   component: () => import("@/pages/home/web-login/member-register-handle")
+    // },
+    // {
+    //   path: "/memberLogin",
+    //   name: "memberLogin",
+    //   component: () => import("@/pages/home/web-login/memberLogin")
+    // },
+    // {
+    //   path: "/product",
+    //   name: "product",
+    //   component: () => import("@/pages/home/product")
+    // },
+
     {
       path: "/login",
       name: "login",
@@ -118,9 +161,9 @@ export default new Router({
           name: "booklist",
           component: () => import("@/pages/member/orders/book"),
           meta: { title: "预购清单", requireAuth: true }
-        },
+        }
       ]
-    },
+    }
 
     // {
     //   path: '/page404',

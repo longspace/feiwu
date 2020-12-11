@@ -1,15 +1,12 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 16:28:47
+ * @LastEditTime: 2020-12-11 10:54:32
 -->
 <template>
   <div class="index">
-    <div class="web-header">
-      <web-header></web-header>
-    </div>
     <div class="banner">
       <div class="banner-b">
-        <banner-text></banner-text>
+        <banner-text className="index-search"></banner-text>
       </div>
     </div>
     <div class="link-tag">
@@ -135,7 +132,7 @@
         </div>
       </div>
     </div>
-    <div class="news">
+    <div class="index-news">
       <div class="news-title">
         <span>热点</span><span class="news-color">资讯</span>
       </div>
@@ -157,24 +154,32 @@
           >
             <img src="/static/home/images/index14.png" alt="" />
           </div>
-          <div class="news-item" v-for="item in news" :key="item.id">
+          <div
+            class="news-item"
+            v-for="newsItem in indexNews"
+            :key="newsItem.id"
+          >
             <div class="news-info-text">
               <div class="news-caption">
-                {{ item.caption }}
+                {{ newsItem.caption }}
               </div>
-              <div class="news-date">{{ item.date }}</div>
+              <div class="news-date">{{ newsItem.date }}</div>
               <div class="news-synopsis">
-                {{ item.synopsis }}
+                {{ newsItem.synopsis }}
               </div>
-              <div class="news-more">
+              <router-link
+                tag="div"
+                :to="{ path: '/newsCenter', query: { newsId: newsItem.id } }"
+                class="news-more"
+              >
                 <span>查看更多</span>
                 <img src="/static/home/images/index9.png" alt="" />
-              </div>
+              </router-link>
             </div>
             <div class="news-info-img">
               <div class="news-img">
                 <div class="news-img-b">
-                  <img :src="item.img" alt="" />
+                  <img :src="newsItem.img" alt="" />
                 </div>
               </div>
             </div>
@@ -182,32 +187,27 @@
         </a-carousel>
       </div>
     </div>
-    <web-footer></web-footer>
   </div>
 </template>
 
 <script>
-import WebHeader from "./components/web-header";
-
 import RecommendCard from "./components/recommend-card";
-import WebFooter from "./components/web-footer";
 import BannerText from "./components/web-banner-text";
 import { getNewsList, getHotGoods } from "@/utils/http/index.js";
 export default {
+  name: "index",
   data() {
     return {
       // keywords: ["硫酸", "片碱", "小苏打", "二氧化钾"],
       searchValue: "",
       dangerTrashTag: ["氢氧化钠", "盐酸", "硫酸"], // 危险废物标签
       generalTrashTag: ["片碱", "纯碱", "氢氧化钠", "小苏打", "亚硫"], // 一般固废标签
-      news: [],
+      indexNews: [],
       dangerRecommend: {}, // 危险废物推荐
       generalRecommend: {} // 一般废物推荐
     };
   },
   components: {
-    WebHeader,
-    WebFooter,
     BannerText,
     RecommendCard
   },
@@ -230,7 +230,7 @@ export default {
           }
         })
         .catch(err => {
-          this.news = [
+          this.indexNews = [
             {
               id: "1111",
               caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
@@ -604,7 +604,7 @@ export default {
     }
   }
 }
-.news {
+.index-news {
   margin-bottom: 98px;
   .news-title {
     margin-top: 88px;
@@ -665,6 +665,7 @@ export default {
           -webkit-box-orient: vertical;
         }
         .news-more {
+          cursor: pointer;
           margin-top: 64px;
           width: 160px;
           border-radius: 20px;

@@ -1,10 +1,9 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 14:08:59
+ * @LastEditTime: 2020-12-11 09:43:09
 -->
 <template>
   <div class="product">
-    <web-header></web-header>
     <div class="banner">
       <div class="banner-b">
         <banner-text className="product"></banner-text>
@@ -15,7 +14,6 @@
 </template>
 
 <script>
-import WebHeader from "./components/web-header";
 import BannerText from "./components/web-banner-text";
 export default {
   data() {
@@ -28,7 +26,6 @@ export default {
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {},
   components: {
-    WebHeader,
     BannerText
   }
 };

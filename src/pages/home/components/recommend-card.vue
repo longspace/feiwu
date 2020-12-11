@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-08 14:39:49
+ * @LastEditTime: 2020-12-11 09:42:23
 -->
 <template>
   <div class="recommend-goods-list" v-if="recommend">
@@ -31,7 +31,10 @@
         <span class="sort-item">{{ recommendItem.category }}</span>
         <span class="sort-item">{{ recommendItem.code }}</span>
       </div>
-      <router-link to="/productDetail" tag="div" class="goods-card-more"
+      <router-link
+        :to="{ path: '/productDetail', query: { productId: recommendItem.id } }"
+        tag="div"
+        class="goods-card-more"
         >查看详情</router-link
       >
     </div>

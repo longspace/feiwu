@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-09 18:16:42
+ * @LastEditTime: 2020-12-11 09:35:20
 -->
 <template>
   <div class="product-list" v-if="productList.length">
@@ -65,7 +65,6 @@
         <p>注册登录后才享有查看商品详情权限</p>
       </a-modal>
     </div>
-    
   </div>
 </template>
 
@@ -75,8 +74,7 @@ export default {
   data() {
     return {
       visible: false,
-      isLogin: true, // 判断是否登录
-      
+      isLogin: true // 判断是否登录
     };
   },
   props: {
@@ -104,7 +102,7 @@ export default {
         console.log("请登录");
       } else {
         this.$router.push({
-          name: "productDetail",
+          path: "/productDetail",
           params: { permission: this.permission }
         });
       }
