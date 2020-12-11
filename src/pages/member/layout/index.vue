@@ -28,7 +28,7 @@
         <!-- <a-icon class="trigger" :type="collapsed ? 'menu-unfold' : 'menu-fold'" @click="triggerMenu" /> -->
         <span style="padding: 0 0 0 12px;"><a-icon type="info-circle" style="font-size: 16px; padding-right: 10px;" />
 
-        <template v-if="userInfo.business_license_expire_day < 180 ">
+        <template v-if="userInfo.business_license_expire_day < 180  && userInfo.business_license_expire_day > 0">
         <span style="color: red;">您的企业经营许可证还有 {{ userInfo.business_license_expire_day }} 天到期</span>
         </template>
         <template v-else>今天是 {{today}}</template>
@@ -39,7 +39,7 @@
           <!-- <router-link to="/" target="_blank">访问首页</router-link> -->
           <a-dropdown placement="bottomRight">
             <a class="ant-dropdown-link" @click="e => e.preventDefault()">
-              <a-icon type="user" /> {{userInfo.company_name}}，你好
+              <a-icon type="user" /> {{userInfo.company_name}}
               <a-icon type="down" />
             </a>
             <a-menu slot="overlay" @click="onHeaderClick">
@@ -79,7 +79,8 @@
         userInfo:{
           company_name:'',
           type:'',
-          business_license_expire_day:0
+          business_license_expire_day:0,
+          ImproveInformation:0, // 1为需要完善资料
         },
         today:'',
         collapsed: false,
@@ -130,7 +131,7 @@
         });
       },
       profile() {
-        this.$router.push('/profile')
+        this.$router.push('company')
       }
     },
     mounted() {
@@ -251,7 +252,11 @@
           },
         ]
       }
-      doLogin()
+      // doLogin()      
+      if(userInfo.ImproveInformation == 1){
+        this.$router.push("company")
+      }
+      
     }
   };
 </script>

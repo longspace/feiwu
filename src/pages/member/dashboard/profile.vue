@@ -73,7 +73,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.profile_form{ width: 800px;padding: 70px 0 0 100px;}
+.profile_form{ width: 800px;padding: 40px 0 0 70px;}
 </style>
 <style scoped lang="scss" rel="stylesheet/scss">
 

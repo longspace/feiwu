@@ -36,6 +36,7 @@
             {type:'Input',label:'预期每吨价格',field:'expect_price',icon:'read',style:{width:'30%'},placeholder:'每吨的单价'},
             {type:'Upload',label:'检则报告',field:'check_report',icon:'align-left',itemstyle:{},style:{'width':'103px','height':'103px','border-radius':'3px'},placeholder:'',handle:(val)=>this.getThumbImg(val)},
             {type:'MultiUpload',label:'危废照片',field:'photo',maxImgCount:8,icon:'align-left',itemstyle:{},style:{'width':'186px','height':'186px','border-radius':'3px'},placeholder:'',handle:(val)=>this.getMultiThumbImg(val),multiple:true,remove:(val)=>this.removeMultiThumbImg(val)},
+            {type:'Editor',label:'商品详情',field:'content',icon:'read',style:{width:'100%','max-width':'935px'},placeholder:''},
           ]
         },
         // 表单配置绑定值
@@ -52,6 +53,7 @@
           expect_price:'',
           check_report:'',
           photo:[],
+          content:''
         },
         init:{
           cateList:[],
@@ -78,6 +80,7 @@
           expect_price:'',
           check_report:'',
           photo:[],
+          content:''
         }
       }
     },
@@ -131,6 +134,8 @@
         if(action == 'clone'){
           this.formdata.id = 0;
         }
+        console.log("this.formdata",this.formdata);
+        // return false;
         goodsHandle(this.formdata).then(res=>{
           const {data} = res;
           if(data.code == 200){

@@ -92,6 +92,7 @@
       </a-row>
     </div>
 
+        <uieditor></uieditor>
   </div>
 </template>
 <script>
@@ -99,6 +100,9 @@
   import { Line,Pie } from '@antv/g2plot';
   import {topItem,lineChart} from "@/utils/http/index.js"
   import uitable from "@/components/basic/uitable.vue"
+
+  import uieditor from "@/components/basic/uieditor.vue"
+
   export default {
       name:'dashboard',
       data() {
@@ -148,7 +152,7 @@
         };
       },
       components:{
-        countTo,uitable
+        countTo,uitable,uieditor
       },
       methods:{
         loadLineChartsData(){

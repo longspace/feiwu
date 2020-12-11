@@ -1,5 +1,8 @@
 <template>
   <div class="profile_form">
+    <a-divider orientation="left">
+      <span style="color: #1890ff;">完善资料</span>
+    </a-divider>
     <a-form class="company_form"  :form="formdata" layout="inline"  :label-col="{ span: 6 }" :wrapper-col="{ span: 7 }">
       <a-form-item label="用户账号">
         <a-input allowClear disabled
@@ -67,6 +70,12 @@
           <a-icon slot="prefix" type="file-text" style="color:rgba(0,0,0,.25)" />
         </a-input>
       </a-form-item>
+      <a-form-item label="银行账号">
+        <a-input allowClear
+         v-model="formdata.bank_no">
+          <a-icon slot="prefix" type="file-text" style="color:rgba(0,0,0,.25)" />
+        </a-input>
+      </a-form-item>
       <div style="padding:25px 200px 6px 90px;">
         <a-button type="primary" icon="check" ghost @click="submit"> 保存 </a-button>
       </div>
@@ -93,6 +102,7 @@ export default {
         year_product_weight:'',
         province_city_id:[],
         address:'',
+        bank_no:''
       },
       init:{
         area:[],
@@ -180,7 +190,7 @@ export default {
           this.formdata.year_product_weight = res.year_product_weight
           this.formdata.province_city_id = res.province_city_id
           this.formdata.address = res.address
-          // this.formdata.tel = res.tel
+          this.formdata.bank_no = res.bank_no
       })
       .catch(err=>{
           console.log("error:",err)
@@ -195,7 +205,7 @@ export default {
 };
 </script>
 <style lang="scss">
-.profile_form{ width: 850px; padding: 70px 0 0 100px;}
+.profile_form{ width: 850px; padding: 40px 0 0 70px;}
 .profile_form .ant-form-item-label{ width: 90px;}
 .profile_form .ant-form-item{ width: 330px;}
 .profile_form .ant-form-item-control-wrapper{ width: 230px;}
