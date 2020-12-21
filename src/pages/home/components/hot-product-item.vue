@@ -1,11 +1,11 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-10 12:51:31
+ * @LastEditTime: 2020-12-21 14:42:20
 -->
 <template>
   <div class="hot-product">
     <div class="hot-product-title">热门推荐</div>
-    <div class="hot-product-list" v-if="hotProductList.length">
+    <div class="hot-product-list" v-if="hotProductList">
       <router-link
         tag="div"
         :to="{ path: '/productDetail', query: { productId: hotItem.id } }"

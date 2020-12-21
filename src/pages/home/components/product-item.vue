@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 09:35:20
+ * @LastEditTime: 2020-12-21 10:26:44
 -->
 <template>
   <div class="product-list" v-if="productList.length">
@@ -102,7 +102,7 @@ export default {
         console.log("请登录");
       } else {
         this.$router.push({
-          path: "/productDetail",
+          name: "/productDetail",
           params: { permission: this.permission }
         });
       }
@@ -178,8 +178,9 @@ export default {
         }
       }
       .product-price {
-        margin: 0 80px;
-        width: 100px;
+        margin: 0 auto;
+        // width: 100px;
+        max-width: 140px;
         font-size: 14px;
         line-height: 26px;
         color: #666;

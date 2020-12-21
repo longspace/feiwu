@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 16:09:03
+ * @LastEditTime: 2020-12-15 16:43:22
 -->
 <template>
   <div class="news-slidebar">
@@ -56,6 +56,7 @@ export default {
   methods: {
     // 搜索框搜索
     onSearch(value) {
+      this.$router.push({ name: "search", query: { hotKeywords: value } });
       console.log(value);
     }
   }

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 18:31:06
+ * @LastEditTime: 2020-12-21 11:56:14
 -->
 <template>
   <div class="about">
@@ -53,6 +53,56 @@
         </div>
       </div>
     </div>
+    <div class="history">
+      <div class="history-title">
+        <div class="history-cn-title">发展历程</div>
+        <div class="history-en-title">development history</div>
+      </div>
+      <div class="history-swiper" v-if="history.length">
+        <div class="swiper">
+          <swiper :options="swiperOption" ref="historySwiper">
+            <swiper-slide
+              class="slide-1"
+              v-for="historyItem in history"
+              :key="historyItem.id"
+            >
+              <div class="swiper-slide-info">
+                <div class="swiper-slide-title">{{ historyItem.date }}</div>
+                <div class="swiper-slide-text">
+                  {{ historyItem.synopsis }}
+                </div>
+              </div>
+              <div class="swiper-slide-date">{{ historyItem.date }}</div>
+            </swiper-slide>
+          </swiper>
+        </div>
+        <div class="swiper-button-next" slot="button-next"></div>
+        <div class="swiper-button-prev" slot="button-prev"></div>
+        <!-- <div class="swiper">
+          <div
+            class="swiper-slide"
+            v-for="historyItem in history"
+            :key="historyItem.id"
+          >
+            <div class="swiper-slide-info">
+              <div class="swiper-slide-title">{{ historyItem.date }}</div>
+              <div class="swiper-slide-text">
+                {{ historyItem.synopsis }}
+              </div>
+            </div>
+            <div class="swiper-slide-date">{{ historyItem.date }}</div>
+          </div>
+        </div>
+        <div class="swiper-button">
+          <div class="button-prev">
+            <img src="/static/home/images/about2.png" alt="" />
+          </div>
+          <div class="button-next">
+            <img src="/static/home/images/about3.png" alt="" />
+          </div>
+        </div> -->
+      </div>
+    </div>
     <div class="contact">
       <div class="contact-title">
         <p class="contact-cn-title">欢迎联系我们</p>
@@ -96,11 +146,26 @@
 </template>
 
 <script>
+import { swiper, swiperSlide } from "vue-awesome-swiper";
+import "swiper/dist/css/swiper.css";
 import WebHeader from "./components/web-header";
 export default {
   data() {
     return {
-      developmentPath: [
+      swiperOption: {
+        slidesPerView: 3,
+        // loop: true,
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev"
+        },
+        on: {
+          slideChangeTransitionEnd: function() {
+            console.log(this.activeIndex); //切换结束时，告诉我现在是第几个slide
+          }
+        }
+      },
+      history: [
         {
           id: 1,
           date: "2020年11月",
@@ -108,19 +173,25 @@ export default {
             "国内第一个固废交易平台-固废驿站经过一年多的筹备正式上线了！"
         },
         {
-          id: 1,
+          id: 2,
           date: "2021年3月",
           synopsis:
             "国内第一个固废交易平台-固废驿站经过一年多的筹备正式上线了！"
         },
         {
-          id: 1,
+          id: 3,
           date: "2020年11月",
           synopsis:
             "国内第一个固废交易平台-固废驿站经过一年多的筹备正式上线了！"
         },
         {
-          id: 1,
+          id: 4,
+          date: "2021年3月",
+          synopsis:
+            "国内第一个固废交易平台-固废驿站经过一年多的筹备正式上线了！"
+        },
+        {
+          id: 5,
           date: "2021年3月",
           synopsis:
             "国内第一个固废交易平台-固废驿站经过一年多的筹备正式上线了！"
@@ -130,9 +201,35 @@ export default {
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
-  components: { WebHeader },
+  components: { WebHeader, swiper, swiperSlide },
+  computed: {
+    swiper() {
+      return this.$refs.historySwiper.swiper;
+    }
+  },
   //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {}
+  mounted() {
+    // this.initSwiper();
+    console.log("this.swiper", this.$refs.historySwiper.swiper);
+    // console.log("this.swiperOption", this.swiperOption);
+    this.$nextTick(() => {
+      // const swiper = this.$refs.historySwiper.swiper;
+
+      console.log("swiper", this.swiper.activeIndex);
+      // this.swiper. slideChangeTransitionEnd
+    });
+  },
+  methods: {
+    // initSwiper() {
+    //   this.swiperOption = {
+    //     slidesPerView: 4,
+    //     navigation: {
+    //       nextEl: ".swiper-button-next",
+    //       prevEl: ".swiper-button-prev"
+    //     }
+    //   };
+    // }
+  }
 };
 </script>
 <style scoped lang="scss">
@@ -147,7 +244,6 @@ export default {
   max-width: 1200px;
   margin: 0 auto;
   padding-top: 100px;
-  padding-bottom: 150px;
   .company-title {
     text-align: center;
     margin-bottom: 44px;
@@ -159,6 +255,7 @@ export default {
     .compangy-en-title {
       font-size: 16px;
       line-height: 22px;
+      text-transform: uppercase;
       color: #999;
     }
   }
@@ -227,30 +324,296 @@ export default {
     }
   }
 }
+.history {
+  width: 96%;
+  max-width: 1200px;
+  margin: 0 auto 146px;
+  .history-title {
+    text-align: center;
+    .history-cn-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+    }
+    .history-en-title {
+      font-size: 14px;
+      text-transform: uppercase;
+      color: #888;
+    }
+  }
+  .history-swiper {
+    position: relative;
+    .swiper {
+      display: flex;
+      justify-content: space-between;
+      width: 96%;
+      max-width: 1000px;
+      margin: 42px auto 0;
+      overflow: hidden;
+      padding: 30px;
+      // border: 1px solid #eee;
+      .swiper-container {
+        overflow: visible;
+        .swiper-slide {
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          // border: 1px solid #eee;
+          .swiper-slide-info {
+            position: relative;
+            padding: 20px 32px 20px;
+            height: 180px;
+            margin-bottom: 20px;
+            // border: 1px solid #ccc;
+            border-radius: 3px;
+            background: #fff;
+            box-shadow: rgba(102, 102, 102, 0.15) 0 0 15px;
+            .swiper-slide-title {
+              font-size: 20px;
+              line-height: 30px;
+              color: #333;
+              font-weight: bold;
+            }
+            .swiper-slide-text {
+              margin-top: 12px;
+              font-size: 14px;
+              line-height: 20px;
+              color: #666;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              display: -webkit-box;
+              -webkit-line-clamp: 4;
+              -webkit-box-orient: vertical;
+            }
+            // &::before {
+            //   content: "";
+            //   display: block;
+            //   position: absolute;
+            //   z-index: 1;
+            //   top: 0;
+            //   left: 0;
+            //   width: 100%;
+            //   height: 100%;
+            //   /* ①添加颜色 */
+            //   background-color: rgb(255, 255, 5);
+            //   /* ②添加模糊*/
+            //   filter: blur(15px);
+            //   /* ③调整位置和大小 */
+            //   transform: translateY(10px) scale(1.05);
+            //   /* ④添加混合效果 */
+            //   mix-blend-mode: multiply;
+            // }
+            &::after {
+              content: "";
+              position: absolute;
+              bottom: 0;
+              left: 50%;
+              width: 0;
+              height: 0;
+              transform: translate(-50%, 0);
+              border-width: 12px;
+              margin-bottom: -24px;
+              border-style: solid dashed dashed dashed;
+              border-color: #fff transparent transparent transparent;
+            }
+          }
+          .swiper-slide-date {
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            margin-top: 54px;
+            min-height: 180px;
+            text-align: center;
+            font-size: 16px;
+            color: #999;
+            line-height: 30px;
+          }
+          &:nth-of-type(even) {
+            flex-direction: column-reverse;
+            .swiper-slide-date {
+              margin-bottom: 74px;
+              align-items: flex-end;
+              margin-top: 0;
+            }
+            .swiper-slide-info {
+              margin-bottom: 0;
+              margin-top: 20px;
+              &::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 50%;
+                width: 0;
+                height: 0;
+                transform: translate(-50%, 0);
+                border-width: 12px;
+                margin-top: -24px;
+                border-style: dashed dashed solid dashed;
+                border-color: transparent transparent #fff transparent;
+              }
+              &::after {
+                content: "";
+                display: none;
+              }
+            }
+            &:hover {
+              .swiper-slide-info::before {
+                z-index: 999;
+                border-color: transparent transparent#4293f4 transparent;
+              }
+            }
+          }
+          &:not(:first-child) {
+            margin-left: -40px;
+          }
+          &::before {
+            content: "";
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            display: block;
+            width: 12px;
+            height: 12px;
+            background: rgba(255, 2555, 255, 1);
+            // margin: 8px;
+            border-radius: 50%;
+            z-index: 100;
+          }
+          &::after {
+            content: "";
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translate(-50%, 50%);
+            display: block;
+            width: 22px;
+            height: 22px;
+            z-index: 99;
+            background: rgba(66, 147, 244, 0.2);
+            border-radius: 50%;
+          }
+          &:hover::before {
+            background: rgba(66, 147, 244, 1);
+            z-index: 110;
+          }
+          &:hover {
+            .swiper-slide-info {
+              color: #fff;
+              background: #4293f4;
+              .swiper-slide-title {
+                color: #fff;
+              }
+              .swiper-slide-text {
+                color: #fff;
+              }
+              &::after {
+                border-color: #4293f4 transparent transparent transparent;
+              }
+            }
+          }
+        }
+      }
+    }
+    .swiper-button {
+      .button-prev {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+      .button-next {
+        position: absolute;
+        right: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+    }
+  }
+}
 .contact {
   width: 96%;
   max-width: 1200px;
   margin: 0 auto;
   .contact-title {
     text-align: center;
+    .contact-cn-title {
+      font-size: 32px;
+      font-weight: bold;
+      color: #333;
+    }
+    .contact-en-title {
+      text-transform: uppercase;
+      font-size: 14px;
+      color: #999;
+    }
+  }
+  .contact-desc {
+    margin-top: 24px;
+    font-size: 16px;
+    color: #666;
+    text-align: center;
   }
   .contact-list {
     display: flex;
     justify-content: space-between;
     margin-top: 30px;
+    margin-bottom: 150px;
     padding: 60px 0;
     background: url("/static/home/images/about8.jpg") no-repeat 50% / cover;
     .contact-item {
       flex: 1;
-      padding: 10px 30px;
+      padding: 10px 56px;
       height: 300px;
-
       color: #fff;
       text-align: center;
+      .contact-name {
+        margin-top: 40px;
+        font-size: 16px;
+        line-height: 22px;
+        font-weight: bold;
+      }
+      .contact-text {
+        margin-top: 20px;
+        font-size: 14px;
+        line-height: 22px;
+      }
       &:not(:last-child) {
         border-right: 1px solid rgba(229, 229, 229, 0.3);
       }
     }
   }
+}
+</style>
+<style lang="scss">
+.history .history-swiper .swiper .swiper-wrapper {
+  position: relative;
+  &::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    margin-top: -2px;
+    background: #d7e5f0;
+    height: 4px;
+    display: block;
+    z-index: 99;
+  }
+}
+.history-swiper .swiper-button-prev {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  outline: none;
+  background: url("/static/home/images/about2.png");
+}
+.history-swiper .swiper-button-next {
+  outline: none;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: url("/static/home/images/about3.png");
 }
 </style>

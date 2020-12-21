@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 09:55:56
+ * @LastEditTime: 2020-12-21 15:09:44
 -->
 <template>
   <div class="tradeCenter">
@@ -12,64 +12,13 @@
     <div class="product-center">
       <sift-condition :garbage-area="garbageArea" :garbage-type="garbageType">
       </sift-condition>
-      <div class="product">
-        <div class="product-box">
-          <div class="sort-menu">
-            <div
-              class="sort-item"
-              v-for="sortItem in sortMenu"
-              :key="sortItem.id"
-            >
-              <span>{{ sortItem.name }}</span>
-              <div class="sort-item-icon" v-if="sortItem.orderBy === 'true'">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div>
-            <!-- <div class="sort-item">
-              <span>时间</span>
-              <div class="sort-item-icon">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div>
-            <div class="sort-item">
-              <span>重量</span>
-              <div class="sort-item-icon">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div> -->
-          </div>
-          <product-item
-            :permission="permission"
-            :product-list="dangerProduct.productList"
-            :type="dangerProduct.type"
-          ></product-item>
-          <div class="product-page">
-            <a-pagination v-model="current" :total="50" show-less-items />
-          </div>
-        </div>
-        <div class="product-flow-window">
-          <div class="flow-window">
-            <img src="/static/home/images/product5.jpg" alt="" />
-            <!-- <div class="flow-window-text">成为VIP会员，享受更多福利</div> -->
-          </div>
-          <div class="hot-product">
-            <!-- <div class="hot-product-title">热门推荐</div> -->
-            <hot-product-item
-              :hot-product-list="hotProduct.productList"
-              :hot-product-type="hotProduct.type"
-            ></hot-product-item>
-          </div>
-        </div>
-      </div>
+      <search-list
+        :permission="permission"
+        :product-list="generalProduct.productList"
+        :type="generalProduct.type"
+        :hot-product-list="hotProduct.productList"
+        :hot-product-type="hotProduct.type"
+      ></search-list>
     </div>
   </div>
 </template>
@@ -79,6 +28,7 @@ import WebBannerText from "./components/web-banner-text";
 import SiftCondition from "./components/sift-condition";
 import ProductItem from "./components/product-item";
 import HotProductItem from "./components/hot-product-item";
+import SearchList from "./components/search-list";
 import {
   getGarbageArea,
   getGarbageType,
@@ -97,7 +47,34 @@ export default {
       garbageType: [
         { id: 1, value: "HW01", title: "医疗废物²", isActive: false },
         { id: 2, value: "HW02", title: "医药废物", isActive: false },
-        { id: 3, value: "HW03", title: "废药物、药品", isActive: false }
+        { id: 3, value: "HW03", title: "废药物、药品", isActive: false },
+        { id: 4, value: "HW04", title: "农药废物", isActive: false },
+        { id: 5, value: "HW05", title: "木材防腐剂废物", isActive: false },
+        {
+          id: 6,
+          value: "HW06",
+          title: "废有机溶剂与含有机溶剂废物",
+          isActive: false
+        },
+        { id: 7, value: "HW07", title: "热处理含氰废物", isActive: false },
+        {
+          id: 8,
+          value: "HW08",
+          title: "废矿物油与含矿物油废物",
+          isActive: false
+        },
+        {
+          id: 9,
+          value: "HW08",
+          title: "废矿物油与含矿物油废物",
+          isActive: false
+        },
+        {
+          id: 10,
+          value: "HW09",
+          title: "油/水、烃/水混合物或乳化液",
+          isActive: false
+        }
       ], // 废物类别
 
       // productList: [], //商品列表,
@@ -132,7 +109,7 @@ export default {
           orderWay: "weight"
         }
       ], // 排序菜单
-      dangerProduct: {
+      generalProduct: {
         type: 1,
         orderBy: "", // 是否排序
         orderWay: "", // 排序方式
@@ -297,7 +274,8 @@ export default {
     WebBannerText,
     SiftCondition,
     ProductItem,
-    HotProductItem
+    HotProductItem,
+    SearchList
   },
   methods: {
     // 点击废物类别
@@ -369,6 +347,11 @@ export default {
           display: flex;
           flex-direction: column;
           margin-left: 8px;
+          img {
+            &:first-child {
+              margin-bottom: 8px;
+            }
+          }
         }
       }
     }

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 17:21:29
+ * @LastEditTime: 2020-12-15 16:38:51
 -->
 <template>
   <div class="news-form">
@@ -487,8 +487,14 @@ export default {
         .swiper-pagination {
           width: 454px;
           .swiper-pagination-bullet {
+            width: 26px;
+            height: 3px;
+            background: #fff;
             opacity: 1;
           }
+          // .swiper-pagination-bullet {
+          //   opacity: 1;
+          // }
         }
       }
       .news-list {
@@ -571,14 +577,20 @@ export default {
     }
   }
 }
-.hot-swiper
-  .swiper-pagination
-  .swiper-container-horizontal
-  > .swiper-pagination-bullets
-  .swiper-pagination-bullet {
+</style>
+<style lang="scss">
+.hot-swiper .swiper-pagination .swiper-pagination-bullet {
   width: 26px;
   height: 3px;
+  border-radius: 0;
   background: #fff;
   opacity: 1;
+  margin: 0;
+}
+.hot-swiper .swiper-pagination .swiper-pagination-bullet:not(:last-child) {
+  margin-right: 10px;
+}
+.hot-swiper .swiper-pagination .swiper-pagination-bullet-active {
+  background: #4293f4;
 }
 </style>

@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 09:30:25
+ * @LastEditTime: 2020-12-14 12:11:19
 -->
 <template>
   <div class="banner-text">
@@ -9,8 +9,9 @@
       <div class="search-input">
         <a-input
           placeholder="请输入您要搜索的危废、固废代码或名称"
-          :value="hotKeywords"
           size="large"
+          allowClear
+          v-model="hotKeywords"
           @pressEnter="searchKeywords(hotKeywords)"
           ><a-icon slot="prefix" type="search"
         /></a-input>
@@ -72,17 +73,18 @@ export default {
         });
     },
     //搜索功能
-    searchKeywords(hotKeywords) {
+    searchKeywords(value) {
+      console.log("搜一下", value);
       this.$router.push({
         path: "/search",
-        query: { hotKeywords: hotKeywords }
+        query: { hotKeywords: value }
       });
     },
 
     // 点击关键词标签
     getKeywords(index) {
-      let keywords = this.$refs.keywords[index].innerText;
-      this.hotKeywords = keywords;
+      this.hotKeywords = this.$refs.keywords[index].innerText;
+      console.log("index", this.hotKeywords);
     }
   }
 };
@@ -108,10 +110,6 @@ export default {
     }
     .search-button {
       width: 160px;
-      .ant-btn {
-        font-size: 20px;
-        width: 100%;
-      }
     }
   }
   .banner-keywords {
@@ -139,16 +137,23 @@ export default {
 .banner-search .ant-input {
   height: 54px;
   padding-left: 45px;
-  font-size: 18px;
+  font-size: 16px;
 }
 .index-search .ant-input {
   height: 60px;
+  font-size: 18px;
 }
 .banner-text .banner-search .search-button .ant-btn {
   height: 54px;
+  font-size: 20px;
+  width: 100%;
+  background-color: #4293f4;
+  border-color: #4293f4;
 }
 .banner-text .index-search .search-button .ant-btn {
   height: 60px;
+  background-color: #4293f4;
+  border-color: #4293f4;
 }
 .banner-search .ant-input-prefix {
   left: 25px;

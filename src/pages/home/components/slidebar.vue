@@ -1,89 +1,39 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 10:45:02
+ * @LastEditTime: 2020-12-21 14:34:03
 -->
 <template>
   <div class="slidebar">
     <div class="slidebar-list">
-      <div class="slidebar-item">
-        <a href="#" class="slide-b">
+      <div
+        class="slidebar-item"
+        v-for="slideItem in slideBar.slice(0, 4)"
+        :key="slideItem.id"
+      >
+        <div class="slide-b">
           <div class="slidebar-text">
             <div class="slide-bar-img">
-              <p class="active-img" v-if="slidebarActive">
-                <img src="/static/home/images/slide1.png" alt="" />
-              </p>
-              <p class="inactive-img" v-else>
-                <img src="/static/home/images/slide2.png" alt="" />
-              </p>
+              <img :src="slideItem.inactiveUrl" alt="" />
             </div>
-            <p>在线客服</p>
-          </div>
-        </a>
-      </div>
-      <div class="slidebar-item">
-        <div class="slidebar-b">
-          <div class="slidebar-text">
-            <div class="slide-bar-img">
-              <p class="active-img" v-if="slidebarActive">
-                <img src="/static/home/images/slide3.png" alt="" />
-              </p>
-              <p class="inactive-img" v-else>
-                <img src="/static/home/images/slide4.png" alt="" />
-              </p>
-            </div>
-            <p>电话咨询</p>
-          </div>
-          <div class="slidebar-hidden">021-36382923</div>
-        </div>
-      </div>
-      <div class="slidebar-item">
-        <div class="slidebar-b">
-          <div class="slidebar-text">
-            <div class="slide-bar-img">
-              <p class="active-img" v-if="slidebarActive">
-                <img src="/static/home/images/slide5.png" alt="" />
-              </p>
-              <p class="inactive-img" v-else>
-                <img src="/static/home/images/slide6.png" alt="" />
-              </p>
-            </div>
-            <p>电子邮箱</p>
-          </div>
-          <div class="slidebar-hidden">
-            xxxxxx@163.com
+            <p>{{ slideItem.title }}</p>
           </div>
         </div>
       </div>
-      <div class="slidebar-item">
-        <div class="slidebar-b">
-          <div class="slidebar-text">
-            <div class="slide-bar-img">
-              <p class="active-img" v-if="slidebarActive">
-                <img src="/static/home/images/slide7.png" alt="" />
-              </p>
-              <p class="inactive-img" v-else>
-                <img src="/static/home/images/slide8.png" alt="" />
-              </p>
-            </div>
-            <p>关注我们</p>
-          </div>
-          <div class="slidebar-hidden">
-            <img src="" alt="" />
-          </div>
-        </div>
-      </div>
-      <div class="slidebar-item">
+      <div
+        class="slidebar-item"
+        v-for="backSlideItem in slideBar.slice(4, 5)"
+        :key="backSlideItem.id"
+      >
         <div class="slidebar-b">
           <div class="slidebar-text">
             <div id="components-back-top-demo-custom">
               <a-back-top :visibilityHeight="visibilityHeight">
-                <p class="active-img" v-if="slidebarActive">
-                  <img src="/static/home/images/slide9.png" alt="" />
+                <p class="inactive-img">
+                  <img :src="backSlideItem.inactiveUrl" alt="" />
                 </p>
-                <p>TOP</p>
+                <p>{{ backSlideItem.title }}</p>
               </a-back-top>
             </div>
-            <!-- <p>TOP2222</p> -->
           </div>
         </div>
       </div>
@@ -96,13 +46,61 @@ export default {
   data() {
     return {
       slidebarActive: false,
-      visibilityHeight: -1
+      visibilityHeight: -1,
+      slideBar: [
+        {
+          id: 1,
+          inactiveUrl: "/static/home/images/slide1.png",
+          title: "在线客服",
+          activeUrl: "/static/home/images/slide2.png"
+        },
+        {
+          id: 2,
+          inactiveUrl: "/static/home/images/slide3.png",
+          title: "电话资讯",
+          activeUrl: "/static/home/images/slide4.png"
+        },
+        {
+          id: 3,
+          inactiveUrl: "/static/home/images/slide5.png",
+          title: "电子邮箱",
+          activeUrl: "/static/home/images/slide6.png"
+        },
+        {
+          id: 4,
+          inactiveUrl: "/static/home/images/slide7.png",
+          title: "关注我们",
+          activeUrl: "/static/home/images/slide8.png"
+        },
+        {
+          id: 5,
+          inactiveUrl: "/static/home/images/slide9.png",
+          title: "TOP",
+          activeUrl: "/static/home/images/slide10.png"
+        }
+      ]
     };
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {}
+  mounted() {
+    this.arrayTest();
+  },
+  methods: {
+    arrayTest() {
+      const cities = [
+        { name: "在线客服", visited: "no" },
+        { name: "电话资讯", visited: "no" },
+        { name: "电子邮箱", visited: "no" },
+        { name: "关注我们", visited: "no" }
+      ];
+      const cityNames = Array.from(cities, ({ name }) => {
+        console.log("name:", name);
+        return name;
+      });
+    }
+  }
 };
 </script>
 <style scoped lang="scss">

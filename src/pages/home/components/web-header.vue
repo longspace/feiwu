@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 09:26:20
+ * @LastEditTime: 2020-12-15 17:58:44
 -->
 <template>
   <div
@@ -23,22 +23,32 @@
       <div class="header-right">
         <ul class="nav" v-if="nav.length">
           <!-- :to="navItem.linkName" -->
-          <router-link
-            :to="navItem.linkName"
-            tag="li"
+          <li
             class="nav-item"
-            v-for="(navItem, navIndex) in nav"
+            v-for="navItem in nav"
             :key="navItem.id"
-            :class="
-              $route.path.indexOf(navItem.linkName) !== -1 ? 'active' : ''
-            "
-            @click="getRouter(navIndex)"
+            :class="{ active: $route.path.indexOf(navItem.linkName) !== -1 }"
           >
-            {{ navItem.name }}
-            <!-- <router-link :to="navItem.linkName" class="nav-link">{{
-            navItem.name
-          }}</router-link> -->
-          </router-link>
+            <!-- {{ navItem.name }} -->
+            <router-link
+              :to="navItem.linkName"
+              class="nav-item-link"
+              @click="getRouter(navIndex)"
+            >
+              {{ navItem.name }}
+            </router-link>
+            <ul class="nav-drop" v-if="navItem.tag">
+              <li
+                class="nav-drop-item"
+                v-for="navDropItem in navItem.tag"
+                :key="navDropItem.id"
+              >
+                <router-link :to="navDropItem.linkName" class="nav-drop-link">{{
+                  navDropItem.secName
+                }}</router-link>
+              </li>
+            </ul>
+          </li>
         </ul>
         <div class="header-login">
           <div class="header-avatar" v-if="userInfo.isLogin">
@@ -133,23 +143,23 @@ export default {
               secName: "政策解读",
               id: "4.1",
               isActive: false,
-              linkName: "policy"
+              linkName: "/newsCenter/policy"
             },
             {
               secName: "行业动态",
               id: "4.2",
               isActive: false,
-              linkName: "news"
+              linkName: "/newsCenter/industryTrends"
             },
             {
               secName: "技术进展",
               id: "4.3",
               isActive: false,
-              linkName: "technology-progress"
+              linkName: "/newsCenter/progress"
             },
             {
               secName: "国家名录",
-              linkName: "national-roll",
+              linkName: "/newsCenter/wasteList",
               id: "4.4",
               isActive: false
             }
@@ -238,40 +248,47 @@ export default {
         margin-right: 100px;
         .nav-item {
           position: relative;
-          color: #333;
-          font-size: 16px;
-          line-height: 78px;
           border-bottom: 2px solid transparent;
-          cursor: pointer;
-          &:hover {
-            border-bottom: 2px solid #4293f4;
-          }
-          &.active {
-            border-bottom: 2px solid #4293f4;
+          .nav-item-link {
+            display: inline-block;
+            color: #333;
+            font-size: 16px;
+            line-height: 78px;
+            cursor: pointer;
           }
           .nav-drop {
             display: none;
             position: absolute;
             top: 80px;
-            left: 0;
-            // transform: translateX(-50%);
-            width: 100%;
+            left: -50%;
             background: #fff;
             text-align: center;
             width: 140px;
-            .nav-arop-item {
+            z-index: 99;
+            .nav-drop-item {
               &:hover {
                 .nav-drop-link {
                   color: #4293f4;
+                  background: #ecf2f8;
                 }
               }
               .nav-drop-link {
+                width: 100%;
                 display: inline-block;
                 font-size: 14px;
                 color: #666;
                 line-height: 40px;
               }
             }
+          }
+          &:hover {
+            border-bottom: 2px solid #4293f4;
+            .nav-drop {
+              display: block;
+            }
+          }
+          &.active {
+            border-bottom: 2px solid #4293f4;
           }
         }
       }
@@ -339,7 +356,9 @@ export default {
     .header-right {
       .nav {
         .nav-item {
-          color: #fff;
+          .nav-item-link {
+            color: #fff;
+          }
           &:hover {
             border-bottom: 2px solid #fff;
           }

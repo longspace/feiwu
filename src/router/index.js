@@ -16,6 +16,7 @@ export default new Router({
       name: "web",
       component: () => import("@/pages/home/components/web-layout"),
       redirect: "/index",
+
       children: [
         {
           path: "/index",
@@ -26,6 +27,42 @@ export default new Router({
           path: "/about",
           name: "about",
           component: () => import("@/pages/home/about")
+        },
+        {
+          path: "/support",
+          name: "support",
+          component: () => import("@/pages/home/support"),
+          children: [
+            {
+              path: "", // 空字符串
+              component: () => import("@/pages/home/treaty") // 空路由默认显示哪个组件可自行取舍
+            },
+            {
+              path: "treaty",
+              name: "treaty",
+              component: () => import("@/pages/home/treaty")
+            },
+            {
+              path: "privacy",
+              name: "privacy",
+              component: () => import("@/pages/home/privacy")
+            },
+            {
+              path: "notices",
+              name: "notices",
+              component: () => import("@/pages/home/notices")
+            },
+            {
+              path: "accountManage",
+              name: "accountManage",
+              component: () => import("@/pages/home/account-manage")
+            },
+            {
+              path: "feedback",
+              name: "feedback",
+              component: () => import("@/pages/home/feedback")
+            }
+          ]
         },
         {
           path: "/dangerGarbageTrade",
@@ -45,33 +82,51 @@ export default new Router({
           component: () => import("@/pages/home/product-detail")
         },
         {
-          path: "/newsLayout",
-          name: "newsLayout",
-          redirect: "/newsCenter",
-          component: () => import("@/pages/home/components/news-layout"),
-          // 危险废物交易中心
+          path: "/newsCenter",
+          name: "newsCenter",
+          component: () => import("@/pages/home/components/news-center"),
           children: [
             {
-              path: "/newsCenter",
-              name: "newsCenter",
-              component: () => import("@/pages/home/news-center")
-              // 危险废物交易中心
+              path: "", // 空字符串
+              component: () => import("@/pages/home/news-policy") // 空路由默认显示哪个组件可自行取舍
+            },
+            {
+              path: "policy", // 空字符串
+              component: () => import("@/pages/home/news-policy") // 空路由默认显示哪个组件可自行取舍
             },
             {
               path: "/newsDetail",
               name: "newsDetail",
               component: () => import("@/pages/home/news-detail")
-              // 危险废物交易中心
+              // 新闻中心详情页面
             },
             {
-              path: "/newsWasteList",
-              name: "newsWasteList",
+              path: "wasteList",
+              name: "wasteList",
               component: () => import("@/pages/home/news-waste-list")
-              // 危险废物交易中心
+              // 国家名录
+            },
+            {
+              path: "progress",
+              name: "progress",
+              component: () => import("@/pages/home/news-progress")
+              // 资讯中心-技术进展
+            },
+            {
+              path: "progress",
+              name: "progress",
+              component: () => import("@/pages/home/news-progress")
+              // 资讯中心-技术进展
             }
+
+            // {
+            //   path: "industryTrends",
+            //   name: " industryTrends",
+            //   component: () => import("@/pages/home/news- industry-trends")
+            //   // 资讯中心 技术进展-
+            // }
           ]
         },
-
         {
           path: "/search",
           name: "search",
@@ -79,48 +134,47 @@ export default new Router({
         }
       ]
     },
+    {
+      path: "/loginIndex",
+      name: "loginIndex",
+      component: () => import("@/pages/home/web-login/index") // 注册角色选择页面
+    },
     // {
     //   path: "/",
     //   name: "index",
     //   component: () => import("@/pages/home/index")
     // },
 
-    // {
-    //   path: "/loginIndex",
-    //   name: "loginIndex",
-    //   component: () => import("@/pages/home/web-login/index")
-    // },
-    // {
-    //   path: "/forget",
-    //   name: "forget",
-    //   component: () => import("@/pages/home/web-login/forget")
-    // },
-    // {
-    //   path: "/about",
-    //   name: "about",
-    //   component: () => import("@/pages/home/about")
-    // },
-
-    // {
-    //   path: "/memberRegisterProduct",
-    //   name: "memberRegisterProduct",
-    //   component: () => import("@/pages/home/web-login/member-register-product")
-    // },
-    // {
-    //   path: "/memberRegisterHandle",
-    //   name: "memberRegisterHandle",
-    //   component: () => import("@/pages/home/web-login/member-register-handle")
-    // },
-    // {
-    //   path: "/memberLogin",
-    //   name: "memberLogin",
-    //   component: () => import("@/pages/home/web-login/memberLogin")
-    // },
-    // {
-    //   path: "/product",
-    //   name: "product",
-    //   component: () => import("@/pages/home/product")
-    // },
+    {
+      path: "/forget",
+      name: "forget",
+      component: () => import("@/pages/home/web-login/forget")
+    },
+    {
+      path: "/about",
+      name: "about",
+      component: () => import("@/pages/home/about")
+    },
+    {
+      path: "/memberRegisterProduct",
+      name: "memberRegisterProduct",
+      component: () => import("@/pages/home/web-login/member-register-product")
+    },
+    {
+      path: "/memberRegisterHandle",
+      name: "memberRegisterHandle",
+      component: () => import("@/pages/home/web-login/member-register-handle")
+    },
+    {
+      path: "/memberLogin",
+      name: "memberLogin",
+      component: () => import("@/pages/home/web-login/memberLogin")
+    },
+    {
+      path: "/product",
+      name: "product",
+      component: () => import("@/pages/home/product")
+    },
 
     {
       path: "/login",

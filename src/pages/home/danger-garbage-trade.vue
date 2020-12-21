@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 09:21:18
+ * @LastEditTime: 2020-12-21 14:30:26
 -->
 <template>
   <div class="tradeCenter">
@@ -54,64 +54,13 @@
           <div class="condition-plus">更多</div>
         </div> -->
       </sift-condition>
-      <div class="product">
-        <div class="product-box">
-          <div class="sort-menu">
-            <div
-              class="sort-item"
-              v-for="sortItem in sortMenu"
-              :key="sortItem.id"
-            >
-              <span>{{ sortItem.name }}</span>
-              <div class="sort-item-icon" v-if="sortItem.orderBy === 'true'">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div>
-            <!-- <div class="sort-item">
-              <span>时间</span>
-              <div class="sort-item-icon">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div>
-            <div class="sort-item">
-              <span>重量</span>
-              <div class="sort-item-icon">
-                <a-icon type="caret-up" style="color:#BFBFBF" /><a-icon
-                  type="caret-down"
-                  style="color:#BFBFBF"
-                />
-              </div>
-            </div> -->
-          </div>
-          <product-item
-            :permission="permission"
-            :product-list="dangerProduct.productList"
-            :type="dangerProduct.type"
-          ></product-item>
-          <div class="product-page">
-            <a-pagination v-model="current" :total="50" show-less-items />
-          </div>
-        </div>
-        <div class="product-flow-window">
-          <div class="flow-window">
-            <img src="/static/home/images/product5.jpg" alt="" />
-            <!-- <div class="flow-window-text">成为VIP会员，享受更多福利</div> -->
-          </div>
-          <div class="hot-product">
-            <!-- <div class="hot-product-title">热门推荐</div> -->
-            <hot-product-item
-              :hot-product-list="hotProduct.productList"
-              :hot-product-type="hotProduct.type"
-            ></hot-product-item>
-          </div>
-        </div>
-      </div>
+      <search-list
+        :permission="permission"
+        :product-list="dangerProduct.productList"
+        :type="dangerProduct.type"
+        :hot-product-list="hotProduct.productList"
+        :hot-product-type="hotProduct.type"
+      ></search-list>
     </div>
   </div>
 </template>
@@ -121,6 +70,7 @@ import WebBannerText from "./components/web-banner-text";
 import SiftCondition from "./components/sift-condition";
 import ProductItem from "./components/product-item";
 import HotProductItem from "./components/hot-product-item";
+import SearchList from "./components/search-list";
 import {
   getGarbageArea,
   getGarbageType,
@@ -139,41 +89,35 @@ export default {
       garbageType: [
         { id: 1, value: "HW01", title: "医疗废物²", isActive: false },
         { id: 2, value: "HW02", title: "医药废物", isActive: false },
-        { id: 3, value: "HW03", title: "废药物、药品", isActive: false }
-      ], // 废物类别
-
-      // productList: [], //商品列表,
-      current: 1, // 当前列表页数
-      sortMenu: [
+        { id: 3, value: "HW03", title: "废药物、药品", isActive: false },
+        { id: 4, value: "HW04", title: "农药废物", isActive: false },
+        { id: 5, value: "HW05", title: "木材防腐剂废物", isActive: false },
         {
-          id: 1,
-          name: "默认排序",
-          isActive: "true",
-          orderBy: "",
-          orderWay: ""
+          id: 6,
+          value: "HW06",
+          title: "废有机溶剂与含有机溶剂废物",
+          isActive: false
+        },
+        { id: 7, value: "HW07", title: "热处理含氰废物", isActive: false },
+        {
+          id: 8,
+          value: "HW08",
+          title: "废矿物油与含矿物油废物",
+          isActive: false
         },
         {
-          id: 2,
-          name: "价格",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "price"
+          id: 9,
+          value: "HW08",
+          title: "废矿物油与含矿物油废物",
+          isActive: false
         },
         {
-          id: 3,
-          name: "时间",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "time"
-        },
-        {
-          id: 4,
-          name: "重量",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "weight"
+          id: 10,
+          value: "HW09",
+          title: "油/水、烃/水混合物或乳化液",
+          isActive: false
         }
-      ], // 排序菜单
+      ], // 废物类别
       dangerProduct: {
         type: 1,
         orderBy: "", // 是否排序
@@ -185,9 +129,8 @@ export default {
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
             price: "4000",
-            date: "2020-12-03",
-            img:
-              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
+            date: "2020-11-03",
+            img: "/static/home/images/index10.jpg",
             stock: 20
           },
           {
@@ -195,66 +138,60 @@ export default {
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
-            date: "2020-12-03",
+            price: "5000",
+            date: "2019-12-03",
             stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg"
+            img: "/static/home/images/index11.jpg"
           },
           {
             id: 3,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "40000",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg"
+            stock: 10,
+            img: "/static/home/images/index12.jpg"
           },
           {
             id: 4,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
-            date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg"
+            price: "1000",
+            date: "2020-01-03",
+            stock: 200,
+            img: "/static/home/images/index10.jpg"
           },
           {
             id: 5,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "6000",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg"
+            stock: 410,
+            img: "/static/home/images/index11.jpg"
           },
           {
             id: 6,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "43000",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg"
+            stock: 140,
+            img: "/static/home/images/index12.jpg"
           },
           {
             id: 7,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "43000",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg"
+            stock: 100,
+            img: "/static/home/images/index10.jpg"
           },
           {
             id: 8,
@@ -262,32 +199,29 @@ export default {
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
             price: "4000",
-            date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg"
+            date: "2001-12-03",
+            stock: 900,
+            img: "/static/home/images/index11.jpg"
           },
           {
             id: 9,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "1000",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg"
+            stock: 230,
+            img: "/static/home/images/index12.jpg"
           },
           {
             id: 10,
             name: "澳甲烷废物",
             synopsis: "含氰热处理钡渣，含氰污泥及冷却液，热处理渗碳氰渣", // 产品简介
             tag: ["HW06", "276-006-004"], // 产品标签类别
-            price: "4000",
+            price: "300",
             date: "2020-12-03",
-            stock: 20,
-            img:
-              "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg"
+            stock: 4,
+            img: "/static/home/images/index10.jpg"
           }
         ]
       },
@@ -339,7 +273,8 @@ export default {
     WebBannerText,
     SiftCondition,
     ProductItem,
-    HotProductItem
+    HotProductItem,
+    SearchList
   },
   methods: {
     // 点击废物类别
@@ -383,67 +318,72 @@ export default {
   background: #f2f5f8;
 }
 
-.product {
-  display: flex;
-  justify-content: space-between;
-  width: 96%;
-  max-width: 1200px;
-  margin: 20px auto 0;
-
-  .product-box {
-    flex: 1;
-    background: #fff;
-    .sort-menu {
-      display: flex;
-      padding-left: 30px;
-      .sort-item {
-        display: flex;
-        align-items: center;
-        height: 70px;
-        line-height: 70px;
-        font-size: 18px;
-        border-bottom: 3px solid transparent;
-        cursor: pointer;
-        &:not(:last-child) {
-          margin-right: 70px;
-        }
-        .sort-item-icon {
-          display: flex;
-          flex-direction: column;
-          margin-left: 8px;
-        }
-      }
-    }
-    .product-page {
-      display: flex;
-      justify-content: center;
-      margin-top: 26px;
-      margin-bottom: 32px;
-    }
-  }
-  .product-flow-window {
-    margin-left: 20px;
-    width: 300px;
-    .flow-window {
-      margin-bottom: 20px;
-    }
-    // .flow-window {
-    //   height: 370px;
-    //   background: url("../../../static/home/images/product4.jpg") no-repeat top
-    //     center/cover;
-    //   .flow-window-text {
-    //     width: calc(100% - 54px);
-    //     margin: 0 auto;
-    //     height: 50px;
-    //     line-height: 50px;
-    //     border-radius: 25px;
-    //     font-size: 16px;
-    //     color: #ff9252;
-    //     text-align: center;
-    //     font-weight: bold;
-    //     background: rgba(255, 255, 255, 0.9);
-    //   }
-    // }
-  }
-}
+// .product {
+//   display: flex;
+//   justify-content: space-between;
+//   width: 96%;
+//   max-width: 1200px;
+//   margin: 20px auto 0;
+//   .product-box {
+//     flex: 1;
+//     min-height: 1400px;
+//     background: #fff;
+//     .sort-menu {
+//       display: flex;
+//       padding-left: 30px;
+//       .sort-item {
+//         display: flex;
+//         align-items: center;
+//         height: 70px;
+//         line-height: 70px;
+//         font-size: 18px;
+//         border-bottom: 3px solid transparent;
+//         cursor: pointer;
+//         &:not(:last-child) {
+//           margin-right: 70px;
+//         }
+//         .sort-item-icon {
+//           display: flex;
+//           flex-direction: column;
+//           margin-left: 8px;
+//           img {
+//             &:first-child {
+//               margin-bottom: 8px;
+//             }
+//           }
+//         }
+//       }
+//     }
+//     .product-page {
+//       display: flex;
+//       justify-content: center;
+//       margin-top: 26px;
+//       margin-bottom: 32px;
+//     }
+//   }
+//   .product-flow-window {
+//     margin-left: 20px;
+//     width: 300px;
+//     .flow-window {
+//       margin-bottom: 20px;
+//     }
+//     // .flow-window {
+//     //   height: 370px;
+//     //   background: url("../../../static/home/images/product4.jpg") no-repeat top
+//     //     center/cover;
+//     //   .flow-window-text {
+//     //     width: calc(100% - 54px);
+//     //     margin: 0 auto;
+//     //     height: 50px;
+//     //     line-height: 50px;
+//     //     border-radius: 25px;
+//     //     font-size: 16px;
+//     //     color: #ff9252;
+//     //     text-align: center;
+//     //     font-weight: bold;
+//     //     background: rgba(255, 255, 255, 0.9);
+//     //   }
+//     // }
+//   }
+// }
 </style>

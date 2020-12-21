@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 11:56:14
+ * @LastEditTime: 2020-12-15 10:18:06
 -->
 <template>
   <footer class="footer">
@@ -49,16 +49,16 @@
             <router-link to="/about" class="footer-nav-link"
               >联系我们</router-link
             >
-            <router-link to="/about" class="footer-nav-link"
+            <router-link to="/support" class="footer-nav-link"
               >帮助中心</router-link
             >
-            <router-link to="/about" class="footer-nav-link"
+            <router-link to="/support" class="footer-nav-link"
               >问题反馈</router-link
             >
-            <router-link to="/about" class="footer-nav-link"
+            <router-link to="/support" class="footer-nav-link"
               >隐私政策</router-link
             >
-            <router-link to="/about" class="footer-nav-link"
+            <router-link to="/support" class="footer-nav-link"
               >法律声明</router-link
             >
           </div>

@@ -1,15 +1,19 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-09 16:56:54
+ * @LastEditTime: 2020-12-21 09:13:45
 -->
 <template>
   <div class="sift-condition">
     <div class="condition-item" v-if="conditionTag.length">
       <div class="condition-item-label">已选条件</div>
-      <div class="condition-tag">
+      <div
+        class="condition-tag"
+        v-for="(conditionItem, index) in conditionTag"
+        :key="index"
+      >
         <div class="tag-item">
           <div class="tag-item-inline">
-            <div class="tag-item-text"></div>
+            <div class="tag-item-text">{{ conditionItem.title }}</div>
             <div class="tag-close" @click="closeCondition">
               <img src="/static/home/images/product3.png" alt="" />
             </div>
@@ -54,7 +58,10 @@
           {{ garbageTypeItem.value }}{{ garbageTypeItem.title }}
         </div>
       </div>
-      <div class="condition-plus">更多</div>
+      <div class="condition-plus" @click="getMore">
+        <span>更多</span>
+        <a-icon type="down" />
+      </div>
     </div>
     <!-- <div class="condition-item" v-if="garbageCode">
       <div class="condition-item-label">
@@ -118,16 +125,26 @@ export default {
         } else {
           item.isActive = false;
         }
+        if (item.isActive) {
+          console.log("添加", item);
+        }
       });
     },
+    // 点击产废区域
     getClickGarbageArea(garbageAreaIndex) {
       this.garbageArea.forEach((item, index) => {
         if (index == garbageAreaIndex) {
           item.isActive = true;
+          // this.conditionTag.push(item);
+          // console.log("哈哈哈", this.conditionTag);
+          // console.log("item", item);
         } else {
           item.isActive = false;
         }
       });
+      if (item.isActive) {
+        console.log("添加", item);
+      }
       console.log(
         "点击的区域",
         this.$refs.garbageArea[garbageAreaIndex].innerText
@@ -138,12 +155,17 @@ export default {
     closeCondition() {
       // this.clickGarbageTag = "";
     },
+    // 关闭标签
     clearCondition() {
       console.log("关闭标签");
     },
-    getConditionTag() {
-      this.$refs.garbageType.className.indexOf(className) > -1;
-      this.conditionTag.push();
+    // getConditionTag() {
+    //   this.$refs.garbageType.className.indexOf(className) > -1;
+    //   this.conditionTag.push();
+    // },
+    // 获取更多
+    getMore() {
+      console.log("获取更多");
     }
   }
 };
@@ -158,6 +180,7 @@ export default {
   .condition-item {
     display: flex;
     justify-content: space-between;
+    align-items: flex-start;
     .condition-item-label {
       flex: 0 0 70px;
       line-height: 30px;
@@ -166,6 +189,8 @@ export default {
       flex: 1;
       margin-left: 46px;
       margin-right: 14px;
+      // height: 80px;
+      // overflow: hidden;
       .condition-tag-item {
         cursor: pointer;
         display: inline-block;
@@ -188,7 +213,8 @@ export default {
       display: flex;
       justify-content: center;
       align-items: center;
-      flex: 0 090px;
+      flex: 0 0 90px;
+      cursor: pointer;
     }
     &:first-child {
       //   padding-top: 22px;

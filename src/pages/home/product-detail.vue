@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 11:34:55
+ * @LastEditTime: 2020-12-21 15:14:29
 -->
 <template>
   <div class="product-detail">
@@ -133,7 +133,7 @@
           </div>
           <div class="product-link">
             <!-- 预购清单跳转后台 -->
-            <router-link to="" tag="div" class="product-cart">
+            <router-link to="/booklist" tag="div" class="product-cart">
               <img src="/static/home/images/detail3.png" alt="" />
               <span>加入预购清单</span>
             </router-link>
@@ -177,7 +177,7 @@
       </div>
       <div class="detail-info">
         <div class="product-tabs">
-          <a-tabs default-active-key="1">
+          <a-tabs default-active-key="1" @tabClick="changeTabs">
             <a-tab-pane key="1" tab="商品详情">
               <div
                 v-if="productInfo.productDetail.length"
@@ -201,7 +201,7 @@
                 </div>
               </div>
             </a-tab-pane>
-            <a-tab-pane key="2" tab="检测报告" force-render @click="changeTabs">
+            <a-tab-pane key="2" tab="检测报告" force-render>
               <div
                 class="report-img-list"
                 v-if="productInfo.productReport"
@@ -423,9 +423,9 @@ export default {
       swiperOptionThumbs: {
         spaceBetween: 13,
         // centeredSlides: true,
-        slidesPerView: 3,
-        touchRatio: 0.2,
-        slideToClickedSlide: true
+        // centeredSlidesBounds: true,
+        // centerInsufficientSlides: true,
+        slidesPerView: 3
       }
     };
   },
@@ -472,14 +472,12 @@ export default {
       console.log();
       this.$router.push({ path: "/memberLogin" });
     },
-    changeTabs() {
-      // if (this.permission != 2) {
-      //   this.$refs.reportImgList.style.display = "none";
-      //   this.vipReportVisible = true;
-      //   console.log("tabs", key);
-      //   console.log("toast", this.$refs.reportImgList);
-      console.log("点击痰喘");
-      // }
+    changeTabs(key) {
+      // console.log("thid.key", key);
+      if (key == 2 && this.permission !== 2) {
+        this.$refs.reportImgList.style.display = "none";
+        this.vipReportVisible = true;
+      }
     },
     handleContact() {
       console.log("联系客服");
@@ -591,6 +589,9 @@ export default {
           margin-top: -10px;
           outline: none;
           color: #999;
+        }
+        .swiper-slide-active {
+          border: 1px solid #4293f4;
         }
       }
     }

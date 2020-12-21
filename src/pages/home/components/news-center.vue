@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 17:28:28
+ * @LastEditTime: 2020-12-15 17:54:59
 -->
 <template>
   <div class="news">
@@ -16,7 +16,9 @@
         {{ newsTabItem.title }}
       </div>
     </div>
-    <router-view></router-view>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
   </div>
 </template>
 
