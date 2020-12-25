@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 16:43:22
+ * @LastEditTime: 2020-12-23 14:45:11
 -->
 <template>
   <div class="news-slidebar">
@@ -47,7 +47,9 @@ export default {
     return {};
   },
   props: {
-    latestNews: {}
+    latestNews: {
+      type: Array
+    }
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},

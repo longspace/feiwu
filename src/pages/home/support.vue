@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 16:13:21
+ * @LastEditTime: 2020-12-23 17:47:17
 -->
 <template>
   <div class="support">
@@ -20,14 +20,14 @@
             :key="menuItem.id"
             class="menu-item"
             @click="gotoAddress(menuItem.link, index)"
-            :class="{ active: menuItem.isActive }"
+            :class="$route.path.indexOf(menuItem.link) !== -1 ? 'active' : ''"
           >
             <p>{{ menuItem.title }}</p>
           </li>
         </ul>
       </div>
       <div class="support-content">
-        <transition name="fade">
+        <transition name="slide-back">
           <router-view></router-view>
         </transition>
       </div>
@@ -122,6 +122,7 @@ export default {
     width: 96%;
     max-width: 1200px;
     margin: 10px auto 0;
+    overflow: hidden;
     .support-menu {
       width: 200px;
       margin-right: 30px;
@@ -164,6 +165,7 @@ export default {
     }
     .support-content {
       flex: 1;
+
       background: #fff;
     }
   }

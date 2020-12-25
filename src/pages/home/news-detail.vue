@@ -1,42 +1,45 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-11 16:40:50
+ * @LastEditTime: 2020-12-25 15:23:42
 -->
 <template>
-  <div class="news-detail">
-    <div class="news-detail-l" v-if="newsDetail">
-      <div class="detail-info">
-        <div class="detail-top">
-          <div class="news-headline">
-            {{ newsDetail.title }}
+  <div>
+    <div class="banner"></div>
+    <div class="news-detail">
+      <div class="news-detail-l" v-if="newsDetail">
+        <div class="detail-info">
+          <div class="detail-top">
+            <div class="news-headline">
+              {{ newsDetail.title }}
+            </div>
+            <div class="news-attr">
+              <span>发布时间：{{ newsDetail.date }}</span>
+              <span class="news-origin">来源：{{ newsDetail.origin }}</span>
+              <span>浏览：{{ newsDetail.views }}</span>
+            </div>
           </div>
-          <div class="news-attr">
-            <span>发布时间：{{ newsDetail.date }}</span>
-            <span class="news-origin">来源：{{ newsDetail.origin }}</span>
-            <span>浏览：{{ newsDetail.views }}</span>
-          </div>
+          <div class="detail-content" v-html="newsDetail.content"></div>
         </div>
-        <div class="detail-content" v-html="newsDetail.content"></div>
+        <div class="detail-history">
+          <router-link
+            tag="div"
+            :to="{ path: '/newsDetail', query: { id: 1 } }"
+            class="news-prev"
+            >上一篇：生态环境部：全国危废处置能力</router-link
+          >
+          <router-link tag="div" :to="{ path: '/newsCenter' }" class="news-back"
+            >返回列表</router-link
+          >
+          <router-link
+            tag="div"
+            :to="{ path: '/newsDetail', query: { id: 2 } }"
+            class="news-next"
+            >下一篇：生态环境部：全国危废处置能力</router-link
+          >
+        </div>
       </div>
-      <div class="detail-history">
-        <router-link
-          tag="div"
-          :to="{ path: '/newsDetail', query: { id: 1 } }"
-          class="news-prev"
-          >上一篇：生态环境部：全国危废处置能力</router-link
-        >
-        <router-link tag="div" :to="{ path: '/newsCenter' }" class="news-back"
-          >返回列表</router-link
-        >
-        <router-link
-          tag="div"
-          :to="{ path: '/newsDetail', query: { id: 2 } }"
-          class="news-next"
-          >下一篇：生态环境部：全国危废处置能力</router-link
-        >
-      </div>
+      <news-slidebar :latest-news="latestNews"></news-slidebar>
     </div>
-    <news-slidebar :latest-news="latestNews"></news-slidebar>
   </div>
 </template>
 
@@ -118,6 +121,15 @@ export default {
 };
 </script>
 <style scoped lang="scss">
+.banner {
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  height: 300px;
+  // font-size: 36px;
+  // color: #fff;
+  background: url("/static/home/images/news-banner.jpg") no-repeat 50% / cover;
+}
 .news-detail {
   display: flex;
   width: 96%;
@@ -125,7 +137,7 @@ export default {
   margin: 0 auto;
   padding-top: 62px;
   padding-bottom: 110px;
-  overflow: hidden;
+  // overflow: hidden;
   .news-detail-l {
     flex: 1;
     padding-right: 82px;

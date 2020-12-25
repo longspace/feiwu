@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-21 14:42:20
+ * @LastEditTime: 2020-12-23 13:47:43
 -->
 <template>
   <div class="hot-product">
@@ -92,6 +92,15 @@ export default {
           margin-right: 8px;
         }
       }
+    }
+    &:hover {
+      background: #f7fbfe;
+      // .hot-product-name {
+      //   color: #4293f4;
+      // }
+      // .hot-product-synopsis {
+      //   color: #4293f4;
+      // }
     }
   }
 }

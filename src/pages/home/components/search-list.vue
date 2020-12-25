@@ -1,19 +1,11 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-21 14:56:21
+ * @LastEditTime: 2020-12-25 10:58:18
 -->
 <template>
   <div class="product">
     <div class="product-box">
-      <div class="sort-menu">
-        <div class="sort-item" v-for="sortItem in sortMenu" :key="sortItem.id">
-          <span>{{ sortItem.name }}</span>
-          <div class="sort-item-icon" v-if="sortItem.orderBy === 'true'">
-            <img src="/static/home/images/product8.png" alt="" />
-            <img src="/static/home/images/product7.png" alt="" />
-          </div>
-        </div>
-      </div>
+      <sort-menu></sort-menu>
       <div class="product-list" v-if="productList.length">
         <div
           class="product-item"
@@ -99,40 +91,13 @@
 
 <script>
 import HotProductItem from "./hot-product-item";
+import SortMenu from "./sort-menu";
+
 export default {
   data() {
     return {
-      visible: false,
-      sortMenu: [
-        {
-          id: 1,
-          name: "默认排序",
-          isActive: "true",
-          orderBy: "",
-          orderWay: ""
-        },
-        {
-          id: 2,
-          name: "价格",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "price"
-        },
-        {
-          id: 3,
-          name: "时间",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "time"
-        },
-        {
-          id: 4,
-          name: "重量",
-          isActive: "false",
-          orderBy: "true",
-          orderWay: "weight"
-        }
-      ] // 排序菜单
+      visible: false
+
       // hotList: hotProductList,
       // hotType: hotProductType
     };
@@ -149,7 +114,7 @@ export default {
     },
     hotProductType: { required: true }
   },
-  components: { HotProductItem },
+  components: { HotProductItem, SortMenu },
   methods: {
     getProductDetail(productId) {
       if (this.permission === 0) {
@@ -185,32 +150,7 @@ export default {
     flex: 1;
     min-height: 1400px;
     background: #fff;
-    .sort-menu {
-      display: flex;
-      padding-left: 30px;
-      .sort-item {
-        display: flex;
-        align-items: center;
-        height: 70px;
-        line-height: 70px;
-        font-size: 18px;
-        border-bottom: 3px solid transparent;
-        cursor: pointer;
-        &:not(:last-child) {
-          margin-right: 70px;
-        }
-        .sort-item-icon {
-          display: flex;
-          flex-direction: column;
-          margin-left: 8px;
-          img {
-            &:first-child {
-              margin-bottom: 8px;
-            }
-          }
-        }
-      }
-    }
+
     .product-list {
       min-height: 900px;
       .product-item {

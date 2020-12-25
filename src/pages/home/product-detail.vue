@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-21 15:14:29
+ * @LastEditTime: 2020-12-23 11:31:14
 -->
 <template>
   <div class="product-detail">
@@ -154,23 +154,23 @@
           <div class="product-service">
             <div class="service-item">
               <img src="/static/home/images/detail4.png" alt="" />
-              <span>安全保障</span>
+              <span>预购商品</span>
             </div>
             <div class="service-item">
               <img src="/static/home/images/detail5.png" alt="" />
-              <span>全程担保</span>
+              <span>待签约</span>
             </div>
             <div class="service-item">
               <img src="/static/home/images/detail6.png" alt="" />
-              <span>贴心服务</span>
+              <span>咨询客服</span>
             </div>
             <div class="service-item">
               <img src="/static/home/images/detail7.png" alt="" />
-              <span>专业指导</span>
+              <span>线下签约</span>
             </div>
             <div class="service-item">
               <img src="/static/home/images/detail8.png" alt="" />
-              <span>完善售后</span>
+              <span>完成订单</span>
             </div>
           </div>
         </div>

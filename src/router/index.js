@@ -9,6 +9,13 @@ Router.prototype.push = function push(location) {
 
 export default new Router({
   mode: "history", // 去掉 #
+  scrollBehavior(to, from, savedPosition) {
+    if (savedPosition) {
+      return savedPosition;
+    } else {
+      return { x: 0, y: 0 };
+    }
+  },
   routes: [
     // { path: "/index", redirect: "/" },
     {
@@ -31,12 +38,13 @@ export default new Router({
         {
           path: "/support",
           name: "support",
+          redirect: "/support/treaty",
           component: () => import("@/pages/home/support"),
           children: [
-            {
-              path: "", // 空字符串
-              component: () => import("@/pages/home/treaty") // 空路由默认显示哪个组件可自行取舍
-            },
+            // {
+            //   path: "", // 空字符串
+            //   component: () => import("@/pages/home/treaty"), // 空路由默认显示哪个组件可自行取舍
+            // },
             {
               path: "treaty",
               name: "treaty",
@@ -84,22 +92,20 @@ export default new Router({
         {
           path: "/newsCenter",
           name: "newsCenter",
+          redirect: "/newsCenter/policy",
           component: () => import("@/pages/home/components/news-center"),
           children: [
+            // {
+            //   path: "", // 空字符串
+            //   component: () => import("@/pages/home/news-policy"), // 空路由默认显示哪个组件可自行取舍
+            // },
             {
-              path: "", // 空字符串
-              component: () => import("@/pages/home/news-policy") // 空路由默认显示哪个组件可自行取舍
-            },
-            {
-              path: "policy", // 空字符串
-              component: () => import("@/pages/home/news-policy") // 空路由默认显示哪个组件可自行取舍
-            },
-            {
-              path: "/newsDetail",
-              name: "newsDetail",
-              component: () => import("@/pages/home/news-detail")
+              path: "policy",
+              name: "policy",
+              component: () => import("@/pages/home/news-policy")
               // 新闻中心详情页面
             },
+
             {
               path: "wasteList",
               name: "wasteList",
@@ -113,19 +119,18 @@ export default new Router({
               // 资讯中心-技术进展
             },
             {
-              path: "progress",
-              name: "progress",
-              component: () => import("@/pages/home/news-progress")
-              // 资讯中心-技术进展
+              path: "industryTrends",
+              name: "industryTrends",
+              component: () => import("@/pages/home/news-industry-trends")
+              // 资讯中心 行业动态
             }
-
-            // {
-            //   path: "industryTrends",
-            //   name: " industryTrends",
-            //   component: () => import("@/pages/home/news- industry-trends")
-            //   // 资讯中心 技术进展-
-            // }
           ]
+        },
+        {
+          path: "/newsDetail",
+          name: "newsDetail",
+          component: () => import("@/pages/home/news-detail")
+          // 新闻中心详情页面
         },
         {
           path: "/search",

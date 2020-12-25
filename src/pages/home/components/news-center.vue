@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 17:54:59
+ * @LastEditTime: 2020-12-25 12:10:40
 -->
 <template>
   <div class="news">
@@ -8,15 +8,15 @@
     <div class="news-tab">
       <div
         class="news-tab-item"
-        v-for="(newsTabItem, newsTabIndex) in newsTabs"
+        v-for="newsTabItem in newsTabs"
         :key="newsTabItem.id"
-        :class="newsTabItem.isActive ? 'active' : ''"
-        @click="changeTab(newsTabIndex)"
+        :class="$route.path.indexOf(newsTabItem.link) !== -1 ? 'active' : ''"
+        @click="changeTab(newsTabItem)"
       >
         {{ newsTabItem.title }}
       </div>
     </div>
-    <transition name="fade">
+    <transition :name="transitionName">
       <router-view></router-view>
     </transition>
   </div>
@@ -31,46 +31,69 @@ export default {
         {
           id: 1,
           title: "政策解读",
+          link: "/newsCenter/policy",
           isActive: true
         },
         {
           id: 2,
           title: "行业动态",
+          link: "/newsCenter/industryTrends",
           isActive: false
         },
         {
           id: 3,
           title: "技术进展",
+          link: "/newsCenter/progress",
           isActive: false
         },
         {
           id: 4,
           title: "国家名录",
+          link: "/newsCenter/wasteList",
           isActive: false
         }
-      ]
+      ],
+      transitionName: "slide-forward"
     };
   },
   //生命周期 - 创建完成（访问当前this实例）
   created() {},
   //生命周期 - 挂载完成（访问DOM元素）
   mounted() {},
+  // watch: {
+  //   $route(to, from) {
+  //     if (!this.map[to.path]) {
+  //       this.map[to.path] = +new Date() + 1;
+  //     }
+  //     if (!this.map[from.path]) {
+  //       this.map[from.path] = +new Date();
+  //     }
+
+  //     if (this.map[to.path] > this.map[from.path]) {
+  //       this.transitionName = "slide-forward";
+  //     } else {
+  //       this.transitionName = "slide-back";
+  //     }
+  //   }
+  // },
   methods: {
     // 选项卡切换
-    changeTab(newsTabIndex) {
-      this.newsTabs.forEach((item, index) => {
-        if (index === newsTabIndex) {
-          item.isActive = true;
-        } else {
-          item.isActive = false;
-        }
-      });
+    changeTab(newsTabItem) {
+      this.$router.push({ path: newsTabItem.link });
+      // this.newsTabs.forEach((item, index) => {
+      //   if (index === newsTabIndex) {
+      //     item.isActive = true;
+      //   } else {
+      //     item.isActive = false;
+      //   }
+      // });
     }
   }
 };
 </script>
 <style scoped lang="scss">
 .news {
+  overflow: hidden;
   .banner {
     // display: flex;
     // justify-content: center;
@@ -110,5 +133,28 @@ export default {
       border: none;
     }
   }
+}
+</style>
+<style lang="scss">
+.slide-forward-enter {
+  transform: translate(100%);
+}
+.slide-forward-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+.slide-forward-leave-active {
+  transform: translate(-100%);
+  transition: all 0.5s ease-in-out;
+}
+
+.slide-back-enter {
+  transform: translate(-100%);
+}
+.slide-back-enter-active {
+  transition: all 0.5s ease-in-out;
+}
+.slide-back-leave-active {
+  transform: translate(100%);
+  transition: all 0.5s ease-in-out;
 }
 </style>

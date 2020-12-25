@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-21 15:09:44
+ * @LastEditTime: 2020-12-25 17:29:48
 -->
 <template>
   <div class="tradeCenter">
@@ -10,8 +10,59 @@
       </div>
     </div>
     <div class="product-center">
-      <sift-condition :garbage-area="garbageArea" :garbage-type="garbageType">
-      </sift-condition>
+      <div class="condition">
+        <div class="select-condition" v-if="conditionTag.length">
+          <div class="select-condition-l">
+            <div class="condition-item-label">已选条件</div>
+            <div class="condition-tag">
+              <div
+                class="tag-item"
+                v-for="(conditionItem, index) in conditionTag"
+                :key="index"
+              >
+                <div class="tag-item-inline">
+                  <div class="tag-item-text">{{ conditionItem }}</div>
+                  <div class="tag-close" @click="closeCondition">
+                    <img src="/static/home/images/product3.png" alt="" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="condition-plus" @click="clearCondition">
+            <img src="/static/home/images/product2.png" alt="" />
+            <span>全部清空</span>
+          </div>
+        </div>
+        <!-- <select-condition></select-condition> -->
+        <div class="sift-condition">
+          <div class="sift-condition-item">
+            <sift-condition
+              :condition-list="garbageArea"
+              :condition-label="conditionLabel"
+              @getClickCondition="getClickCondition"
+            >
+            </sift-condition>
+          </div>
+          <div class="sift-condition-item">
+            <sift-condition
+              :condition-list="garbageOrigin"
+              :condition-label="conditionLabel2"
+              @getClickCondition="getClickCondition"
+            >
+            </sift-condition>
+          </div>
+          <div class="sift-condition-item">
+            <sift-condition
+              :condition-list="garbageCode"
+              :condition-label="conditionLabel3"
+              @getClickCondition="getClickCondition"
+            >
+            </sift-condition>
+          </div>
+        </div>
+      </div>
       <search-list
         :permission="permission"
         :product-list="generalProduct.productList"
@@ -26,6 +77,7 @@
 <script>
 import WebBannerText from "./components/web-banner-text";
 import SiftCondition from "./components/sift-condition";
+// import SelectCondition from "./components/select-condition";
 import ProductItem from "./components/product-item";
 import HotProductItem from "./components/hot-product-item";
 import SearchList from "./components/search-list";
@@ -38,25 +90,55 @@ import {
 export default {
   data() {
     return {
+      conditionTag: ["江西省"], //已选条件
+      conditionLabel: "产废区域",
+      conditionLabel2: "来源",
+      conditionLabel3: "类别代码",
       permission: 2, // 权限，0 表示游客，1为会员,2为VIP
       type: 1,
       garbageArea: [
-        { id: 1, value: "江西省", title: "江西省", isActive: false },
-        { id: 2, value: "上海市", title: "上海市", isActive: false }
-      ], // 废物类别
-      garbageType: [
-        { id: 1, value: "HW01", title: "医疗废物²", isActive: false },
-        { id: 2, value: "HW02", title: "医药废物", isActive: false },
-        { id: 3, value: "HW03", title: "废药物、药品", isActive: false },
-        { id: 4, value: "HW04", title: "农药废物", isActive: false },
-        { id: 5, value: "HW05", title: "木材防腐剂废物", isActive: false },
+        { id: 1, value: "上海市", title: "上海市", isActive: false },
+        { id: 2, value: "江西省", title: "江西省", isActive: false }
+      ], // 产废区域
+      garbageOrigin: [
         {
-          id: 6,
-          value: "HW06",
-          title: "废有机溶剂与含有机溶剂废物",
+          id: 1,
+          value: "废弃资源",
+          title: "废弃资源",
           isActive: false
         },
-        { id: 7, value: "HW07", title: "热处理含氰废物", isActive: false },
+        {
+          id: 2,
+          value: "采矿业产生的一般固体",
+          title: "采矿业产生的一般固体",
+          isActive: false
+        },
+        {
+          id: 3,
+          value: "食品，饮料等行业生产的一般固体",
+          title: "食品，饮料等行业生产的一般固体",
+          isActive: false
+        },
+        {
+          id: 4,
+          value: "轻工、化工、建材等行业生产的一把固体废物",
+          title: "医轻工、化工、建材等行业生产的一把固体废物",
+          isActive: false
+        },
+        {
+          id: 5,
+          value: "钢铁、有色冶金等行业产生的一般固体废物",
+          title: "钢铁、有色冶金等行业产生的一般固体废物",
+          isActive: false
+        },
+        {
+          id: 6,
+          value: "非特定行业生产过程中产生的一般固体废物",
+          title: "非特定行业生产过程中产生的一般固体废物",
+          isActive: false
+        },
+        { id: 7, value: "HW05", title: "木材防腐剂废物", isActive: false },
+
         {
           id: 8,
           value: "HW08",
@@ -75,7 +157,120 @@ export default {
           title: "油/水、烃/水混合物或乳化液",
           isActive: false
         }
-      ], // 废物类别
+      ], // 来源
+      garbageCode: [
+        {
+          id: 1,
+          value: "01废旧纺织品",
+          title: "01废旧纺织品",
+          isActive: false
+        },
+        {
+          id: 2,
+          value: "02废皮革制品",
+          title: "02废皮革制品",
+          isActive: false
+        },
+        { id: 3, value: "03废木制品", title: "03废木制品", isActive: false },
+        { id: 4, value: "04废纸", title: "04废纸", isActive: false },
+        {
+          id: 5,
+          value: "05废橡胶制品",
+          title: "05废橡胶制品",
+          isActive: false
+        },
+        {
+          id: 6,
+          value: "06废塑料制品",
+          title: "06废塑料制品",
+          isActive: false
+        },
+        {
+          id: 7,
+          value: "07废符合包装",
+          title: "07废符合包装",
+          isActive: false
+        },
+
+        {
+          id: 8,
+          value: "08废玻璃",
+          title: "08废玻璃",
+          isActive: false
+        },
+        {
+          id: 9,
+          value: "09废钢铁",
+          title: "09废钢铁",
+          isActive: false
+        },
+        {
+          id: 10,
+          value: "10废有色金属",
+          title: "10废有色金属",
+          isActive: false
+        },
+        {
+          id: 11,
+          value: "11废机械产品",
+          title: "11废机械产品",
+          isActive: false
+        },
+        {
+          id: 12,
+          value: "12废交通运输设备",
+          title: "12废交通运输设备",
+          isActive: false
+        },
+        {
+          id: 13,
+          value: "13废电池",
+          title: "13 废电池",
+          isActive: false
+        },
+        {
+          id: 14,
+          value: "14废电器电子产品",
+          title: "14废电器电子产品",
+          isActive: false
+        },
+        {
+          id: 15,
+          value: "15煤矸石",
+          title: "15煤矸石",
+          isActive: false
+        },
+        {
+          id: 16,
+          value: "16其他尾矿",
+          title: "16其他尾矿",
+          isActive: false
+        },
+        {
+          id: 17,
+          value: "17废电池",
+          title: "17废电池",
+          isActive: false
+        },
+        {
+          id: 18,
+          value: "18废电器电子产品",
+          title: "18废电器电子产品",
+          isActive: false
+        },
+        {
+          id: 19,
+          value: "19煤矸石",
+          title: "19煤矸石",
+          isActive: false
+        },
+        {
+          id: 20,
+          value: "20其他尾矿",
+          title: "20其他尾矿",
+          isActive: false
+        }
+      ], // 类别代码
 
       // productList: [], //商品列表,
       current: 1, // 当前列表页数
@@ -273,18 +468,22 @@ export default {
   components: {
     WebBannerText,
     SiftCondition,
+    // SelectCondition,
     ProductItem,
     HotProductItem,
     SearchList
   },
   methods: {
-    // 点击废物类别
-    // getClickGarbageType(garbageTypeIndex) {
-    //   this.clickGarbageType = this.$refs.garbageType[
-    //     garbageTypeIndex
-    //   ].innerText;
-    //   console.log("点击的类别", this.clickGarbageType);
-    // }
+    clearCondition() {
+      console.log("全部清空");
+    },
+    closeCondition() {
+      console.log("清除选项");
+    },
+    getClickCondition(condition) {
+      this.conditionTag.push(condition);
+      console.log("getClickCondition--------", this.conditionTag);
+    }
   }
 };
 </script>
@@ -317,6 +516,74 @@ export default {
   padding-top: 30px;
   padding-bottom: 20px;
   background: #f2f5f8;
+  .condition {
+    width: 96%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 22px 30px 34px;
+    background: #fff;
+    .select-condition {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      padding-bottom: 20px;
+      .select-condition-l {
+        display: flex;
+        .condition-item-label {
+          width: 64px;
+          flex-shrink: 0;
+          margin-right: 44px;
+          font-size: 16px;
+          color: #666;
+        }
+        .condition-tag {
+          .tag-item {
+            display: inline-block;
+            .tag-item-inline {
+              display: flex;
+              border: 1px solid #4293f4;
+              color: #4293f4;
+              border-radius: 3px;
+              margin-bottom: 13px;
+              margin-right: 8px;
+              .tag-item-text {
+                padding: 0 8px;
+                font-size: 14px;
+                line-height: 2em;
+              }
+              .tag-close {
+                width: 28px;
+                height: 28px;
+                background: #4293f4;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+              }
+            }
+          }
+        }
+      }
+      .condition-plus {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 0 0 90px;
+        font-size: 14px;
+        color: #4293f4;
+        cursor: pointer;
+        img {
+          margin-right: 4px;
+        }
+      }
+    }
+    .sift-condition {
+      .sift-condition-item {
+        padding-top: 18px;
+        padding-bottom: 14px;
+        border-top: 1px solid #e5e5e5;
+      }
+    }
+  }
 }
 
 .product {

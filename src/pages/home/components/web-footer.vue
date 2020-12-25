@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 10:18:06
+ * @LastEditTime: 2020-12-23 12:28:45
 -->
 <template>
   <footer class="footer">
@@ -52,13 +52,13 @@
             <router-link to="/support" class="footer-nav-link"
               >帮助中心</router-link
             >
-            <router-link to="/support" class="footer-nav-link"
+            <router-link to="/support/feedback" class="footer-nav-link"
               >问题反馈</router-link
             >
-            <router-link to="/support" class="footer-nav-link"
+            <router-link to="/support/privacy" class="footer-nav-link"
               >隐私政策</router-link
             >
-            <router-link to="/support" class="footer-nav-link"
+            <router-link to="/support/notices" class="footer-nav-link"
               >法律声明</router-link
             >
           </div>
@@ -74,8 +74,18 @@
         </div>
         <div class="footer-follow">
           <span>关注我们：</span>
-          <img src="../../../../static/home/images/footer6.png" alt="" />
-          <img src="../../../../static/home/images/footer7.png" alt="" />
+          <div class="follow-item">
+            <div class="follow-qrcode">
+              <img src="/static/home/images/wechatcode.jpg" alt="" />
+            </div>
+            <img src="/static/home/images/footer6.png" alt="" />
+          </div>
+          <div class="follow-item">
+            <div class="follow-qrcode">
+              <img src="/static/home/images/wechatcode.jpg" alt="" />
+            </div>
+            <img src="/static/home/images/footer7.png" alt="" />
+          </div>
         </div>
       </div>
       <div class="footer-copy">
@@ -196,7 +206,32 @@ export default {
         }
       }
       .footer-follow {
+        display: flex;
         color: #fff;
+        .follow-item {
+          position: relative;
+
+          &:last-child {
+            margin-left: 10px;
+          }
+          .follow-qrcode {
+            display: none;
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 99;
+            img {
+              width: 60px;
+              height: 60px;
+            }
+          }
+          &:hover {
+            .follow-qrcode {
+              display: block;
+            }
+          }
+        }
       }
     }
     .footer-copy {

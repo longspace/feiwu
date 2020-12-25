@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-21 10:26:44
+ * @LastEditTime: 2020-12-23 20:57:13
 -->
 <template>
   <div class="product-list" v-if="productList.length">
@@ -69,7 +69,6 @@
 </template>
 
 <script>
-import listVue from "../../member/orders/list.vue";
 export default {
   data() {
     return {
@@ -85,12 +84,8 @@ export default {
       required: true
     }
   },
-  //生命周期 - 创建完成（访问当前this实例）
   created() {},
-  //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {
-    // this.getProductInfo();
-  },
+  mounted() {},
   methods: {
     // getProductInfo() {
     //   this.productInfo = this.dangerProduct;

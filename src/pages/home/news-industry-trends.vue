@@ -1,6 +1,10 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-23 14:41:21
+ * @LastEditTime: 2020-12-23 14:46:23
+-->
+<!--
+ * @Author: summer
+ * @LastEditTime: 2020-12-15 16:38:51
 -->
 <template>
   <div class="news-form">
@@ -46,7 +50,6 @@ export default {
           isActive: false
         }
       ],
-
       news: [
         {
           id: 1,
