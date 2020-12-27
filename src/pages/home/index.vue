@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 14:59:06
+ * @LastEditTime: 2020-12-27 18:22:00
 -->
 <template>
   <div class="index">
@@ -100,9 +100,45 @@
               </div>
             </router-link>
           </div>
-          <recommend-card
-            :hotGoodsCard="dangerRecommend.recommendItem"
-          ></recommend-card>
+          <div class="recommend-goods-list">
+            <div
+              class="recommend-goods-card"
+              v-for="recommendItem in dangerRecommend.recommendList"
+              :key="recommendItem.id"
+            >
+              <div class="goods-card-top">
+                <div class="goods-card-img">
+                  <div class="goods-card-img-b">
+                    <img :src="recommendItem.img" alt="" />
+                  </div>
+                </div>
+                <div class="goods-card-price">
+                  <p>预期价格</p>
+                  <p>
+                    <span class="num">{{ recommendItem.price }}</span> 元 / 吨
+                  </p>
+                </div>
+              </div>
+              <div class="goods-card-middle">
+                <div class="goods-card-name">{{ recommendItem.name }}</div>
+                <div class="goods-card-stock">{{ recommendItem.stock }}吨</div>
+              </div>
+              <div class="goods-card-desc">{{ recommendItem.introduce }}</div>
+              <div class="goods-card-sort">
+                <span class="sort-item">{{ recommendItem.category }}</span>
+                <span class="sort-item">{{ recommendItem.code }}</span>
+              </div>
+              <router-link
+                :to="{
+                  path: '/productDetail',
+                  query: { productId: recommendItem.id }
+                }"
+                tag="div"
+                class="goods-card-more"
+                >查看详情</router-link
+              >
+            </div>
+          </div>
         </div>
         <div class="recommend-item">
           <div class="recommend-item-info">
@@ -126,9 +162,45 @@
               </div>
             </router-link>
           </div>
-          <recommend-card
-            :hotGoodsCard="generalRecommend.recommendItem"
-          ></recommend-card>
+          <div class="recommend-goods-list">
+            <div
+              class="recommend-goods-card"
+              v-for="recommendItem in generalRecommend.recommendList"
+              :key="recommendItem.id"
+            >
+              <div class="goods-card-top">
+                <div class="goods-card-img">
+                  <div class="goods-card-img-b">
+                    <img :src="recommendItem.img" alt="" />
+                  </div>
+                </div>
+                <div class="goods-card-price">
+                  <p>预期价格</p>
+                  <p>
+                    <span class="num">{{ recommendItem.price }}</span> 元 / 吨
+                  </p>
+                </div>
+              </div>
+              <div class="goods-card-middle">
+                <div class="goods-card-name">{{ recommendItem.name }}</div>
+                <div class="goods-card-stock">{{ recommendItem.stock }}吨</div>
+              </div>
+              <div class="goods-card-desc">{{ recommendItem.introduce }}</div>
+              <div class="goods-card-sort">
+                <span class="sort-item">{{ recommendItem.category }}</span>
+                <span class="sort-item">{{ recommendItem.code }}</span>
+              </div>
+              <router-link
+                :to="{
+                  path: '/productDetail',
+                  query: { productId: recommendItem.id }
+                }"
+                tag="div"
+                class="goods-card-more"
+                >查看详情</router-link
+              >
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -232,9 +304,7 @@
 </template>
 
 <script>
-import RecommendCard from "./components/recommend-card";
 import BannerText from "./components/web-banner-text";
-import { getNewsList, getHotGoods } from "@/utils/http/index.js";
 import { swiper, swiperSlide } from "vue-awesome-swiper";
 import "swiper/dist/css/swiper.css";
 export default {
@@ -245,9 +315,129 @@ export default {
       searchValue: "",
       dangerTrashTag: ["氢氧化钠", "盐酸", "硫酸"], // 危险废物标签
       generalTrashTag: ["片碱", "纯碱", "氢氧化钠", "小苏打", "亚硫"], // 一般固废标签
-      indexNews: [],
-      dangerRecommend: {}, // 危险废物推荐
-      generalRecommend: {}, // 一般废物推荐
+      indexNews: [
+        {
+          id: "1111",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        },
+        {
+          id: "2222",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        },
+        {
+          id: "3333",
+          caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
+          date: "2020-12-02",
+          synopsis:
+            "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
+          img:
+            "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
+        }
+      ],
+      dangerRecommend: {
+        type: "2",
+        id: "2",
+        name: "一般固废处置需求推荐",
+        tagList: [
+          "含钙废物",
+          "有机废水污泥",
+          "金属氧化物废物废渣",
+          "含钙废物",
+          "有机废水污泥"
+        ], // 推荐需求标签
+        recommendList: [
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
+            id: "0222",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          },
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
+            id: "0333",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          },
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
+            id: "0444",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          }
+        ]
+      }, // 危险废物推荐
+      generalRecommend: {
+        type: "2",
+        id: "2",
+        name: "一般固废处置需求推荐",
+        tagList: [
+          "含钙废物",
+          "有机废水污泥",
+          "金属氧化物废物废渣",
+          "含钙废物",
+          "有机废水污泥"
+        ], // 推荐需求标签
+        recommendList: [
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
+            id: "0222",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          },
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
+            id: "0333",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          },
+          {
+            img:
+              "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
+            id: "0444",
+            price: "4000", // 单价
+            name: "澳甲烷废物",
+            stock: "20", // 库存
+            introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
+            category: "HW06", // 类别
+            code: "276-006-004" //代码
+          }
+        ]
+      }, // 一般废物推荐
       swiperOptionTop: {
         slidesPerView: 1,
         pagination: {
@@ -263,173 +453,8 @@ export default {
   },
   components: {
     BannerText,
-    RecommendCard,
     swiper,
     swiperSlide
-  },
-  created() {},
-  mounted() {
-    this.initNews();
-    this.initHotGoodsCard();
-  },
-  methods: {
-    initNews() {
-      getNewsList()
-        .then(res => {
-          const { data } = res;
-          if (data.code == 200) {
-            this.mydialogcfg.visible = false;
-            this.loadData();
-            this.$message.success(res.data.msg);
-          } else {
-            this.$message.error(res.data.msg);
-          }
-        })
-        .catch(err => {
-          this.indexNews = [
-            {
-              id: "1111",
-              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-              date: "2020-12-02",
-              synopsis:
-                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-              img:
-                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-            },
-            {
-              id: "2222",
-              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-              date: "2020-12-02",
-              synopsis:
-                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-              img:
-                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-            },
-            {
-              id: "3333",
-              caption: "违规排污整改缓慢，一些地区长江生态环保 迫在眉睫",
-              date: "2020-12-02",
-              synopsis:
-                "近几年，长江保护修复取得积极进展，长江流域环境质量持续向好，但仍有一些地方发展理念尚未转变到位，一些地方在长江生态环境保护方面不作为、慢作为。今年6月至10月，中央广播电视总台和生态环境部组成联合调查组",
-              img:
-                "https://dcdn.it120.cc/2020/12/07/51b53749-572b-4c77-9cb6-17b4e8dd73e2.jpg"
-            }
-          ];
-          console.log("新增或更新标签出错：", err);
-        });
-    },
-    initHotGoodsCard() {
-      getHotGoods({ type: 1 })
-        .then(res => {
-          const { data } = res;
-        })
-        .catch(err => {
-          this.dangerRecommend = {
-            type: "1",
-            id: "1",
-            name: "危险废物处置需求推荐",
-            tagList: [
-              "含钙废物",
-              "有机废水污泥",
-              "金属氧化物废物废渣",
-              "含钙废物",
-              "有机废水污泥"
-            ], // 推荐需求标签
-            recommendItem: [
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
-                id: "0555",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              },
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
-                id: "0666",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              },
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
-                id: "0777",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              }
-            ]
-          };
-
-          console.log("新增或更新标签出错：", err);
-        });
-      getHotGoods({ type: 2 })
-        .then(res => {
-          const { data } = res;
-        })
-        .catch(err => {
-          this.generalRecommend = {
-            type: "2",
-            id: "2",
-            name: "一般固废处置需求推荐",
-            tagList: [
-              "含钙废物",
-              "有机废水污泥",
-              "金属氧化物废物废渣",
-              "含钙废物",
-              "有机废水污泥"
-            ], // 推荐需求标签
-            recommendItem: [
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/6ca05c0f-4302-4fcd-a116-5bdf4d8f66c5.jpg",
-                id: "0222",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              },
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/4e35b187-8ac9-4cda-96fe-36b2033aad3d.jpg",
-                id: "0333",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              },
-              {
-                img:
-                  "https://dcdn.it120.cc/2020/12/07/5d8b4d14-aa28-49ec-8d8a-193f0de1124b.jpg",
-                id: "0444",
-                price: "4000", // 单价
-                name: "澳甲烷废物",
-                stock: "20", // 库存
-                introduce: "含氰热处理钡渣，含氰污泥及冷液，热处理渗碳氰渣", // 简介
-                category: "HW06", // 类别
-                code: "276-006-004" //代码
-              }
-            ]
-          };
-
-          console.log("新增或更新标签出错：", err);
-        });
-    }
   }
 };
 </script>
@@ -656,6 +681,127 @@ export default {
         display: flex;
         justify-content: space-between;
         width: 75%;
+        .recommend-goods-card {
+          flex: 1;
+          padding: 26px;
+          border: 1px solid #e5e5e5;
+          &:not(:last-child) {
+            margin-right: 12px;
+          }
+          .goods-card-top {
+            display: flex;
+            justify-content: space-between;
+            .goods-card-img {
+              position: relative;
+              width: 80px;
+              &::before {
+                content: "";
+                display: block;
+                padding-bottom: 100%;
+              }
+              .goods-card-img-b {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                overflow: hidden;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                img {
+                  width: 100%;
+                  height: 100%;
+                  border-radius: 3px;
+                }
+              }
+            }
+            .goods-card-price {
+              font-size: 14px;
+              color: #333;
+              text-align: right;
+              p {
+                &:last-child {
+                  position: relative;
+                  margin-top: 4px;
+                  .num {
+                    font-size: 24px;
+                    line-height: 26px;
+                    font-weight: bold;
+                    // font-family: DINCond-Black;
+                  }
+
+                  &::after {
+                    content: "";
+                    display: block;
+                    position: absolute;
+                    bottom: 2px;
+                    width: 100%;
+                    height: 4px;
+                    background: rgba(66, 147, 244, 0.3);
+                  }
+                }
+              }
+            }
+          }
+          .goods-card-middle {
+            display: flex;
+            align-items: center;
+            margin-top: 24px;
+            margin-bottom: 8px;
+            .goods-card-name {
+              max-width: 200px;
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
+              margin-right: 10px;
+              font-size: 18px;
+              color: #333;
+            }
+            .goods-card-stock {
+              flex-shrink: 0;
+              padding: 0px 8px;
+              font-size: 14px;
+              // height: 20px;
+              line-height: 18px;
+              color: #4293f4;
+              border: 1px solid #4293f4;
+            }
+          }
+          .goods-card-desc {
+            font-size: 14px;
+            line-height: 26px;
+            color: #666;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+          }
+          .goods-card-sort {
+            margin-top: 20px;
+            margin-bottom: 36px;
+            .sort-item {
+              display: inline-block;
+              padding: 0 10px;
+              font-size: 12px;
+              line-height: 26px;
+              color: #666;
+              background-color: #ecf2f8;
+              border-radius: 3px;
+            }
+          }
+          .goods-card-more {
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            color: #fff;
+            line-height: 40px;
+            text-align: center;
+            border-radius: 3px;
+            background-color: #4293f4;
+          }
+        }
       }
     }
   }

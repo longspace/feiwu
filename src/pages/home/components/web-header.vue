@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-15 17:58:44
+ * @LastEditTime: 2020-12-27 15:16:47
 -->
 <template>
   <div
@@ -180,8 +180,7 @@ export default {
         isVip: true,
         identityDescription: "您当前是尊贵的VIP会员",
         name: "测试账号01",
-        avatarUrl:
-          "https://dcdn.it120.cc/2020/12/10/630b4cf5-765c-4142-a128-19907a177974.png"
+        avatarUrl: "/static/home/images/avatar.png"
       },
       userPopVisible: false
     };
@@ -289,6 +288,9 @@ export default {
           }
           &.active {
             border-bottom: 2px solid #4293f4;
+            .nav-item-link {
+              color: #4293f4;
+            }
           }
         }
       }
@@ -333,13 +335,13 @@ export default {
         .login-link {
           padding-right: 10px;
           font-size: 16px;
-          color: #fff;
+          color: #4293f4;
           border-right: 1px solid rgba(255, 255, 255, 0.5);
         }
         .register-link {
           padding-left: 10px;
           font-size: 16px;
-          color: #fff;
+          color: #4293f4;
         }
       }
     }
@@ -364,6 +366,20 @@ export default {
           }
           &.active {
             border-bottom: 2px solid #fff;
+            .nav-item-link {
+              color: #fff;
+            }
+          }
+        }
+      }
+      .header-login {
+        .header-visitor {
+          .login-link {
+            color: #fff;
+            border-right: 1px solid rgba(255, 255, 255, 0.5);
+          }
+          .register-link {
+            color: #fff;
           }
         }
       }

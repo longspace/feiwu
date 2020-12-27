@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-25 12:10:40
+ * @LastEditTime: 2020-12-27 15:11:18
 -->
 <template>
   <div class="news">
@@ -56,37 +56,10 @@ export default {
       transitionName: "slide-forward"
     };
   },
-  //生命周期 - 创建完成（访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {},
-  // watch: {
-  //   $route(to, from) {
-  //     if (!this.map[to.path]) {
-  //       this.map[to.path] = +new Date() + 1;
-  //     }
-  //     if (!this.map[from.path]) {
-  //       this.map[from.path] = +new Date();
-  //     }
-
-  //     if (this.map[to.path] > this.map[from.path]) {
-  //       this.transitionName = "slide-forward";
-  //     } else {
-  //       this.transitionName = "slide-back";
-  //     }
-  //   }
-  // },
   methods: {
     // 选项卡切换
     changeTab(newsTabItem) {
       this.$router.push({ path: newsTabItem.link });
-      // this.newsTabs.forEach((item, index) => {
-      //   if (index === newsTabIndex) {
-      //     item.isActive = true;
-      //   } else {
-      //     item.isActive = false;
-      //   }
-      // });
     }
   }
 };
@@ -156,5 +129,19 @@ export default {
 .slide-back-leave-active {
   transform: translate(100%);
   transition: all 0.5s ease-in-out;
+}
+.hot-swiper .swiper-pagination .swiper-pagination-bullet {
+  width: 26px;
+  height: 3px;
+  border-radius: 0;
+  background: #fff;
+  opacity: 1;
+  margin: 0;
+}
+.hot-swiper .swiper-pagination .swiper-pagination-bullet:not(:last-child) {
+  margin-right: 10px;
+}
+.hot-swiper .swiper-pagination .swiper-pagination-bullet-active {
+  background: #4293f4;
 }
 </style>

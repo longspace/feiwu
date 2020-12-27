@@ -1,6 +1,6 @@
 <!--
  * @Author: summer
- * @LastEditTime: 2020-12-25 17:29:11
+ * @LastEditTime: 2020-12-27 16:33:53
 -->
 <template>
   <div class="tradeCenter">
@@ -11,13 +11,16 @@
     </div>
     <div class="product-center">
       <div class="condition">
-        <div class="select-condition" v-if="conditionTag.length">
+        <div
+          class="select-condition"
+          v-if="conditionSource.conditionTag.length"
+        >
           <div class="select-condition-l">
             <div class="condition-item-label">已选条件</div>
             <div class="condition-tag">
               <div
                 class="tag-item"
-                v-for="(conditionItem, index) in conditionTag"
+                v-for="(conditionItem, index) in conditionSource.conditionTag"
                 :key="index"
               >
                 <div class="tag-item-inline">
@@ -37,41 +40,216 @@
         </div>
         <div class="sift-condition">
           <div class="sift-condition-item">
-            <sift-condition
-              :condition-list="garbageArea"
-              :condition-label="conditionLabel"
-              @getClickCondition="getClickCondition"
-            >
-            </sift-condition>
+            <div class="condition-item">
+              <div class="condition-item-label">
+                产废区域
+              </div>
+              <div class="condition-tag">
+                <div
+                  class="condition-tag-item"
+                  :class="{ active: garbageItem.isActive }"
+                  v-for="(garbageItem,
+                  garbageIndex) in conditionSource.garbageArea"
+                  :key="garbageIndex"
+                  @click="clickGarbageArea(garbageIndex)"
+                  ref="garbageText"
+                >
+                  {{ garbageItem.title }}
+                </div>
+              </div>
+            </div>
           </div>
           <div class="sift-condition-item">
-            <sift-condition
-              :condition-list="garbageType"
-              :condition-label="conditionLabel2"
-              @getClickCondition="getClickCondition"
-            >
-            </sift-condition>
+            <div class="condition-item">
+              <div class="condition-item-label">
+                废物类别
+              </div>
+              <div
+                class="condition-tag"
+                :class="{ active: conditionFilter.typeMoreVisiable }"
+              >
+                <div
+                  class="condition-tag-item"
+                  :class="{ active: garbageItem.isActive }"
+                  v-for="(garbageItem,
+                  garbageIndex) in conditionSource.garbageType"
+                  :key="garbageIndex"
+                  @click="clickGarbageType(garbageIndex)"
+                  ref="garbageText"
+                >
+                  {{ garbageItem.title }}
+                </div>
+              </div>
+              <div
+                class="condition-more"
+                v-if="conditionSource.garbageType.length > 8"
+                :class="{ active: conditionFilter.typeMoreVisiable }"
+                @click="
+                  conditionFilter.typeMoreVisiable = !conditionFilter.typeMoreVisiable
+                "
+              >
+                <span>更多</span>
+              </div>
+            </div>
           </div>
         </div>
       </div>
-      <search-list
-        :permission="permission"
-        :product-list="dangerProduct.productList"
-        :type="dangerProduct.type"
-        :hot-product-list="hotProduct.productList"
-        :hot-product-type="hotProduct.type"
-      ></search-list>
+      <div class="product">
+        <div class="product-box">
+          <div class="sort-menu">
+            <div
+              class="sort-item"
+              v-for="(sortItem, index) in sortMenu"
+              :key="sortItem.id"
+              :class="{ active: sortItem.isActive }"
+              @click="changeSort(index)"
+            >
+              <span>{{ sortItem.name }}</span>
+              <div
+                class="sort-item-icon"
+                v-if="sortItem.orderWay !== 'default'"
+              >
+                <div class="sort-asc" @click="ascOrder(index)">
+                  <img
+                    src="/static/home/images/product8.png"
+                    alt=""
+                    v-if="sortItem.orderBy == ''"
+                  />
+                  <img src="/static/home/images/product9.png" alt="" v-else />
+                </div>
+                <div class="sort-desc" @click="descOrder(index)">
+                  <img
+                    src="/static/home/images/product10.png"
+                    alt=""
+                    v-if="sortItem.orderBy == 'desc'"
+                  />
+                  <img src="/static/home/images/product7.png" alt="" v-else />
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="product-list" v-if="dangerProduct.productList.length">
+            <div
+              class="product-item"
+              v-for="productItem in dangerProduct.productList"
+              :key="productItem.id"
+            >
+              <div class="product-item-top">
+                <div class="product-info">
+                  <div class="product-img">
+                    <div class="product-img-b">
+                      <img :src="productItem.img" alt="" />
+                    </div>
+                  </div>
+                  <div class="poroduct-r">
+                    <div class="product-attr">
+                      <p class="product-item-name">{{ productItem.name }}</p>
+                      <p class="product-item-stock">
+                        {{ productItem.stock }}吨
+                      </p>
+                    </div>
+                    <div class=" product-item-synopsis">
+                      {{ productItem.synopsis }}
+                    </div>
+                  </div>
+                </div>
+                <div class="product-price">
+                  <p>
+                    <span class="price" v-if="permission !== 0">
+                      {{ productItem.price }}</span
+                    >
+                    <span v-else>*****</span>
+                    <span>元/吨</span>
+                  </p>
+                  <p>预期价</p>
+                </div>
+                <div
+                  class="product-more"
+                  @click="getProductDetail(productItem.id)"
+                >
+                  查看详情
+                </div>
+              </div>
+              <div class="product-item-bottm">
+                <div class="product-item-tag" v-if="productItem.tag.length">
+                  <div
+                    class="tag-item"
+                    v-for="(tagItem, tagIndex) in productItem.tag"
+                    :key="tagIndex"
+                  >
+                    {{ tagItem }}
+                  </div>
+                </div>
+                <div class="product-item-date">{{ productItem.date }}</div>
+              </div>
+            </div>
+            <div class="login-modal">
+              <a-modal
+                v-model="visible"
+                title="您还未登录。请先登录"
+                @ok="handleOk"
+                width="400px"
+                @cancel="handleCancel"
+                centered
+                ok-text="立即登录"
+                cancel-text="我在看看"
+              >
+                <p>注册登录后才享有查看商品详情权限</p>
+              </a-modal>
+            </div>
+          </div>
+          <div class="product-page">
+            <a-pagination :total="50" show-less-items />
+          </div>
+        </div>
+        <div class="product-flow-window">
+          <div class="flow-window">
+            <img src="/static/home/images/product5.jpg" alt="" />
+          </div>
+          <div class="hot-product">
+            <div class="hot-product">
+              <div class="hot-product-title">热门推荐</div>
+              <div
+                class="hot-product-list"
+                v-if="hotProduct.productList.length > 0"
+              >
+                <router-link
+                  tag="div"
+                  :to="{
+                    path: '/productDetail',
+                    query: { productId: hotItem.id }
+                  }"
+                  class="hot-product-item"
+                  v-for="hotItem in hotProduct.productList"
+                  :key="hotItem.id"
+                >
+                  <div class="hot-product-name">{{ hotItem.name }}</div>
+                  <div class="hot-product-synopsis">{{ hotItem.synopsis }}</div>
+                  <div class="hot-product-tag" v-if="hotItem.tag.length">
+                    <div
+                      class="tag-item"
+                      v-for="(tagItem, tagIndex) in hotItem.tag"
+                      :key="tagIndex"
+                    >
+                      {{ tagItem }}
+                    </div>
+                  </div>
+                </router-link>
+              </div>
+            </div>
+            <!-- <hot-product-item
+              :hot-product-list="hotProductList"
+              :hot-product-type="hotProductType"
+            ></hot-product-item> -->
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import WebBannerText from "./components/web-banner-text";
-import SiftCondition from "./components/sift-condition";
-// import SelectCondition from "./components/select-condition";
-import ProductItem from "./components/product-item";
-import HotProductItem from "./components/hot-product-item";
-import SearchList from "./components/search-list";
 
 import {
   getGarbageArea,
@@ -82,47 +260,99 @@ import {
 export default {
   data() {
     return {
-      conditionTag: ["HW02医药废物"], //已选条件
-      conditionLabel: "产废区域",
-      conditionLabel2: "废物类别",
-      permission: 2, // 权限，0 表示游客，1为会员,2为VIP
-      type: 1,
-      garbageArea: [
-        { id: 1, value: "江西省", title: "江西省", isActive: false },
-        { id: 2, value: "上海市", title: "上海市", isActive: false }
-      ], // 废物类别
-      garbageType: [
-        { id: 1, value: "HW01", title: "HW01医疗废物²", isActive: false },
-        { id: 2, value: "HW02", title: "HW02医药废物", isActive: false },
-        { id: 3, value: "HW03", title: "HW03废药物、药品", isActive: false },
-        { id: 4, value: "HW04", title: "HW04农药废物", isActive: false },
-        { id: 5, value: "HW05", title: "HW05木材防腐剂废物", isActive: false },
+      conditionFilter: {
+        currentCondition: [],
+        areaMoreVisiable: false,
+        typeMoreVisiable: false
+      },
+      conditionSource: {
+        conditionTag: ["HW02医药废物"], //已选条件
+        garbageArea: [
+          { id: 1, value: "江西省", title: "江西省", isActive: false },
+          { id: 2, value: "上海市", title: "上海市", isActive: false }
+        ], // 产废区域
+        garbageType: [
+          { id: 1, value: "HW01", title: "HW01医疗废物²", isActive: false },
+          { id: 2, value: "HW02", title: "HW02医药废物", isActive: false },
+          { id: 3, value: "HW03", title: "HW03废药物、药品", isActive: false },
+          { id: 4, value: "HW04", title: "HW04农药废物", isActive: false },
+          {
+            id: 5,
+            value: "HW05",
+            title: "HW05木材防腐剂废物",
+            isActive: false
+          },
+          {
+            id: 6,
+            value: "HW06",
+            title: "HW06废有机溶剂与含有机溶剂废物",
+            isActive: false
+          },
+          {
+            id: 7,
+            value: "HW07",
+            title: "HW07热处理含氰废物",
+            isActive: false
+          },
+          {
+            id: 8,
+            value: "HW08",
+            title: "HW08废矿物油与含矿物油废物",
+            isActive: false
+          },
+          {
+            id: 9,
+            value: "HW08",
+            title: "HW08废矿物油与含矿物油废物",
+            isActive: false
+          },
+          {
+            id: 10,
+            value: "HW09",
+            title: "HW09油/水、烃/水混合物或乳化液",
+            isActive: false
+          },
+          {
+            id: 11,
+            value: "HW09",
+            title: "HW09油/水、烃/水混合物或乳化液",
+            isActive: false
+          }
+        ] // 废物类别
+      },
+      visible: false, // 弹窗
+      sortMenu: [
         {
-          id: 6,
-          value: "HW06",
-          title: "HW06废有机溶剂与含有机溶剂废物",
-          isActive: false
+          id: 1,
+          name: "默认排序",
+          isActive: true,
+          orderWay: "default",
+          orderBy: ""
         },
-        { id: 7, value: "HW07", title: "HW07热处理含氰废物", isActive: false },
         {
-          id: 8,
-          value: "HW08",
-          title: "HW08废矿物油与含矿物油废物",
-          isActive: false
+          id: 2,
+          name: "价格",
+          isActive: false,
+          orderWay: "price",
+          orderBy: ""
         },
         {
-          id: 9,
-          value: "HW08",
-          title: "HW08废矿物油与含矿物油废物",
-          isActive: false
+          id: 3,
+          name: "时间",
+          isActive: false,
+          orderWay: "time",
+          orderBy: ""
         },
         {
-          id: 10,
-          value: "HW09",
-          title: "HW09油/水、烃/水混合物或乳化液",
-          isActive: false
+          id: 4,
+          name: "重量",
+          isActive: false,
+          orderWay: "weight",
+          orderBy: ""
         }
-      ], // 废物类别
+      ], // 排序菜单};
+
+      permission: 2, // 权限，0 表示游客，1为会员,2为VIP
       dangerProduct: {
         type: 1,
         orderBy: "", // 是否排序
@@ -240,7 +470,6 @@ export default {
           }
         ]
       },
-
       hotProduct: {
         type: 1,
         productList: [
@@ -278,21 +507,30 @@ export default {
       }
     };
   },
-  //生命周期 - 创建完成（访问当前this实例）
-  created() {},
-  //生命周期 - 挂载完成（访问DOM元素）
-  mounted() {
-    // this.initGarbageType();
-  },
   components: {
-    WebBannerText,
-    SiftCondition,
-    ProductItem,
-    HotProductItem,
-    SearchList
-    // SelectCondition
+    WebBannerText
   },
   methods: {
+    clickGarbageType(garbageIndex) {
+      this.conditionSource.garbageType.forEach((item, index) => {
+        if (index == garbageIndex) {
+          item.isActive = true;
+        } else {
+          item.isActive = false;
+          console.log("--");
+        }
+      });
+    },
+    clickGarbageArea(garbageIndex) {
+      this.conditionSource.garbageArea.forEach((item, index) => {
+        if (index == garbageIndex) {
+          item.isActive = true;
+        } else {
+          item.isActive = false;
+          console.log("--");
+        }
+      });
+    },
     clearCondition() {
       console.log("全部清空");
     },
@@ -300,8 +538,63 @@ export default {
       console.log("清除选项");
     },
     getClickCondition(condition) {
-      this.conditionTag.push(condition);
-      console.log("getClickCondition--------", this.conditionTag);
+      this.conditionSource.conditionTag.push(condition);
+      console.log(
+        "getClickCondition--------",
+        this.conditionSource.conditionTag
+      );
+    },
+
+    // 排序
+    changeSort(index) {
+      this.sortMenu.forEach((item, key) => {
+        if (key == index) {
+          item.isActive = true;
+          item.orderBy = "asc";
+        } else {
+          item.isActive = false;
+          item.orderBy = "";
+        }
+      });
+    },
+    ascOrder(index) {
+      this.sortMenu.forEach((item, key) => {
+        if (key == index) {
+          item.orderBy = "asc";
+        } else {
+          item.orderBy = "";
+        }
+      });
+      console.log("升序", this.sortMenu);
+    },
+    descOrder(index) {
+      this.sortMenu.forEach((item, key) => {
+        if (key == index) {
+          item.orderBy = "desc";
+        } else {
+          item.orderBy = "";
+        }
+      });
+      console.log("降序", this.sortMenu);
+    },
+
+    getProductDetail(productId) {
+      if (this.permission === 0) {
+        this.visible = true;
+        console.log("请登录");
+      } else {
+        this.$router.push({
+          path: "/productDetail",
+          query: { productId: productId }
+        });
+      }
+    },
+    handleCancel() {
+      this.visible = false;
+    },
+    handleOk() {
+      console.log();
+      this.$router.push({ path: "/memberLogin" });
     }
   }
 };
@@ -400,6 +693,293 @@ export default {
         padding-top: 18px;
         padding-bottom: 14px;
         border-top: 1px solid #e5e5e5;
+        .condition-item {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          .condition-item-label {
+            flex: 0 0 70px;
+            line-height: 30px;
+            font-size: 16px;
+          }
+          .condition-tag {
+            flex: 1;
+            margin-left: 38px;
+            margin-right: 14px;
+            max-height: 82px;
+            overflow: hidden;
+            .condition-tag-item {
+              cursor: pointer;
+              display: inline-block;
+              padding-left: 12px;
+              padding-right: 12px;
+              margin-right: 8px;
+              margin-bottom: 13px;
+              border-radius: 14px;
+              font-size: 14px;
+              color: #333;
+              line-height: 28px;
+              background: #f5f5f5;
+              &.active {
+                color: #fff;
+                background: #4293f4;
+              }
+            }
+            &.active {
+              max-height: fit-content;
+            }
+          }
+          .condition-more {
+            cursor: pointer;
+            width: 54px;
+            background: url("/static/home/images/pulldown.png") no-repeat right
+              center;
+            &.active {
+              background: url("/static/home/images/pullup.png") no-repeat right
+                center;
+            }
+          }
+        }
+      }
+    }
+  }
+  .product {
+    display: flex;
+    justify-content: space-between;
+    width: 96%;
+    max-width: 1200px;
+    margin: 20px auto 0;
+    .product-box {
+      flex: 1;
+
+      background: #fff;
+      .sort-menu {
+        display: flex;
+        padding-left: 30px;
+        .sort-item {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          height: 70px;
+          // line-height: 70px;
+          font-size: 18px;
+          border-bottom: 3px solid transparent;
+          cursor: pointer;
+          color: #333;
+          &:not(:last-child) {
+            margin-right: 70px;
+          }
+          .sort-item-icon {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-left: 8px;
+            .sort-asc {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 8px;
+              img {
+                width: 8px;
+                height: 5px;
+              }
+            }
+            .sort-desc {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 8px;
+              // margin-top: 2px;
+            }
+          }
+          &.active {
+            color: #4293f4;
+            border-bottom: 3px solid #4293f4;
+          }
+        }
+      }
+      .product-list {
+        .product-item {
+          padding: 25px 30px;
+          border-bottom: 1px solid #e5e5e5;
+          .product-item-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .product-info {
+              display: flex;
+              align-items: center;
+              .product-img {
+                position: relative;
+                width: 80px;
+                margin-right: 21px;
+                &::before {
+                  content: "";
+                  display: block;
+                  padding-bottom: 100%;
+                }
+                .product-img-b {
+                  position: absolute;
+                  top: 0;
+                  left: 0;
+                  width: 100%;
+                  height: 100%;
+                  img {
+                    border-radius: 3px;
+                    width: 100%;
+                    height: 100%;
+                  }
+                }
+              }
+              .product-attr {
+                display: flex;
+                align-items: center;
+                .product-item-name {
+                  font-size: 18px;
+                  line-height: 26px;
+                  color: #333;
+                }
+                .product-item-stock {
+                  margin-left: 16px;
+                  padding: 0 6px;
+                  font-size: 14px;
+                  line-height: 20px;
+                  color: #4293f4;
+                  border: 1px solid;
+                  border-radius: 3px;
+                }
+              }
+              .product-item-synopsis {
+                font-size: 14px;
+                color: #666;
+                line-height: 26px;
+              }
+            }
+            .product-price {
+              margin: 0 auto;
+              // width: 100px;
+              max-width: 140px;
+              font-size: 14px;
+              line-height: 26px;
+              color: #666;
+              .price {
+                font-size: 24px;
+                font-weight: bold;
+              }
+            }
+            .product-more {
+              cursor: pointer;
+              width: 100px;
+              height: 40px;
+              font-size: 14px;
+              color: #333;
+              line-height: 40px;
+              text-align: center;
+              background: #eeeeee;
+            }
+          }
+          .product-item-bottm {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 42px;
+            .product-item-tag {
+              .tag-item {
+                display: inline-block;
+                padding: 0 10px;
+                font-size: 12px;
+                line-height: 26px;
+                color: #666;
+                background: #ecf2f8;
+                &:not(:last-child) {
+                  margin-right: 8px;
+                }
+              }
+            }
+            .product-item-date {
+              padding-left: 20px;
+              font-size: 12px;
+              color: #999;
+              background: url("/static/home/images/product6.png") no-repeat left
+                center;
+            }
+          }
+          &:first-child {
+            border-top: 1px solid #e5e5e5;
+          }
+          &:hover {
+            background: #f7fbfe;
+            .product-more {
+              color: #fff;
+              background: #4293f4;
+            }
+          }
+        }
+      }
+      .product-page {
+        display: flex;
+        justify-content: center;
+        margin-top: 26px;
+        margin-bottom: 32px;
+      }
+    }
+    .product-flow-window {
+      margin-left: 20px;
+      width: 300px;
+      .flow-window {
+        margin-bottom: 20px;
+      }
+      .hot-product {
+        // margin-top: 20px;
+        background: #fff;
+        .hot-product-title {
+          width: 100%;
+          line-height: 70px;
+          padding-left: 30px;
+          padding-right: 30px;
+          font-size: 18px;
+          border-bottom: 1px solid #eee;
+          color: #666;
+        }
+        .hot-product-item {
+          cursor: pointer;
+          padding: 18px 30px;
+          &:not(:last-child) {
+            border-bottom: 1px solid #e5e5e5;
+          }
+          .hot-product-name {
+            font-size: 18px;
+            line-height: 26px;
+            color: #333;
+          }
+          .hot-product-synopsis {
+            margin-top: 4px;
+            font-size: 14px;
+            color: #666;
+            line-height: 26px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+          .hot-product-tag {
+            margin-top: 10px;
+            .tag-item {
+              display: inline-block;
+              padding: 0 10px;
+              font-size: 12px;
+              line-height: 26px;
+              color: #666;
+              background: #ecf2f8;
+              &:not(:last-child) {
+                margin-right: 8px;
+              }
+            }
+          }
+          &:hover {
+            background: #f7fbfe;
+          }
+        }
       }
     }
   }
